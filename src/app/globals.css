@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-subtle: #fbf9f6;
+  --bg-card: #ffffff;
+  
+  --coffee-dark: #23150c;
+  --coffee-rich: #3e2211;
+  --coffee-primary: #5c351c;
+  --coffee-medium: #7a4727;
+  --coffee-caramel: #b57a44;
+  --coffee-light: #f4ece4;
+  --coffee-cream: #faf5ef;
+
+  --text-main: #1c140e;
+  --text-muted: #574c43;
+  --text-subtle: #7d7065;
+
+  --border-light: #ece3db;
+  --border-accent: #d8c2b0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Route animations for moving dots along paths */
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.route-animated {
+  stroke-dasharray: 6 6;
+  animation: flowDash 2.5s linear infinite;
+}
+
+@keyframes pulseOrigin {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+}
+
+.pulse-circle {
+  transform-origin: center;
+  animation: pulseOrigin 2.2s ease-in-out infinite;
+}
