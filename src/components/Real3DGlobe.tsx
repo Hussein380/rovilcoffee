@@ -25,7 +25,7 @@ const TRADE_ROUTES: TradeRoute[] = [
     lat: 51.2,
     lon: 8.5,
     port: 'Rotterdam / Hamburg',
-    targetY: -0.95,
+    targetY: -1.98,
     leadTime: '21–26 Days',
   },
   {
@@ -36,7 +36,7 @@ const TRADE_ROUTES: TradeRoute[] = [
     lat: 51.5,
     lon: -0.1,
     port: 'London Gateway',
-    targetY: -0.75,
+    targetY: -1.89,
     leadTime: '22–28 Days',
   },
   {
@@ -47,7 +47,7 @@ const TRADE_ROUTES: TradeRoute[] = [
     lat: 40.7,
     lon: -74.0,
     port: 'New York Port',
-    targetY: 0.45,
+    targetY: -1.25,
     leadTime: '28–35 Days',
   },
   {
@@ -58,7 +58,7 @@ const TRADE_ROUTES: TradeRoute[] = [
     lat: 35.7,
     lon: 139.7,
     port: 'Yokohama Port',
-    targetY: -2.75,
+    targetY: -3.11,
     leadTime: '24–30 Days',
   },
   {
@@ -69,7 +69,7 @@ const TRADE_ROUTES: TradeRoute[] = [
     lat: 25.2,
     lon: 55.3,
     port: 'Jebel Ali, Dubai',
-    targetY: -1.25,
+    targetY: -2.37,
     leadTime: '10–14 Days',
   },
 ];
@@ -77,7 +77,6 @@ const TRADE_ROUTES: TradeRoute[] = [
 // Kenya Center (Equator, East Africa)
 const KENYA = { lat: -0.2, lon: 36.8 };
 const GLOBE_RADIUS = 6.6;
-const DOTS_COUNT = 14; // Chain of connected dots in the active cargo train
 
 function latLonToVector3(lat: number, lon: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -88,16 +87,18 @@ function latLonToVector3(lat: number, lon: number, radius: number): THREE.Vector
   return new THREE.Vector3(x, y, z);
 }
 
-function createArcCurve(start: THREE.Vector3, end: THREE.Vector3, elevation = 0.28): THREE.CubicBezierCurve3 {
-  const distance = start.distanceTo(end);
-  const mid = start.clone().add(end).multiplyScalar(0.5);
-  const midLength = mid.length();
-  mid.normalize().multiplyScalar(midLength + distance * elevation);
-
-  const c1 = start.clone().lerp(mid, 0.5).normalize().multiplyScalar(midLength + distance * elevation * 0.85);
-  const c2 = end.clone().lerp(mid, 0.5).normalize().multiplyScalar(midLength + distance * elevation * 0.85);
-
-  return new THREE.CubicBezierCurve3(start, c1, c2, end);
+// Great circle 3D spherical arc that NEVER dips inside the earth
+function createGreatCircleArc(start: THREE.Vector3, end: THREE.Vector3, radius: number, maxAltitude = 1.35): THREE.CatmullRomCurve3 {
+  const points: THREE.Vector3[] = [];
+  const segments = 60;
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const pt = new THREE.Vector3().copy(start).lerp(end, t).normalize();
+    const altitude = Math.sin(t * Math.PI) * maxAltitude;
+    pt.multiplyScalar(radius + altitude);
+    points.push(pt);
+  }
+  return new THREE.CatmullRomCurve3(points);
 }
 
 export default function Real3DGlobe() {
@@ -197,28 +198,31 @@ export default function Real3DGlobe() {
     const atmosMesh = new THREE.Mesh(atmosGeo, atmosMat);
     scene.add(atmosMesh);
 
-    // Kenya Origin Pin (Equator, East Africa)
-    const kenyaPos = latLonToVector3(KENYA.lat, KENYA.lon, GLOBE_RADIUS);
+    // Kenya Origin Pin (Equator, East Africa) elevated above clouds
+    const SURFACE_RADIUS = GLOBE_RADIUS * 1.025;
+    const kenyaPos = latLonToVector3(KENYA.lat, KENYA.lon, SURFACE_RADIUS);
 
-    const originCoreGeo = new THREE.SphereGeometry(0.22, 16, 16);
+    const originCoreGeo = new THREE.SphereGeometry(0.26, 16, 16);
     const originCoreMat = new THREE.MeshBasicMaterial({ color: 0xd92d20 });
     const originCore = new THREE.Mesh(originCoreGeo, originCoreMat);
     originCore.position.copy(kenyaPos);
+    originCore.renderOrder = 10;
     globeGroup.add(originCore);
 
-    const kenyaHaloGeo = new THREE.RingGeometry(0.26, 0.58, 32);
+    const kenyaHaloGeo = new THREE.RingGeometry(0.30, 0.70, 32);
     const kenyaHaloMat = new THREE.MeshBasicMaterial({
-      color: 0xb57a44,
+      color: 0xffa200,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.9,
     });
     const kenyaHaloMesh = new THREE.Mesh(kenyaHaloGeo, kenyaHaloMat);
     kenyaHaloMesh.position.copy(kenyaPos);
     kenyaHaloMesh.lookAt(0, 0, 0);
+    kenyaHaloMesh.renderOrder = 9;
     globeGroup.add(kenyaHaloMesh);
 
-    // Data structures for connected dot stream on each trade corridor
+    // Data structures for moving arrow and connected dot stream on each corridor
     interface StreamDot {
       mesh: THREE.Mesh;
       offset: number;
@@ -226,12 +230,12 @@ export default function Real3DGlobe() {
 
     interface RouteStream {
       id: string;
-      curve: THREE.CubicBezierCurve3;
+      curve: THREE.Curve<THREE.Vector3>;
       speed: number;
       cycleOffset: number;
       dots: StreamDot[];
-      connectLine: THREE.Line;
-      connectLineGeo: THREE.BufferGeometry;
+      arrowMesh: THREE.Mesh;
+      arrowMat: THREE.MeshBasicMaterial;
       baseLine: THREE.Line;
       baseLineMat: THREE.LineDashedMaterial;
       destPin: THREE.Mesh;
@@ -241,24 +245,28 @@ export default function Real3DGlobe() {
 
     const streams: RouteStream[] = [];
 
-    // Dot Geometries
-    const dotSmallGeo = new THREE.SphereGeometry(0.12, 12, 12);
-    const dotLeadGeo = new THREE.SphereGeometry(0.20, 16, 16);
+    // Dot and Arrow Geometries (Enlarged for high visibility)
+    const dotSmallGeo = new THREE.SphereGeometry(0.18, 14, 14);
+    const dotLeadGeo = new THREE.SphereGeometry(0.24, 16, 16);
+    const arrowGeo = new THREE.ConeGeometry(0.32, 0.75, 16);
+    // Rotate cone geometry so its tip points along +Z for easy lookAt/quaternion alignment
+    arrowGeo.rotateX(Math.PI / 2);
 
     TRADE_ROUTES.forEach((route, routeIdx) => {
-      const destPos = latLonToVector3(route.lat, route.lon, GLOBE_RADIUS);
+      const destPos = latLonToVector3(route.lat, route.lon, SURFACE_RADIUS);
 
       // Destination Pin
-      const pinGeo = new THREE.SphereGeometry(0.22, 16, 16);
+      const pinGeo = new THREE.SphereGeometry(0.25, 16, 16);
       const pinMat = new THREE.MeshBasicMaterial({ color: 0x23150c });
       const destPin = new THREE.Mesh(pinGeo, pinMat);
       destPin.position.copy(destPos);
+      destPin.renderOrder = 10;
       globeGroup.add(destPin);
 
       // Destination Ping Halo (Pulses when corridor is active)
-      const destHaloGeo = new THREE.RingGeometry(0.26, 0.60, 32);
+      const destHaloGeo = new THREE.RingGeometry(0.30, 0.75, 32);
       const destHaloMat = new THREE.MeshBasicMaterial({
-        color: 0xd4a373,
+        color: 0xffd166,
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 0,
@@ -266,55 +274,56 @@ export default function Real3DGlobe() {
       const destHalo = new THREE.Mesh(destHaloGeo, destHaloMat);
       destHalo.position.copy(destPos);
       destHalo.lookAt(0, 0, 0);
+      destHalo.renderOrder = 9;
       globeGroup.add(destHalo);
 
-      // 3D Arc Curve from Kenya directly to destination
-      const curve = createArcCurve(kenyaPos, destPos, 0.28);
-      const points = curve.getPoints(60);
+      // 3D Spherical Arc Curve from Kenya directly to destination (Elevated into clear airspace)
+      const curve = createGreatCircleArc(kenyaPos, destPos, SURFACE_RADIUS, 1.45);
+      const points = curve.getPoints(80);
       const baseLineGeo = new THREE.BufferGeometry().setFromPoints(points);
 
       const baseLineMat = new THREE.LineDashedMaterial({
         color: 0x7a4727,
-        dashSize: 0.35,
-        gapSize: 0.22,
+        dashSize: 0.40,
+        gapSize: 0.20,
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.35,
       });
       const baseLine = new THREE.Line(baseLineGeo, baseLineMat);
       baseLine.computeLineDistances();
+      baseLine.renderOrder = 5;
       globeGroup.add(baseLine);
 
-      // Connecting line connecting the chain of small dots
-      const connectPositions = new Float32Array(DOTS_COUNT * 3);
-      const connectLineGeo = new THREE.BufferGeometry();
-      connectLineGeo.setAttribute('position', new THREE.BufferAttribute(connectPositions, 3));
-      const connectLineMat = new THREE.LineBasicMaterial({
-        color: 0xffe8cc,
+      // 3D MOVING DIRECTIONAL ARROW HEAD
+      const arrowMat = new THREE.MeshBasicMaterial({
+        color: 0xffe600,
         transparent: true,
-        opacity: 0.85,
-        linewidth: 2,
+        opacity: 0.95,
       });
-      const connectLine = new THREE.Line(connectLineGeo, connectLineMat);
-      globeGroup.add(connectLine);
+      const arrowMesh = new THREE.Mesh(arrowGeo, arrowMat);
+      arrowMesh.position.copy(kenyaPos);
+      arrowMesh.renderOrder = 20;
+      globeGroup.add(arrowMesh);
 
-      // Train of CONNECTED DOTS moving like cargo beads
+      // Train of CONNECTED GLOWING BEADS trailing behind the arrow
       const streamDots: StreamDot[] = [];
 
-      for (let d = 0; d < DOTS_COUNT; d++) {
+      for (let d = 0; d < 8; d++) {
         const isLead = d === 0;
         const dotMat = new THREE.MeshBasicMaterial({
-          color: isLead ? 0xfffaed : 0xd4a373,
+          color: isLead ? 0xffffff : 0xffbe0b,
           transparent: true,
-          opacity: 1.0 - d * 0.08,
+          opacity: 1.0 - d * 0.1,
         });
 
         const dotMesh = new THREE.Mesh(isLead ? dotLeadGeo : dotSmallGeo, dotMat);
         dotMesh.position.copy(kenyaPos);
+        dotMesh.renderOrder = 15;
         globeGroup.add(dotMesh);
 
         streamDots.push({
           mesh: dotMesh,
-          offset: -d * 0.022, // tightly spaced connected dots
+          offset: -d * 0.035, // tightly spaced connected dots trailing the arrow
         });
       }
 
@@ -324,8 +333,8 @@ export default function Real3DGlobe() {
         speed: 0.32,
         cycleOffset: (routeIdx * 0.2) % 1,
         dots: streamDots,
-        connectLine,
-        connectLineGeo,
+        arrowMesh,
+        arrowMat,
         baseLine,
         baseLineMat,
         destPin,
@@ -413,32 +422,41 @@ export default function Real3DGlobe() {
 
         // Visual prominence based on active selection
         if (isActive) {
-          st.baseLineMat.opacity = 0.85;
-          st.baseLineMat.color.setHex(0xd4a373);
-          (st.connectLine.material as THREE.LineBasicMaterial).opacity = 1.0;
-          (st.connectLine.material as THREE.LineBasicMaterial).color.setHex(0xfffaed);
+          st.baseLineMat.opacity = 0.95;
+          st.baseLineMat.color.setHex(0xe09f3e);
+          st.arrowMat.opacity = 1.0;
+          st.arrowMat.color.setHex(0xffea00);
+          st.arrowMesh.scale.set(1.25, 1.25, 1.25);
+          st.arrowMesh.visible = true;
 
           // Pulse destination pin halo
-          const destScale = 1 + Math.sin(elapsed * 4.5) * 0.28;
+          const destScale = 1 + Math.sin(elapsed * 5) * 0.35;
           st.destHalo.scale.set(destScale, destScale, 1);
-          st.destHaloMat.opacity = 0.7 + Math.sin(elapsed * 4.5) * 0.3;
-          (st.destPin.material as THREE.MeshBasicMaterial).color.setHex(0xb57a44);
+          st.destHaloMat.opacity = 0.85 + Math.sin(elapsed * 5) * 0.15;
+          (st.destPin.material as THREE.MeshBasicMaterial).color.setHex(0xffd166);
         } else {
-          st.baseLineMat.opacity = 0.2;
-          st.baseLineMat.color.setHex(0x553822);
-          (st.connectLine.material as THREE.LineBasicMaterial).opacity = 0.2;
-          (st.connectLine.material as THREE.LineBasicMaterial).color.setHex(0x8a5d3b);
+          st.baseLineMat.opacity = 0.15;
+          st.baseLineMat.color.setHex(0x5c351c);
+          st.arrowMat.opacity = 0;
+          st.arrowMesh.visible = false;
           st.destHaloMat.opacity = 0;
           (st.destPin.material as THREE.MeshBasicMaterial).color.setHex(0x3e2211);
         }
 
         // Advance position along curve from Kenya (0) to Destination (1)
-        const speed = isActive ? 0.35 : 0.22;
+        const speed = isActive ? 0.36 : 0.18;
         const headProgress = (elapsed * speed + st.cycleOffset) % 1;
 
-        const posAttr = st.connectLineGeo.attributes.position as THREE.BufferAttribute;
-        const posArray = posAttr.array as Float32Array;
+        // Position and orient the moving 3D arrow head forward along the curve
+        if (isActive) {
+          const arrowPos = st.curve.getPointAt(headProgress);
+          st.arrowMesh.position.copy(arrowPos);
+          const tangent = st.curve.getTangentAt(headProgress).normalize();
+          const targetLook = arrowPos.clone().add(tangent);
+          st.arrowMesh.lookAt(targetLook);
+        }
 
+        // Position trailing connected glowing cargo beads
         st.dots.forEach((dotItem, idx) => {
           let p = headProgress + dotItem.offset;
           if (p < 0) p += 1;
@@ -447,26 +465,18 @@ export default function Real3DGlobe() {
           const pos = st.curve.getPointAt(p);
           dotItem.mesh.position.copy(pos);
 
-          // Update connecting line vertices between dots
-          posArray[idx * 3] = pos.x;
-          posArray[idx * 3 + 1] = pos.y;
-          posArray[idx * 3 + 2] = pos.z;
-
-          // Scale & opacity of dots
-          const scaleMultiplier = isActive ? (idx === 0 ? 1.3 : 1.1) : 0.8;
+          const scaleMultiplier = isActive ? (1.35 - idx * 0.08) : 0.3;
           dotItem.mesh.scale.set(scaleMultiplier, scaleMultiplier, scaleMultiplier);
+          dotItem.mesh.visible = isActive;
 
           const mat = dotItem.mesh.material as THREE.MeshBasicMaterial;
           if (isActive) {
-            mat.opacity = Math.max(0.2, 1.0 - idx * 0.08);
-            mat.color.setHex(idx === 0 ? 0xffffff : 0xffd8a8);
+            mat.opacity = Math.max(0.4, 1.0 - idx * 0.08);
+            mat.color.setHex(idx === 0 ? 0xffffff : (idx < 3 ? 0xffea00 : 0xffa200));
           } else {
-            mat.opacity = 0.25;
-            mat.color.setHex(0xa67c52);
+            mat.opacity = 0.08;
           }
         });
-
-        posAttr.needsUpdate = true;
       });
 
       renderer.render(scene, camera);
