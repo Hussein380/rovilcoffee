@@ -62,18 +62,50 @@ body {
   animation: pulseOrigin 2.2s ease-in-out infinite;
 }
 
-@keyframes beanDrift {
+@keyframes beanDropSlow {
   0% {
-    transform: translateY(-80px) rotate(0deg);
+    transform: translateY(-90px) rotate(0deg) translateX(0);
   }
   50% {
-    transform: translateY(320px) rotate(40deg);
+    transform: translateY(380px) rotate(180deg) translateX(18px);
   }
   100% {
-    transform: translateY(720px) rotate(85deg);
+    transform: translateY(850px) rotate(360deg) translateX(0);
   }
 }
 
-.animate-bean-drift {
-  animation: beanDrift linear infinite;
+@keyframes beanDropMedium {
+  0% {
+    transform: translateY(-90px) rotate(25deg) translateX(0);
+  }
+  50% {
+    transform: translateY(400px) rotate(160deg) translateX(-16px);
+  }
+  100% {
+    transform: translateY(850px) rotate(340deg) translateX(6px);
+  }
+}
+
+@keyframes beanDropFast {
+  0% {
+    transform: translateY(-90px) rotate(-35deg) translateX(0);
+  }
+  50% {
+    transform: translateY(420px) rotate(200deg) translateX(14px);
+  }
+  100% {
+    transform: translateY(850px) rotate(390deg) translateX(-8px);
+  }
+}
+
+.animate-bean-slow {
+  animation: beanDropSlow linear infinite;
+}
+
+.animate-bean-medium {
+  animation: beanDropMedium linear infinite;
+}
+
+.animate-bean-fast {
+  animation: beanDropFast linear infinite;
 }
