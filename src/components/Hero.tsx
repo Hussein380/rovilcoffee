@@ -1,11 +1,15 @@
 import React from 'react';
 import { ArrowRight, ShieldCheck, Check } from 'lucide-react';
 import Real3DGlobeWrapper from './Real3DGlobeWrapper';
+import FloatingCoffeeBeans from './FloatingCoffeeBeans';
 
 export default function Hero() {
   return (
-    <section id="home" className="pt-8 sm:pt-12 pb-12 sm:pb-16 bg-white border-b border-[#ece3db] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="home" className="relative pt-8 sm:pt-12 pb-12 sm:pb-16 bg-white border-b border-[#ece3db] overflow-hidden">
+      {/* Subtle Atmospheric Falling/Drifting Coffee Beans Background */}
+      <FloatingCoffeeBeans />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Split Screen Layout: Left = Editorial Content, Right = Compact 3D Corridor Globe */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">

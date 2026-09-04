@@ -61,3 +61,19 @@ body {
   transform-origin: center;
   animation: pulseOrigin 2.2s ease-in-out infinite;
 }
+
+@keyframes beanDrift {
+  0% {
+    transform: translateY(-80px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(320px) rotate(40deg);
+  }
+  100% {
+    transform: translateY(720px) rotate(85deg);
+  }
+}
+
+.animate-bean-drift {
+  animation: beanDrift linear infinite;
+}
