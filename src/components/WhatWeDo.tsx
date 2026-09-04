@@ -63,6 +63,15 @@ export default function WhatWeDo() {
             <p className="mt-4 text-base sm:text-lg text-[#574c43] leading-relaxed">
               We supply international commodity traders, commercial roasters, and specialty importers with verified container allocations. From precision screen sizing to hermetic GrainPro packing and Port of Mombasa container dispatch, we manage the entire export chain under strict international trade standards.
             </p>
+            <div className="pt-4">
+              <a
+                href="/what-we-do"
+                className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs"
+              >
+                <span>View Full Export Specifications & Lab Dossier</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
           </SlideUp>
         </div>
 

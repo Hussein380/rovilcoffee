@@ -4,13 +4,11 @@ import React, { useState } from 'react';
 import { Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
 
 const MENU_ITEMS = [
-  { label: 'Home', href: '#home' },
-  { label: 'What We Do', href: '#what-we-do' },
-  { label: 'Coffee', href: '#coffee' },
-  { label: 'Tea', href: '#tea' },
-  { label: 'Our Farm', href: '#farm' },
-  { label: 'Export Markets', href: '#map' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/#home' },
+  { label: 'What We Do', href: '/what-we-do' },
+  { label: 'Our Farm', href: '/#farm' },
+  { label: 'Export Markets', href: '/#map' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 export default function Navbar() {
@@ -37,7 +35,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-3">
+          <a href="/#home" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-[#3e2211] flex items-center justify-center text-white font-bold text-xl shadow-xs">
               R
             </div>
@@ -67,7 +65,7 @@ export default function Navbar() {
           {/* Desktop CTA Button */}
           <div className="hidden sm:flex items-center gap-4">
             <a
-              href="#contact"
+              href="/#contact"
               className="inline-flex items-center gap-2 bg-[#3e2211] hover:bg-[#23150c] text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm"
             >
               <span>Request a Quote</span>
@@ -101,7 +99,7 @@ export default function Navbar() {
           ))}
           <div className="pt-3">
             <a
-              href="#contact"
+              href="/#contact"
               onClick={() => setMobileOpen(false)}
               className="w-full text-center flex items-center justify-center gap-2 bg-[#3e2211] text-white py-3 rounded-lg text-sm font-semibold"
             >
