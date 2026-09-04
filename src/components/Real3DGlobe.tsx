@@ -25,7 +25,7 @@ const TRADE_ROUTES: TradeRoute[] = [
     lat: 51.2,
     lon: 8.5,
     port: 'Rotterdam / Hamburg',
-    targetY: -1.98,
+    targetY: -2.02,
     leadTime: '21–26 Days',
   },
   {
@@ -36,7 +36,7 @@ const TRADE_ROUTES: TradeRoute[] = [
     lat: 51.5,
     lon: -0.1,
     port: 'London Gateway',
-    targetY: -1.89,
+    targetY: -1.97,
     leadTime: '22–28 Days',
   },
   {
@@ -47,7 +47,7 @@ const TRADE_ROUTES: TradeRoute[] = [
     lat: 40.7,
     lon: -74.0,
     port: 'New York Port',
-    targetY: -1.25,
+    targetY: -1.44,
     leadTime: '28–35 Days',
   },
   {
@@ -58,7 +58,7 @@ const TRADE_ROUTES: TradeRoute[] = [
     lat: 35.7,
     lon: 139.7,
     port: 'Yokohama Port',
-    targetY: -3.11,
+    targetY: -2.98,
     leadTime: '24–30 Days',
   },
   {
