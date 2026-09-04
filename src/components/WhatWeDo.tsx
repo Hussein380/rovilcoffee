@@ -26,6 +26,8 @@ import {
   motion,
 } from '@/components/motion/MotionWrappers';
 
+import Image from 'next/image';
+
 export default function WhatWeDo() {
   const [activeTab, setActiveTab] = useState<'coffee' | 'tea'>('coffee');
   const [selectedGradeId, setSelectedGradeId] = useState<string>('grade-aa');
@@ -55,7 +57,7 @@ export default function WhatWeDo() {
 
           <SlideUp delay={0.1}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#23150c] tracking-tight leading-[1.15]">
-              What We Export: Certified Coffee & <span className="text-[#7a4727]">Specialty Teas</span>
+              What We Export: Certified Coffee &amp; <span className="text-[#7a4727]">Specialty Teas</span>
             </h2>
           </SlideUp>
 
@@ -68,11 +70,77 @@ export default function WhatWeDo() {
                 href="/what-we-do"
                 className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs"
               >
-                <span>View Full Export Specifications & Lab Dossier</span>
+                <span>View Full Export Specifications &amp; Lab Dossier</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
             </div>
           </SlideUp>
+        </div>
+
+        {/* 3-Photo Authentic Export Verification Strip */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="group relative rounded-2xl overflow-hidden border border-[#ece3db] bg-white shadow-xs">
+            <div className="relative h-48 w-full">
+              <Image
+                src="/images/what-we-do/green-coffee-grading.jpg"
+                alt="Kenyan Green Coffee Bean Screen Sizing and Digital Moisture Meter"
+                fill
+                unoptimized
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-4 space-y-1">
+              <div className="flex items-center justify-between font-mono text-xs font-bold text-[#23150c]">
+                <span>Grade AA / AB Screen Sizing</span>
+                <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-[10px]">10.8% Moisture</span>
+              </div>
+              <p className="text-[#574c43] text-xs">
+                Precision brass sieves (Screen 18 / 7.14mm) and calibrated digital moisture control.
+              </p>
+            </div>
+          </div>
+
+          <div className="group relative rounded-2xl overflow-hidden border border-[#ece3db] bg-white shadow-xs">
+            <div className="relative h-48 w-full">
+              <Image
+                src="/images/what-we-do/cupping-lab-qc.jpg"
+                alt="Nairobi SCAA Certified Cupping Laboratory and Q-Graders"
+                fill
+                unoptimized
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-4 space-y-1">
+              <div className="flex items-center justify-between font-mono text-xs font-bold text-[#23150c]">
+                <span>Nairobi Cupping Lab</span>
+                <span className="text-[#7a4727] bg-[#f4ece4] px-2 py-0.5 rounded text-[10px]">SCAA Protocols</span>
+              </div>
+              <p className="text-[#574c43] text-xs">
+                Certified Q-graders evaluating aroma, acidity, body, and defect scores per lot.
+              </p>
+            </div>
+          </div>
+
+          <div className="group relative rounded-2xl overflow-hidden border border-[#ece3db] bg-white shadow-xs">
+            <div className="relative h-48 w-full">
+              <Image
+                src="/images/what-we-do/grainpro-export-bags.jpg"
+                alt="60kg Sisal Bags with GrainPro Hermetic Liners Ready for Ocean Container Loading"
+                fill
+                unoptimized
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-4 space-y-1">
+              <div className="flex items-center justify-between font-mono text-xs font-bold text-[#23150c]">
+                <span>60kg GrainPro Packing</span>
+                <span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-[10px]">Mombasa FOB</span>
+              </div>
+              <p className="text-[#574c43] text-xs">
+                Multi-layer hermetic liners preserving origin freshness against maritime moisture.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* SPA Interactive Commodity Switcher (Part 4.4 Tab Panel Swap) */}
@@ -99,7 +167,7 @@ export default function WhatWeDo() {
               }`}
             >
               <Leaf className="w-4 h-4" />
-              <span>Kenyan Highland Teas (Purple & CTC)</span>
+              <span>Kenyan Highland Teas (Purple &amp; CTC)</span>
             </button>
           </div>
 

@@ -63,16 +63,14 @@ export default function WhatWeDoPage() {
             src="/images/what-we-do/grainpro-export-bags.jpg"
             alt="Rovil Kenyan Coffee GrainPro Export Warehouse"
             fill
+            unoptimized
             priority
-            className="object-cover object-center opacity-30 scale-105"
+            className="object-cover object-center opacity-65 scale-105"
           />
         </div>
 
-        {/* Layer 1: Dark Scrim (Part 5.2) */}
-        <div className="absolute inset-0 bg-[#180f08]/85 pointer-events-none z-1" />
-
-        {/* Layer 2: Gradient Overlay (Part 5.3) */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#180f08]/60 via-[#180f08]/80 to-[#180f08] pointer-events-none z-2" />
+        {/* Layer 1: Dark Scrim & Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#180f08]/60 via-[#180f08]/40 to-[#180f08]/90 pointer-events-none z-1" />
 
         {/* Layer 4: Glowing Orb Blobs (Part 5.4) */}
         <motion.div
@@ -246,6 +244,8 @@ export default function WhatWeDoPage() {
                         src="/images/what-we-do/green-coffee-grading.jpg"
                         alt="Raw Kenyan Green Arabica Coffee Grading Sieves and Moisture Meter"
                         fill
+                        unoptimized
+                        priority
                         className="object-cover group-hover:scale-102 transition-transform duration-500"
                       />
                     </div>
@@ -485,6 +485,7 @@ export default function WhatWeDoPage() {
                         src="/images/what-we-do/cupping-lab-qc.jpg"
                         alt="Nairobi Specialty Coffee Cupping Laboratory and Certified Q-Graders"
                         fill
+                        unoptimized
                         className="object-cover group-hover:scale-102 transition-transform duration-500"
                       />
                     </div>
@@ -645,6 +646,7 @@ export default function WhatWeDoPage() {
                         src="/images/what-we-do/kenyan-purple-ctc-teas.jpg"
                         alt="Kenyan Purple Tea TRFK 306 and Kenyan Black CTC Tea Infusion"
                         fill
+                        unoptimized
                         className="object-cover group-hover:scale-102 transition-transform duration-500"
                       />
                     </div>
@@ -754,6 +756,7 @@ export default function WhatWeDoPage() {
                         src="/images/what-we-do/grainpro-export-bags.jpg"
                         alt="Kenyan Coffee GrainPro Hermetic Sisal Bags Ready for Ocean Shipping"
                         fill
+                        unoptimized
                         className="object-cover group-hover:scale-102 transition-transform duration-500"
                       />
                     </div>
