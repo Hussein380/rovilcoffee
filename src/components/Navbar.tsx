@@ -6,7 +6,7 @@ import { Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
 const MENU_ITEMS = [
   { label: 'Home', href: '/#home' },
   { label: 'What We Do', href: '/what-we-do' },
-  { label: 'Our Farm', href: '/#farm' },
+  { label: 'Our Farm', href: '/our-farm' },
   { label: 'Export Markets', href: '/#map' },
   { label: 'Contact', href: '/#contact' },
 ];
