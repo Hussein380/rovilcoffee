@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
 
 const MENU_ITEMS = [
   { label: 'Home', href: '/#home' },
+  { label: 'Products', href: '/products' },
   { label: 'What We Do', href: '/what-we-do' },
   { label: 'Our Farm', href: '/our-farm' },
-  { label: 'Export Markets', href: '/#map' },
+  { label: 'Export Markets', href: '/export-markets' },
   { label: 'Contact', href: '/#contact' },
 ];
 
@@ -23,10 +25,14 @@ export default function Navbar() {
             <ShieldCheck className="w-4 h-4 text-[#b57a44]" />
             <span className="font-medium text-[#f4ece4]">Licensed Coffee Exporter | Kenya</span>
             <span className="hidden md:inline text-white/30">•</span>
-            <span className="hidden md:inline text-white/70">Commercial Bulk Shipments from Port of Mombasa</span>
+            <span className="hidden md:inline text-white/80">Commercial Arabica &amp; Tea Supply</span>
           </div>
-          <div className="flex items-center gap-3 text-white/80 text-xs">
-            <span>Nairobi HQ: <strong className="text-white font-normal">+254 721 487 948</strong></span>
+          <div className="flex items-center gap-4 text-white/85 text-xs">
+            <span>Nairobi HQ: +254 721 487 948</span>
+            <span>•</span>
+            <a href="mailto:info@rovil.co.ke" className="hover:text-white underline">
+              info@rovil.co.ke
+            </a>
           </div>
         </div>
       </div>
@@ -35,7 +41,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/#home" className="flex items-center gap-3">
+          <Link href="/#home" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-[#3e2211] flex items-center justify-center text-white font-bold text-xl shadow-xs">
               R
             </div>
@@ -43,34 +49,34 @@ export default function Navbar() {
               <span className="text-2xl font-bold tracking-tight text-[#23150c] block leading-none">
                 ROVIL
               </span>
-              <span className="text-[11px] font-medium tracking-wider text-[#7a4727] uppercase block mt-1">
-                Coffee & Tea Exporters Kenya
+              <span className="text-xs font-semibold tracking-wide text-[#7a4727] uppercase block mt-1">
+                Coffee &amp; Tea Exporters Kenya
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Nav Items */}
           <nav className="hidden lg:flex items-center gap-8">
             {MENU_ITEMS.map((item) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className="text-[15px] font-medium text-[#574c43] hover:text-[#23150c] transition-colors"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* Desktop CTA Button */}
           <div className="hidden sm:flex items-center gap-4">
-            <a
+            <Link
               href="/#contact"
               className="inline-flex items-center gap-2 bg-[#3e2211] hover:bg-[#23150c] text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm"
             >
               <span>Request a Quote</span>
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -88,24 +94,24 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="lg:hidden bg-white border-b border-[#ece3db] px-4 pt-3 pb-6 space-y-2">
           {MENU_ITEMS.map((item) => (
-            <a
+            <Link
               key={item.label}
               href={item.href}
               onClick={() => setMobileOpen(false)}
               className="block px-3 py-2.5 rounded-md text-base font-medium text-[#3e2211] hover:bg-[#f4ece4]"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
           <div className="pt-3">
-            <a
+            <Link
               href="/#contact"
               onClick={() => setMobileOpen(false)}
               className="w-full text-center flex items-center justify-center gap-2 bg-[#3e2211] text-white py-3 rounded-lg text-sm font-semibold"
             >
               <span>Request a Quote</span>
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
         </div>
       )}

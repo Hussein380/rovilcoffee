@@ -3,7 +3,6 @@
 import React from 'react';
 import { ShieldCheck, ArrowRight, Anchor, Globe, Sparkles } from 'lucide-react';
 import GlobeWrapper from '@/components/3d/GlobeWrapper';
-import { companyInfo } from '@/data/companyInfo';
 
 export default function HeroSection() {
   return (
@@ -29,7 +28,7 @@ export default function HeroSection() {
 
             {/* Main Headline */}
             <div className="space-y-2">
-              <div className="text-xs sm:text-sm uppercase tracking-[0.25em] text-[#d4a373] font-mono font-medium">
+              <div className="text-xs sm:text-sm uppercase tracking-wider text-[#d4a373] font-semibold">
                 Direct Origin Sourcing • Commercial Containers
               </div>
               <h1 className="text-3xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight font-heading leading-[1.12]">

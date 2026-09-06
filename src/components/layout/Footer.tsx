@@ -48,32 +48,32 @@ export default function Footer() {
               <li>
                 <a href="#coffee" className="hover:text-[#d4a373] transition-colors flex items-center justify-between">
                   <span>Grade AA (Screen 17/18)</span>
-                  <span className="text-[10px] text-[#d4a373] font-mono">Flagship</span>
+                  <span className="text-xs text-[#d4a373]">Flagship</span>
                 </a>
               </li>
               <li>
-                <a href="#coffee" className="hover:text-[#d4a373] transition-colors flex items-center justify-between">
-                  <span>Grade AB (Screen 15/16)</span>
-                  <span className="text-[10px] text-white/40 font-mono">High Vol</span>
-                </a>
+                <div className="flex items-center justify-between text-xs text-[#baa99e]">
+                  <span>Grade AB Commercial</span>
+                  <span className="text-xs text-white/60">High Vol</span>
+                </div>
               </li>
               <li>
-                <a href="#coffee" className="hover:text-[#d4a373] transition-colors flex items-center justify-between">
+                <div className="flex items-center justify-between text-xs text-[#baa99e]">
                   <span>Grade PB (Peaberry)</span>
-                  <span className="text-[10px] text-white/40 font-mono">Specialty</span>
-                </a>
+                  <span className="text-xs text-white/60">Specialty</span>
+                </div>
               </li>
               <li>
-                <a href="#coffee" className="hover:text-[#d4a373] transition-colors flex items-center justify-between">
-                  <span>Grade C (Screen 14/15)</span>
-                  <span className="text-[10px] text-white/40 font-mono">Blend</span>
-                </a>
+                <div className="flex items-center justify-between text-xs text-[#baa99e]">
+                  <span>Grade C &amp; Blends</span>
+                  <span className="text-xs text-white/60">Blend</span>
+                </div>
               </li>
               <li>
-                <a href="#coffee" className="hover:text-[#d4a373] transition-colors flex items-center justify-between">
-                  <span>Grade MH (Machine Hulled)</span>
-                  <span className="text-[10px] text-white/40 font-mono">Commercial</span>
-                </a>
+                <div className="flex items-center justify-between text-xs text-[#baa99e]">
+                  <span>Commercial MH/UG</span>
+                  <span className="text-xs text-white/60">Commercial</span>
+                </div>
               </li>
             </ul>
           </div>

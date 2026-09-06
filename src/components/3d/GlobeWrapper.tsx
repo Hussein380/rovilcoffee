@@ -16,8 +16,8 @@ const ExportGlobe = dynamic(() => import('./ExportGlobe'), {
             </div>
           </div>
         </div>
-        <div className="text-xs text-[#baa99e] uppercase tracking-widest font-mono">
-          Initializing 3D Origin Trade Coordinates...
+        <div className="text-xs text-[#baa99e] uppercase tracking-wider font-semibold">
+          Loading 3D Origin Trade Coordinates...
         </div>
       </div>
     </div>

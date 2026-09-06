@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 
-const jakarta = Plus_Jakarta_Sans({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
   variable: '--font-sans',
 });
@@ -25,8 +24,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jakarta.variable} scroll-smooth`}>
-      <body className="bg-white text-[#1f1610] font-sans antialiased selection:bg-[#6f4327] selection:text-white">
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${inter.variable} ${inter.className}`}>
+      <head>
+        <link rel="preload" href="/textures/earth_atmos_2048.jpg" as="image" />
+        <link rel="preload" href="/textures/earth_clouds_1024.png" as="image" />
+      </head>
+      <body className={`${inter.className} bg-white text-[#1f1610] antialiased selection:bg-[#6f4327] selection:text-white`}>
         {children}
       </body>
     </html>

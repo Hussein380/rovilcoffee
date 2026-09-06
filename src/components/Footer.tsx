@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { MapPin, Phone, Mail, ShieldCheck, Anchor } from 'lucide-react';
 
 export default function Footer() {
@@ -17,8 +18,8 @@ export default function Footer() {
                 <span className="text-xl font-bold tracking-tight text-white block">
                   ROVIL
                 </span>
-                <span className="text-[10px] tracking-wider text-[#d8c2b0] uppercase block">
-                  Coffee & Tea Exporters Kenya
+                <span className="text-xs font-semibold tracking-wide text-[#d8c2b0] uppercase block mt-0.5">
+                  Coffee &amp; Tea Exporters Kenya
                 </span>
               </div>
             </div>
@@ -39,13 +40,14 @@ export default function Footer() {
               Export Products
             </h4>
             <ul className="space-y-2 text-xs text-[#d8c2b0]">
-              <li><a href="#coffee" className="hover:text-white transition-colors">Kenyan Arabica Grade AA</a></li>
-              <li><a href="#coffee" className="hover:text-white transition-colors">Kenyan Arabica Grade AB</a></li>
-              <li><a href="#coffee" className="hover:text-white transition-colors">Grade PB (Peaberry)</a></li>
-              <li><a href="#coffee" className="hover:text-white transition-colors">Grade C & Machine Hulled (MH)</a></li>
-              <li><a href="#tea" className="hover:text-white transition-colors">Kenyan Purple Tea (TRFK 306)</a></li>
-              <li><a href="#tea" className="hover:text-white transition-colors">Black CTC Tea (BP1, PF1, PD)</a></li>
-              <li><a href="#tea" className="hover:text-white transition-colors">Orthodox Whole-Leaf & Loose Leaf</a></li>
+              <li><Link href="/products" className="text-white font-semibold hover:underline transition-colors">View All Products &amp; 3D Catalog</Link></li>
+              <li><Link href="/what-we-do" className="hover:text-white transition-colors">Kenyan Arabica Grade AA</Link></li>
+              <li><Link href="/what-we-do" className="hover:text-white transition-colors">Kenyan Arabica Grade AB</Link></li>
+              <li><Link href="/what-we-do" className="hover:text-white transition-colors">Grade PB (Peaberry)</Link></li>
+              <li><Link href="/what-we-do" className="hover:text-white transition-colors">Grade C &amp; Machine Hulled (MH)</Link></li>
+              <li><Link href="/what-we-do" className="hover:text-white transition-colors">Kenyan Purple Tea (TRFK 306)</Link></li>
+              <li><Link href="/what-we-do" className="hover:text-white transition-colors">Black CTC Tea (BP1, PF1, PD)</Link></li>
+              <li><Link href="/what-we-do" className="hover:text-white transition-colors">Orthodox Whole-Leaf &amp; Loose Leaf</Link></li>
             </ul>
           </div>
 
@@ -55,12 +57,12 @@ export default function Footer() {
               Export Operations
             </h4>
             <ul className="space-y-2 text-xs text-[#d8c2b0]">
-              <li><a href="#farm" className="hover:text-white transition-colors">Central Kenya Highlands Farms</a></li>
-              <li><a href="#what-we-do" className="hover:text-white transition-colors">Wet Milling & Sun-Drying</a></li>
-              <li><a href="#map" className="hover:text-white transition-colors">Europe, UK & USA Shipping</a></li>
-              <li><a href="#map" className="hover:text-white transition-colors">Japan & Asia Trade Corridors</a></li>
-              <li><a href="#map" className="hover:text-white transition-colors">Middle East & African Markets</a></li>
-              <li><a href="#contact" className="hover:text-white transition-colors">Request a Commercial Quote</a></li>
+              <li><Link href="/our-farm" className="hover:text-white transition-colors">Central Kenya Highlands Farms</Link></li>
+              <li><Link href="/what-we-do" className="hover:text-white transition-colors">Wet Milling &amp; Sun-Drying</Link></li>
+              <li><Link href="/export-markets" className="hover:text-white transition-colors">Europe, UK &amp; USA Shipping</Link></li>
+              <li><Link href="/export-markets" className="hover:text-white transition-colors">Japan &amp; Asia Trade Corridors</Link></li>
+              <li><Link href="/export-markets" className="hover:text-white transition-colors">Middle East &amp; African Markets</Link></li>
+              <li><Link href="/#contact" className="hover:text-white transition-colors">Request a Commercial Quote</Link></li>
             </ul>
           </div>
 

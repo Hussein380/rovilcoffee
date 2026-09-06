@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Menu, X, ArrowUpRight, Globe2, PhoneCall } from 'lucide-react';
+import { ShieldCheck, Menu, X, ArrowUpRight, PhoneCall } from 'lucide-react';
 import { companyInfo } from '@/data/companyInfo';
 
 const NAV_ITEMS = [
@@ -64,7 +64,7 @@ export default function Navbar() {
               <span className="hidden md:inline">{companyInfo.contacts.phonePrimary}</span>
             </a>
             <span className="text-white/20 hidden md:inline">|</span>
-            <span className="text-xs text-[#d4a373] font-mono hidden md:inline">Nairobi: EAT (UTC+3)</span>
+            <span className="text-xs text-[#d4a373] hidden md:inline">Nairobi: EAT (UTC+3)</span>
           </div>
         </div>
       </div>

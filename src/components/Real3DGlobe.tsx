@@ -101,18 +101,32 @@ function createGreatCircleArc(start: THREE.Vector3, end: THREE.Vector3, radius: 
   return new THREE.CatmullRomCurve3(points);
 }
 
+// Module-level texture cache to prevent re-fetching/re-decoding on navigation
+let cachedEarthTexture: THREE.Texture | null = null;
+let cachedCloudsTexture: THREE.Texture | null = null;
+
+function getSharedTextures() {
+  const loader = new THREE.TextureLoader();
+  if (!cachedEarthTexture) {
+    cachedEarthTexture = loader.load('/textures/earth_atmos_2048.jpg');
+    cachedEarthTexture.colorSpace = THREE.SRGBColorSpace;
+  }
+  if (!cachedCloudsTexture) {
+    cachedCloudsTexture = loader.load('/textures/earth_clouds_1024.png');
+  }
+  return { earthMap: cachedEarthTexture, cloudsMap: cachedCloudsTexture };
+}
+
 export default function Real3DGlobe() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedRoute, setSelectedRoute] = useState<TradeRoute>(TRADE_ROUTES[0]);
   const activeRouteIdRef = useRef<string>(TRADE_ROUTES[0].id);
   const targetRotationYRef = useRef<number>(TRADE_ROUTES[0].targetY);
-  const routeSelectTimeRef = useRef<number>(0);
 
   const handleSelectRoute = (route: TradeRoute) => {
     setSelectedRoute(route);
     activeRouteIdRef.current = route.id;
     targetRotationYRef.current = route.targetY;
-    routeSelectTimeRef.current = performance.now() / 1000;
   };
 
   useEffect(() => {
@@ -126,7 +140,7 @@ export default function Real3DGlobe() {
     const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 1000);
     camera.position.set(0, 1.2, 22);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -148,14 +162,13 @@ export default function Real3DGlobe() {
     softFill.position.set(-14, -8, -12);
     scene.add(softFill);
 
-    // Earth Map
-    const loader = new THREE.TextureLoader();
-    const earthMap = loader.load('/textures/earth_atmos_2048.jpg');
-    earthMap.colorSpace = THREE.SRGBColorSpace;
+    // Earth Map with cached textures & instant base tone
+    const { earthMap, cloudsMap } = getSharedTextures();
 
     const earthGeo = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
     const earthMat = new THREE.MeshStandardMaterial({
       map: earthMap,
+      color: new THREE.Color(0xf5ede4),
       roughness: 0.75,
       metalness: 0.02,
     });
@@ -163,7 +176,6 @@ export default function Real3DGlobe() {
     globeGroup.add(earthMesh);
 
     // Clouds
-    const cloudsMap = loader.load('/textures/earth_clouds_1024.png');
     const cloudsGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.012, 48, 48);
     const cloudsMat = new THREE.MeshStandardMaterial({
       map: cloudsMap,
@@ -392,12 +404,14 @@ export default function Real3DGlobe() {
 
     // Animation Loop
     let animId: number;
-    const clock = new THREE.Clock();
+    let lastTime = performance.now();
+    const startTime = performance.now();
 
-    const animate = () => {
+    const animate = (now: number = performance.now()) => {
       animId = requestAnimationFrame(animate);
-      const delta = clock.getDelta();
-      const elapsed = clock.getElapsedTime();
+      const delta = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+      const elapsed = (now - startTime) / 1000;
 
       // Smooth camera interpolation toward selected corridor
       if (!isDragging) {
@@ -445,29 +459,36 @@ export default function Real3DGlobe() {
 
         // Advance position along curve from Kenya (0) to Destination (1)
         const speed = isActive ? 0.36 : 0.18;
-        const headProgress = (elapsed * speed + st.cycleOffset) % 1;
+        const rawProgress = (elapsed * speed + st.cycleOffset) % 1;
+        const headProgress = Math.max(0.002, Math.min(0.998, (rawProgress + 1) % 1));
 
         // Position and orient the moving 3D arrow head forward along the curve
         if (isActive) {
           const arrowPos = st.curve.getPointAt(headProgress);
-          st.arrowMesh.position.copy(arrowPos);
-          const tangent = st.curve.getTangentAt(headProgress).normalize();
-          const targetLook = arrowPos.clone().add(tangent);
-          st.arrowMesh.lookAt(targetLook);
+          if (arrowPos) {
+            st.arrowMesh.position.copy(arrowPos);
+            const tangent = st.curve.getTangentAt(headProgress);
+            if (tangent) {
+              tangent.normalize();
+              const targetLook = arrowPos.clone().add(tangent);
+              st.arrowMesh.lookAt(targetLook);
+            }
+          }
         }
 
         // Position trailing connected glowing cargo beads
         st.dots.forEach((dotItem, idx) => {
-          let p = headProgress + dotItem.offset;
+          let p = (headProgress + dotItem.offset) % 1;
           if (p < 0) p += 1;
-          p = Math.max(0.001, Math.min(0.999, p));
+          p = Math.max(0.002, Math.min(0.998, p));
 
           const pos = st.curve.getPointAt(p);
-          dotItem.mesh.position.copy(pos);
-
-          const scaleMultiplier = isActive ? (1.35 - idx * 0.08) : 0.3;
-          dotItem.mesh.scale.set(scaleMultiplier, scaleMultiplier, scaleMultiplier);
-          dotItem.mesh.visible = isActive;
+          if (pos) {
+            dotItem.mesh.position.copy(pos);
+            const scaleMultiplier = isActive ? (1.35 - idx * 0.08) : 0.3;
+            dotItem.mesh.scale.set(scaleMultiplier, scaleMultiplier, scaleMultiplier);
+            dotItem.mesh.visible = isActive;
+          }
 
           const mat = dotItem.mesh.material as THREE.MeshBasicMaterial;
           if (isActive) {
@@ -526,9 +547,9 @@ export default function Real3DGlobe() {
         <div className="absolute bottom-1 w-[60%] h-6 bg-[#23150c]/8 rounded-full filter blur-lg pointer-events-none -z-10" />
       </div>
 
-      {/* Hirola-Inspired Clean Corridor Selector with Real-World Flags */}
+      {/* Corridor Selector with Real-World Flags */}
       <div className="w-full max-w-lg pt-1 flex flex-col items-center gap-3">
-        <div className="text-[11px] font-mono uppercase tracking-widest text-[#7a4727] font-semibold flex items-center gap-2">
+        <div className="text-xs font-semibold text-[#7a4727] flex items-center gap-2">
           <span>Active Export Trade Corridor</span>
         </div>
 
@@ -567,7 +588,7 @@ export default function Real3DGlobe() {
         </div>
 
         {/* Dynamic Cargo Route Lead Time & Port Callout */}
-        <div className="px-3.5 py-1.5 rounded-lg bg-[#fbf9f6] border border-[#ece3db] text-[11px] text-[#574c43] text-center font-mono flex items-center gap-2">
+        <div className="px-3.5 py-1.5 rounded-lg bg-[#fbf9f6] border border-[#ece3db] text-xs text-[#574c43] text-center flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block animate-pulse" />
           <span>
             Port of Mombasa ➔ <strong className="text-[#23150c] font-semibold">{selectedRoute.port}</strong> • Transit: <strong className="text-[#7a4727] font-semibold">{selectedRoute.leadTime}</strong>

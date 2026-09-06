@@ -49,7 +49,6 @@ const KENYA_COORD = { lat: -1.2921, lon: 36.8219 }; // Nairobi / Mt. Kenya Hub
 export default function ExportGlobe() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeDestination, setActiveDestination] = useState<TradeDestination | null>(DESTINATIONS[0]);
-  const [isInteracting, setIsInteracting] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -233,7 +232,6 @@ export default function ExportGlobe() {
 
     const onPointerDown = (e: MouseEvent | TouchEvent) => {
       isDragging = true;
-      setIsInteracting(true);
       const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
       const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
       prevMouseX = clientX;
@@ -260,7 +258,6 @@ export default function ExportGlobe() {
 
     const onPointerUp = () => {
       isDragging = false;
-      setTimeout(() => setIsInteracting(false), 2000);
     };
 
     const domElement = renderer.domElement;
@@ -274,12 +271,14 @@ export default function ExportGlobe() {
 
     // Animation Loop
     let animationFrameId: number;
-    let clock = new THREE.Clock();
+    let lastTime = performance.now();
+    const startTime = performance.now();
 
-    const animate = () => {
+    const animate = (now: number = performance.now()) => {
       animationFrameId = requestAnimationFrame(animate);
-      const delta = clock.getDelta();
-      const elapsedTime = clock.getElapsedTime();
+      const delta = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+      const elapsedTime = (now - startTime) / 1000;
 
       // Subtle natural rotation when user is not dragging
       if (!isDragging) {

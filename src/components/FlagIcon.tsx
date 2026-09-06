@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 interface FlagIconProps {
   countryCode: 'KE' | 'EU' | 'GB' | 'US' | 'JP' | 'AE' | 'DE';
@@ -7,7 +7,8 @@ interface FlagIconProps {
 }
 
 export default function FlagIcon({ countryCode, className = '', size = 20 }: FlagIconProps) {
-  const clipId = `flag-clip-${countryCode}-${Math.random().toString(36).substring(2, 7)}`;
+  const uid = useId().replace(/:/g, '');
+  const clipId = `flag-clip-${countryCode}-${uid}`;
 
   return (
     <svg

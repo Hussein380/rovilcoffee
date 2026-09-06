@@ -206,15 +206,14 @@ export default function ContactQuote() {
                       onChange={(e) => setFormData({ ...formData, product: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-lg border border-[#ece3db] text-sm text-[#23150c] focus:outline-none focus:border-[#7a4727] bg-[#fbf9f6]"
                     >
-                      <option>Kenyan Arabica Coffee Grade AA</option>
-                      <option>Kenyan Arabica Coffee Grade AB</option>
-                      <option>Kenyan Arabica Coffee Grade PB (Peaberry)</option>
-                      <option>Kenyan Arabica Coffee Grade C</option>
-                      <option>Kenyan Arabica Coffee Grade MH</option>
-                      <option>Kenyan Purple Tea (TRFK 306)</option>
-                      <option>Black CTC Tea (BP1 / PF1 / PD)</option>
-                      <option>Kenyan Orthodox Whole-Leaf Tea</option>
-                      <option>Loose Leaf Specialty Tea</option>
+                      <option>ROVIL Branded Roasted Coffee (250g / 500g / 1kg)</option>
+                      <option>ROVIL Purple Tea Tins (100g Airtight Canister)</option>
+                      <option>ROVIL Cafe / Retail Cups &amp; Fresh Supply</option>
+                      <option>Bulk Green Coffee Grade AA (Containers / Pallets)</option>
+                      <option>Bulk Green Coffee Grade AB (Containers / Pallets)</option>
+                      <option>Bulk Green Coffee Grade PB (Peaberry)</option>
+                      <option>Bulk Commercial CTC Black Tea (BP1 / PF1)</option>
+                      <option>Bulk Specialty Purple Tea (TRFK 306)</option>
                     </select>
                   </div>
 
@@ -227,10 +226,11 @@ export default function ContactQuote() {
                       onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-lg border border-[#ece3db] text-sm text-[#23150c] focus:outline-none focus:border-[#7a4727] bg-[#fbf9f6]"
                     >
-                      <option>1 x 20ft Container (~19.2 Metric Tonnes / 320 Bags)</option>
+                      <option>Retail / Cafe Carton Order (10 – 200 Packs / Cups)</option>
+                      <option>Distributor Wholesale Pallet (500 – 2,000 Packs)</option>
+                      <option>1 x 20ft Container (~19.2 MT / 320 Bags Bulk)</option>
                       <option>2+ Containers (Commercial Bulk Supply)</option>
                       <option>Trial Commercial Pallet (10 – 50 Bags)</option>
-                      <option>Specialty Micro-lot Allocation</option>
                     </select>
                   </div>
                 </div>
