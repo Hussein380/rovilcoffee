@@ -11,6 +11,7 @@ interface ProductCard3DProps {
   isOwnerMode: boolean;
   onQuickView: (product: ProductItem) => void;
   onEdit: (product: ProductItem) => void;
+  previewMode?: boolean; // disables 3D tilt for admin preview panel
 }
 
 export default function ProductCard3D({
@@ -19,6 +20,7 @@ export default function ProductCard3D({
   isOwnerMode,
   onQuickView,
   onEdit,
+  previewMode = false,
 }: ProductCard3DProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -79,15 +81,15 @@ export default function ProductCard3D({
       style={{ perspective: 1200 }}
     >
       <motion.div
-        style={{
+        style={previewMode ? {} : {
           rotateX,
           rotateY,
           transformStyle: 'preserve-3d',
         }}
-        className={`relative flex flex-col justify-between h-full rounded-2xl bg-white border transition-all duration-300 shadow-sm ${
-          isHovered
-            ? 'shadow-xl border-[#3e2211]/40'
-            : 'border-stone-200 hover:border-stone-300'
+        className={`relative flex flex-col justify-between h-full rounded-2xl bg-white border transition-all duration-300 ${
+          isHovered && !previewMode
+            ? 'shadow-2xl shadow-stone-900/20 border-[#3e2211]/40'
+            : 'shadow-sm border-stone-200 hover:border-stone-300'
         } overflow-hidden`}
       >
         {/* Dynamic Glare Reflection Overlay */}
@@ -104,13 +106,23 @@ export default function ProductCard3D({
           className="relative w-full h-72 sm:h-80 bg-stone-900 overflow-hidden"
           style={{ transform: 'translateZ(30px)' }}
         >
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover object-center transform transition-transform duration-700 hover:scale-105"
-          />
+          {/* Use regular img in previewMode to support blob: URLs from FileReader */}
+          {previewMode ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={product.image}
+              alt={product.name}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+          ) : (
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover object-center transform transition-transform duration-700 hover:scale-105"
+            />
+          )}
 
           {/* Subtle Top & Bottom Image Gradients for Contrast */}
           <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-stone-950/40 pointer-events-none" />
@@ -204,7 +216,7 @@ export default function ProductCard3D({
             <div className="flex items-baseline justify-between">
               <div>
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 block">
-                  {isBulk ? 'Lot Export Price' : 'Retail Price'}
+                  {isBulk ? `Per ${product.unitWeight}` : 'Retail Price'}
                 </span>
                 <span className="text-2xl font-bold text-stone-950 tracking-tight">
                   {formattedRetailPrice}

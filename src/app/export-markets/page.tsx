@@ -38,6 +38,7 @@ interface MarketCard {
   days: string;
   topProducts: string;
   shippingLines: string;
+  incoterms: string;
   image: string;
 }
 
@@ -51,6 +52,7 @@ const MARKETS: MarketCard[] = [
     days: '21–26 Days',
     topProducts: 'Grade AA, Grade AB, Kenyan Purple Tea',
     shippingLines: 'Maersk, MSC, CMA CGM, Hapag-Lloyd',
+    incoterms: 'CIF Rotterdam / Hamburg (preferred) or FOB Mombasa',
     image: '/images/ports/rotterdam-europe.jpg',
   },
   {
@@ -62,6 +64,7 @@ const MARKETS: MarketCard[] = [
     days: '22–28 Days',
     topProducts: 'Black CTC Teas (BP1, PF1), Grade AA Coffee',
     shippingLines: 'MSC, Maersk, ONE Line',
+    incoterms: 'CIF London Gateway / Felixstowe or FOB Mombasa',
     image: '/images/ports/london-uk.jpg',
   },
   {
@@ -73,6 +76,7 @@ const MARKETS: MarketCard[] = [
     days: '28–35 Days',
     topProducts: 'Specialty Grade AA, Peaberry (PB), Micro-lots',
     shippingLines: 'Maersk, MSC, Hapag-Lloyd',
+    incoterms: 'FOB Mombasa (standard) — buyer arranges US freight',
     image: '/images/ports/newyork-usa.jpg',
   },
   {
@@ -84,6 +88,7 @@ const MARKETS: MarketCard[] = [
     days: '24–30 Days',
     topProducts: 'Specialty Grade AA, Peaberry, Orthodox Teas',
     shippingLines: 'ONE, Evergreen, PIL',
+    incoterms: 'CIF Yokohama / Busan or FOB Mombasa',
     image: '/images/ports/yokohama-japan.jpg',
   },
   {
@@ -95,6 +100,7 @@ const MARKETS: MarketCard[] = [
     days: '10–14 Days',
     topProducts: 'Commercial Arabica (AB, C, MH), CTC Black Tea',
     shippingLines: 'Emirates Shipping Line, MSC, DP World',
+    incoterms: 'FOB Mombasa or CIF Jebel Ali (shortest transit)',
     image: '/images/ports/jebelali-dubai.jpg',
   },
 ];
@@ -350,13 +356,14 @@ export default function ExportMarketsPage() {
                     </div>
                   </div>
 
-                  <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <span className="text-sm text-[#574c43]">
-                      Standard Terms: <strong className="text-[#23150c]">FOB Mombasa or CIF {selectedMarket.name}</strong>
-                    </span>
+                  <div className="pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-[#ece3db]">
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-[#7a4727] block">Incoterms 2020</span>
+                      <span className="text-sm font-semibold text-[#23150c]">{selectedMarket.incoterms}</span>
+                    </div>
                     <a
                       href="#quote-form"
-                      className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs"
+                      className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs shrink-0"
                     >
                       <span>Inquire for {selectedMarket.name} Rates</span>
                       <ArrowRight className="w-4 h-4 text-[#d89f68]" />

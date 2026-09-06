@@ -1,76 +1,66 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProductCard3D from '@/components/products/ProductCard3D';
 import ProductDetailDrawer from '@/components/products/ProductDetailDrawer';
-import ProductEditModal from '@/components/products/ProductEditModal';
 import { initialProductsCatalog } from '@/data/productsCatalog';
-import { ProductCategory, ProductItem } from '@/types/product';
+import { ProductItem } from '@/types/product';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Lock } from 'lucide-react';
 
-const CATEGORIES: { id: ProductCategory; label: string }[] = [
+const BASE_CATEGORIES = [
   { id: 'all', label: 'All Products' },
-  { id: 'branded-coffee', label: 'ROVIL Roasted Coffee' },
-  { id: 'branded-tea', label: 'ROVIL Specialty Tea' },
-  { id: 'cafe-cups', label: 'Cafe & Eco Cups' },
-  { id: 'bulk-coffee', label: 'Bulk Green Coffee Export' },
-  { id: 'bulk-tea', label: 'Bulk CTC Tea Export' },
+  { id: 'coffee', label: 'Kenyan Coffee' },
+  { id: 'tea', label: 'Specialty Tea' },
 ];
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<ProductItem[]>(initialProductsCatalog);
-  const [selectedCategory, setSelectedCategory] = useState<ProductCategory>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [currency, setCurrency] = useState<'USD' | 'KES'>('USD');
-  const [isOwnerMode, setIsOwnerMode] = useState(false);
-
-  // Modals state
+  // Quick view drawer state
   const [inspectProduct, setInspectProduct] = useState<ProductItem | null>(null);
-  const [editProduct, setEditProduct] = useState<ProductItem | null>(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  // Sync to localStorage for persistence across reloads
+  // Fetch live products from MongoDB API
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('rovil_products_catalog');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setProducts(parsed);
+    async function loadProducts() {
+      try {
+        const res = await fetch('/api/products');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setProducts(data);
+            return;
+          }
         }
+      } catch (e) {
+        console.warn('Could not fetch from /api/products, using initial catalog:', e);
       }
-    } catch (e) {
-      console.error('Failed to load saved products:', e);
+      setProducts(initialProductsCatalog);
     }
+    loadProducts();
   }, []);
 
-  const saveProductsState = (updatedList: ProductItem[]) => {
-    setProducts(updatedList);
-    try {
-      localStorage.setItem('rovil_products_catalog', JSON.stringify(updatedList));
-    } catch (e) {
-      console.error('Failed to persist products:', e);
-    }
-  };
+  // Dynamically compute category tabs to include any new coffee/tea/custom types added by admin
+  const categories = useMemo(() => {
+    const list = [...BASE_CATEGORIES];
+    const seen = new Set(list.map((c) => c.id));
 
-  const handleSaveProduct = (product: ProductItem) => {
-    const existingIndex = products.findIndex((p) => p.id === product.id);
-    let updated: ProductItem[];
-    if (existingIndex >= 0) {
-      updated = [...products];
-      updated[existingIndex] = product;
-    } else {
-      updated = [product, ...products];
+    for (const p of products) {
+      if (p.category && !seen.has(p.category)) {
+        seen.add(p.category);
+        list.push({
+          id: p.category,
+          label: p.categoryLabel || p.category,
+        });
+      }
     }
-    saveProductsState(updated);
-  };
-
-  const handleResetDefaults = () => {
-    if (confirm('Reset product catalog to default ROVIL items?')) {
-      saveProductsState(initialProductsCatalog);
-    }
-  };
+    return list;
+  }, [products]);
 
   // Filtered list
   const filteredProducts = useMemo(() => {
@@ -89,11 +79,15 @@ export default function ProductsPage() {
     });
   }, [products, selectedCategory, searchQuery]);
 
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   return (
     <div className="min-h-screen bg-white font-sans text-stone-900 selection:bg-[#3e2211] selection:text-white">
       <Navbar />
 
-      <main className="pt-24 pb-20">
+      <main className="pt-20 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Compact Top Header & Controls Bar */}
           <div className="pt-4 pb-6 border-b border-stone-200">
@@ -107,7 +101,7 @@ export default function ProductsPage() {
                 </p>
               </div>
 
-              {/* Right Controls: Currency Switcher & Owner Mode Toggle */}
+              {/* Right Controls: Currency Switcher & Admin Portal */}
               <div className="flex flex-wrap items-center gap-3">
                 {/* Currency Switcher */}
                 <div className="flex items-center gap-1 bg-stone-100 p-1 rounded-xl border border-stone-200">
@@ -134,50 +128,38 @@ export default function ProductsPage() {
                   </button>
                 </div>
 
-                {/* Owner Mode Switch */}
-                <button
-                  onClick={() => setIsOwnerMode(!isOwnerMode)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-                    isOwnerMode
-                      ? 'bg-[#23150c] text-white border-[#23150c] shadow-xs'
-                      : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
-                  }`}
+                {/* Direct Admin Access Button */}
+                <Link
+                  href="/admin"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#3e2211] hover:bg-[#23150c] text-white transition-all shadow-xs"
                 >
-                  <span>✏️</span>
-                  <span>Owner Edit Mode: {isOwnerMode ? 'ON' : 'OFF'}</span>
-                </button>
-
-                {isOwnerMode && (
-                  <button
-                    onClick={() => {
-                      setEditProduct(null);
-                      setIsEditModalOpen(true);
-                    }}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3e2211] text-white shadow-xs hover:bg-[#23150c] transition-all"
-                  >
-                    + Post Product
-                  </button>
-                )}
+                  <Lock className="w-3.5 h-3.5 text-[#d89f68]" />
+                  <span>Admin Portal</span>
+                </Link>
               </div>
             </div>
 
             {/* Filter Pills & Search */}
             <div className="mt-5 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-              {/* Category Pills */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat.id)}
-                    className={`whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
-                      selectedCategory === cat.id
-                        ? 'bg-[#23150c] text-white shadow-xs'
-                        : 'bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-200'
-                    }`}
-                  >
-                    {cat.label}
-                  </button>
-                ))}
+              {/* Category Pills — mobile fade on right edge indicates scroll */}
+              <div className="relative">
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0 scrollbar-none pr-8 lg:pr-0">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={`whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                        selectedCategory === cat.id
+                          ? 'bg-[#23150c] text-white shadow-xs'
+                          : 'bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-200'
+                      }`}
+                    >
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+                {/* Fade hint for mobile — hidden on lg */}
+                <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-white to-transparent pointer-events-none lg:hidden" />
               </div>
 
               {/* Search Box */}
@@ -216,78 +198,87 @@ export default function ProductsPage() {
             </div>
           </div>
 
-          {/* Results Count */}
+          {/* Framing sentence + results count */}
           <div className="py-3 flex items-center justify-between text-xs text-stone-500">
             <span>
               Showing <strong className="text-stone-800">{filteredProducts.length}</strong> items
               {selectedCategory !== 'all' && (
-                <> in <span className="text-stone-800 font-semibold">{CATEGORIES.find(c => c.id === selectedCategory)?.label}</span></>
+                <> in <span className="text-stone-800 font-semibold">{categories.find((c) => c.id === selectedCategory)?.label}</span></>
               )}
             </span>
             <span className="hidden sm:inline text-stone-400">
-              Interactive 3D Cards
+              Retail packs and bulk container lots — direct from Kenyan farms
             </span>
           </div>
 
-          {/* 3D Products Grid (Immediately Visible) */}
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-2">
-              {filteredProducts.map((product) => (
-                <ProductCard3D
-                  key={product.id}
-                  product={product}
-                  currency={currency}
-                  isOwnerMode={isOwnerMode}
-                  onQuickView={(p) => setInspectProduct(p)}
-                  onEdit={(p) => {
-                    setEditProduct(p);
-                    setIsEditModalOpen(true);
-                  }}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="py-20 text-center bg-stone-50 rounded-3xl border border-stone-200">
-              <h3 className="text-base font-bold text-stone-900">No matching products found</h3>
-              <p className="text-xs text-stone-500 mt-1 max-w-sm mx-auto">
-                Try searching for a different term or clearing your category filters.
-              </p>
-              <button
-                onClick={() => {
-                  setSelectedCategory('all');
-                  setSearchQuery('');
-                }}
-                className="mt-4 px-4 py-2 rounded-xl bg-[#23150c] text-white text-xs font-semibold"
+          {/* 3D Products Grid */}
+          <AnimatePresence mode="wait">
+            {filteredProducts.length > 0 ? (
+              <motion.div
+                key={selectedCategory + searchQuery}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-2"
               >
-                Reset All Filters
-              </button>
-            </div>
-          )}
+                {filteredProducts.map((product, i) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: i * 0.05 }}
+                  >
+                    <ProductCard3D
+                      product={product}
+                      currency={currency}
+                      isOwnerMode={false}
+                      onQuickView={(p) => setInspectProduct(p)}
+                      onEdit={() => {}}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="py-20 text-center bg-stone-50 rounded-3xl border border-stone-200"
+              >
+                <h3 className="text-base font-bold text-stone-900">No matching products found</h3>
+                <p className="text-xs text-stone-500 mt-1 max-w-sm mx-auto">
+                  Try searching for a different term or clearing your category filters.
+                </p>
+                <button
+                  onClick={() => {
+                    setSelectedCategory('all');
+                    setSearchQuery('');
+                  }}
+                  className="mt-4 px-4 py-2 rounded-xl bg-[#23150c] text-white text-xs font-semibold"
+                >
+                  Reset All Filters
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </main>
+
+      {/* Back to Top button */}
+      <button
+        onClick={scrollToTop}
+        aria-label="Back to top"
+        className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-[#23150c] text-white flex items-center justify-center shadow-lg hover:bg-[#3e2211] transition-all hover:scale-110"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
+        </svg>
+      </button>
 
       {/* Product Inspect / Specs Modal */}
       <ProductDetailDrawer
         product={inspectProduct}
         currency={currency}
-        isOwnerMode={isOwnerMode}
+        isOwnerMode={false}
         onClose={() => setInspectProduct(null)}
-        onEdit={(p) => {
-          setInspectProduct(null);
-          setEditProduct(p);
-          setIsEditModalOpen(true);
-        }}
-      />
-
-      {/* Owner Post / Edit Modal */}
-      <ProductEditModal
-        isOpen={isEditModalOpen}
-        productToEdit={editProduct}
-        onClose={() => {
-          setIsEditModalOpen(false);
-          setEditProduct(null);
-        }}
-        onSave={handleSaveProduct}
+        onEdit={() => {}}
       />
 
       <Footer />

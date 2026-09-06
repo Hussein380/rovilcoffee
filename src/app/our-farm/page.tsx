@@ -270,6 +270,64 @@ export default function OurFarmPage() {
         </div>
       </section>
 
+      {/* 4b. Harvest Calendar & Cooperative Network */}
+      <section className="py-14 bg-[#23150c] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10 space-y-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#d89f68]">
+              Seasonal Calendar
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              Kenya's Two Harvest Windows — When We Source
+            </h2>
+            <p className="text-sm text-white/70 max-w-xl mx-auto">
+              Kenya benefits from two rainy seasons, producing two distinct harvests. All Rovil green coffee is sourced exclusively during peak ripeness in each window.
+            </p>
+          </div>
+
+          {/* Calendar Strip */}
+          <div className="grid grid-cols-12 gap-1 text-center text-[10px] font-semibold mb-6">
+            {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map((m, i) => {
+              const isMainCrop = i >= 9 || i <= 1; // Oct–Feb
+              const isFlyingCrop = i >= 4 && i <= 6; // May–Jul
+              return (
+                <div key={m} className={`py-3 rounded-lg ${isMainCrop ? 'bg-[#b57a44] text-white' : isFlyingCrop ? 'bg-[#b57a44]/40 text-white/80' : 'bg-white/5 text-white/30'}`}>
+                  <div>{m}</div>
+                  {isMainCrop && <div className="text-[9px] mt-0.5 opacity-80">Main</div>}
+                  {isFlyingCrop && <div className="text-[9px] mt-0.5 opacity-70">Fly</div>}
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex items-center justify-center gap-6 text-xs text-white/70 mb-10">
+            <span className="flex items-center gap-2"><span className="w-4 h-2 rounded bg-[#b57a44] inline-block" /> Main Crop (Oct–Feb)</span>
+            <span className="flex items-center gap-2"><span className="w-4 h-2 rounded bg-[#b57a44]/40 inline-block" /> Fly Crop (May–Jul)</span>
+          </div>
+
+          {/* Altitude & Cooperative Data */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { region: 'Nyeri', altitude: '1,700–2,100m', type: 'AA / AB', cooperatives: 'Othaya FCS, Gikanda FCS, Tegu FCS', notes: 'Bright acidity, blackcurrant & tomato' },
+              { region: 'Kirinyaga', altitude: '1,600–1,900m', type: 'AA / AB', cooperatives: 'Baragwi FCS, Kibirigwi FCS', notes: 'Floral jasmine, plum, clean cup' },
+              { region: 'Murang\'a', altitude: '1,500–1,800m', type: 'AB / PB', cooperatives: 'Gitugi FCS, Gatomboya FCS', notes: 'Stone fruit, medium body, caramel' },
+              { region: 'Kericho', altitude: '2,100–2,400m', type: 'CTC Tea / Purple Tea', cooperatives: 'TRFK Research Station supply, Direct smallholders', notes: 'Full-bodied CTC, antioxidant-rich purple leaf' },
+            ].map((d) => (
+              <div key={d.region} className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-extrabold text-white text-base">{d.region}</span>
+                  <span className="text-xs font-bold text-[#d89f68] bg-[#d89f68]/15 px-2.5 py-0.5 rounded-full">{d.type}</span>
+                </div>
+                <div className="text-xs text-white/60 space-y-1">
+                  <div>📍 <span className="text-white/80">{d.altitude} ASL</span></div>
+                  <div>🤝 <span className="text-white/80">{d.cooperatives}</span></div>
+                  <div>☕ <span className="text-white/80 italic">{d.notes}</span></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 5. Authentic Crop Photography Gallery */}
       <section className="py-16 lg:py-24 bg-[#faf8f5] border-b border-[#ece3db]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">

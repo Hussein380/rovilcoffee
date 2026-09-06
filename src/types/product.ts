@@ -1,15 +1,9 @@
-export type ProductCategory = 
-  | 'all'
-  | 'branded-coffee' 
-  | 'branded-tea' 
-  | 'cafe-cups' 
-  | 'bulk-coffee' 
-  | 'bulk-tea';
+export type ProductCategory = string;
 
 export interface ProductItem {
   id: string;
   name: string;
-  category: 'branded-coffee' | 'branded-tea' | 'cafe-cups' | 'bulk-coffee' | 'bulk-tea';
+  category: string;
   categoryLabel: string;
   tagline: string;
   description: string;

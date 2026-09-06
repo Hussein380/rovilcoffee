@@ -1,4 +1,4 @@
-import React from 'react';
+import Link from 'next/link';
 import { ArrowRight, ShieldCheck, Check, Package, Coffee } from 'lucide-react';
 import Real3DGlobeWrapper from './Real3DGlobeWrapper';
 import FloatingCoffeeBeans from './FloatingCoffeeBeans';
@@ -38,20 +38,19 @@ export default function Hero() {
 
             {/* Refined Action Buttons */}
             <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
-              <a
-                href="#contact"
+              <Link
+                href="/products"
                 className="inline-flex items-center justify-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-7 py-3.5 rounded-xl text-sm font-semibold transition-all shadow-sm text-center"
               >
-                <span>Request a Quote / Order</span>
+                <span>View Products Catalog</span>
                 <ArrowRight className="w-4 h-4" />
-              </a>
+              </Link>
 
               <a
-                href="#branded-retail"
+                href="#contact"
                 className="inline-flex items-center justify-center gap-2 bg-[#fbf9f6] hover:bg-[#f4ece4] text-[#23150c] px-6 py-3.5 rounded-xl text-sm font-semibold transition-all border border-[#d8c2b0] text-center"
               >
-                <Package className="w-4 h-4 text-[#7a4727]" />
-                <span>Explore ROVIL Packaged Line</span>
+                <span>Request a Quote</span>
               </a>
             </div>
 

@@ -83,21 +83,29 @@ export default function ContactQuote() {
           {/* Right: The Simple B2B Quote Form */}
           <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-2xl border border-[#ece3db] shadow-xs">
             {submitted ? (
-              <div className="py-12 text-center space-y-4">
-                <div className="w-14 h-14 rounded-full bg-[#f4ece4] text-[#3e2211] flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-8 h-8 text-[#7a4727]" />
+              <div className="py-14 flex flex-col items-center text-center space-y-4 animate-fadeIn">
+                {/* Animated tick circle */}
+                <div className="relative w-20 h-20">
+                  <div className="absolute inset-0 rounded-full bg-[#f4ece4] animate-ping opacity-40" />
+                  <div className="relative w-20 h-20 rounded-full bg-[#f4ece4] flex items-center justify-center shadow-sm">
+                    <CheckCircle2 className="w-10 h-10 text-[#7a4727]" />
+                  </div>
                 </div>
                 <h3 className="text-2xl font-bold text-[#23150c]">
-                  Enquiry Received
+                  Enquiry Sent Successfully
                 </h3>
-                <p className="text-sm text-[#574c43] max-w-md mx-auto">
-                  Thank you. Our Nairobi export team has received your request and will review your specifications and contact you shortly.
+                <p className="text-sm text-[#574c43] max-w-sm mx-auto leading-relaxed">
+                  Our Nairobi export desk has received your request. We typically respond within <strong>1–2 business days</strong> with a commercial quotation.
                 </p>
+                <div className="pt-2 border-t border-[#ece3db] w-full max-w-xs text-xs text-[#574c43] space-y-1">
+                  <div>📞 Urgent? Call: <strong>+254 721 487 948</strong></div>
+                  <div>📧 Or email: <strong>info@rovil.co.ke</strong></div>
+                </div>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-4 text-xs font-semibold text-[#3e2211] hover:underline"
+                  className="mt-2 text-xs font-semibold text-[#3e2211] hover:underline underline-offset-2"
                 >
-                  Send another inquiry
+                  ← Submit another enquiry
                 </button>
               </div>
             ) : (

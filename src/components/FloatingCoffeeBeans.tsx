@@ -2,87 +2,113 @@
 
 import React from 'react';
 
-interface BeanData {
+interface BeanConfig {
   id: number;
-  x: number; // percentage horizontal position [0..100]
+  x: number; // percentage horizontal position strictly in middle corridor [48..54]
   size: number; // width in px
   duration: number; // animation duration in seconds
-  delay: number; // negative delay in seconds for immediate scatter
-  blur: number; // blur in px for depth
-  opacity: number; // visible coffee bean opacity
+  delay: number; // negative delay in seconds for immediate continuous cascade
+  opacity: number; // crisp visibility
   animationClass: 'animate-bean-slow' | 'animate-bean-medium' | 'animate-bean-fast';
 }
 
-// Roasted coffee beans raining down gently on the editorial side and background margins
-const BEANS: BeanData[] = [
-  { id: 1, x: 2, size: 28, duration: 11, delay: -2, blur: 0, opacity: 0.55, animationClass: 'animate-bean-medium' },
-  { id: 2, x: 7, size: 20, duration: 15, delay: -9, blur: 1.5, opacity: 0.38, animationClass: 'animate-bean-slow' },
-  { id: 3, x: 12, size: 34, duration: 9, delay: -5, blur: 0, opacity: 0.60, animationClass: 'animate-bean-fast' },
-  { id: 4, x: 18, size: 22, duration: 13, delay: -11, blur: 1.0, opacity: 0.45, animationClass: 'animate-bean-medium' },
-  { id: 5, x: 23, size: 30, duration: 10, delay: -4, blur: 0, opacity: 0.50, animationClass: 'animate-bean-fast' },
-  { id: 6, x: 28, size: 20, duration: 16, delay: -8, blur: 2.0, opacity: 0.35, animationClass: 'animate-bean-slow' },
-  { id: 7, x: 33, size: 36, duration: 9, delay: -1, blur: 0, opacity: 0.55, animationClass: 'animate-bean-fast' },
-  { id: 8, x: 38, size: 24, duration: 14, delay: -7, blur: 1.2, opacity: 0.40, animationClass: 'animate-bean-medium' },
-  { id: 9, x: 44, size: 28, duration: 12, delay: -3, blur: 0.5, opacity: 0.50, animationClass: 'animate-bean-medium' },
-  { id: 10, x: 48, size: 18, duration: 17, delay: -13, blur: 2.5, opacity: 0.30, animationClass: 'animate-bean-slow' },
-  { id: 11, x: 5, size: 32, duration: 10, delay: -6, blur: 0, opacity: 0.58, animationClass: 'animate-bean-fast' },
-  { id: 12, x: 15, size: 22, duration: 13, delay: -10, blur: 1.0, opacity: 0.42, animationClass: 'animate-bean-medium' },
-  { id: 13, x: 26, size: 34, duration: 8.5, delay: -2.5, blur: 0, opacity: 0.55, animationClass: 'animate-bean-fast' },
-  { id: 14, x: 36, size: 20, duration: 15, delay: -12, blur: 1.8, opacity: 0.35, animationClass: 'animate-bean-slow' },
-  { id: 15, x: 42, size: 30, duration: 11, delay: -5.5, blur: 0.5, opacity: 0.48, animationClass: 'animate-bean-medium' },
-  { id: 16, x: 96, size: 24, duration: 14, delay: -8.5, blur: 1.2, opacity: 0.38, animationClass: 'animate-bean-slow' },
-  { id: 17, x: 98, size: 32, duration: 9.5, delay: -1.5, blur: 0, opacity: 0.45, animationClass: 'animate-bean-fast' },
+// 28 crisp roasted coffee beans cascading strictly in the middle whitespace between text and 3D globe
+const MIDDLE_CORRIDOR_BEANS: BeanConfig[] = [
+  { id: 1,  x: 48.0, size: 30, duration: 10.5, delay: -1.8, opacity: 0.90, animationClass: 'animate-bean-fast' },
+  { id: 2,  x: 49.2, size: 22, duration: 14.2, delay: -8.5, opacity: 0.80, animationClass: 'animate-bean-slow' },
+  { id: 3,  x: 50.5, size: 34, duration: 9.0,  delay: -4.2, opacity: 0.94, animationClass: 'animate-bean-fast' },
+  { id: 4,  x: 51.8, size: 24, duration: 12.8, delay: -11.0, opacity: 0.84, animationClass: 'animate-bean-medium' },
+  { id: 5,  x: 53.2, size: 28, duration: 11.2, delay: -3.4, opacity: 0.88, animationClass: 'animate-bean-medium' },
+  { id: 6,  x: 54.2, size: 20, duration: 15.5, delay: -7.6, opacity: 0.76, animationClass: 'animate-bean-slow' },
+
+  { id: 7,  x: 48.6, size: 36, duration: 8.8,  delay: -5.9, opacity: 0.95, animationClass: 'animate-bean-fast' },
+  { id: 8,  x: 49.8, size: 24, duration: 13.5, delay: -13.2, opacity: 0.82, animationClass: 'animate-bean-medium' },
+  { id: 9,  x: 51.0, size: 32, duration: 9.8,  delay: -2.7, opacity: 0.92, animationClass: 'animate-bean-fast' },
+  { id: 10, x: 52.4, size: 22, duration: 16.0, delay: -9.8, opacity: 0.78, animationClass: 'animate-bean-slow' },
+  { id: 11, x: 53.8, size: 30, duration: 10.8, delay: -6.4, opacity: 0.88, animationClass: 'animate-bean-fast' },
+
+  { id: 12, x: 48.3, size: 22, duration: 14.8, delay: -10.4, opacity: 0.80, animationClass: 'animate-bean-slow' },
+  { id: 13, x: 49.5, size: 32, duration: 9.4,  delay: -3.8, opacity: 0.92, animationClass: 'animate-bean-fast' },
+  { id: 14, x: 50.8, size: 26, duration: 12.2, delay: -7.1, opacity: 0.86, animationClass: 'animate-bean-medium' },
+  { id: 15, x: 52.0, size: 36, duration: 8.5,  delay: -1.2, opacity: 0.95, animationClass: 'animate-bean-fast' },
+  { id: 16, x: 53.5, size: 20, duration: 15.2, delay: -12.6, opacity: 0.75, animationClass: 'animate-bean-slow' },
+
+  { id: 17, x: 48.8, size: 28, duration: 11.6, delay: -8.9, opacity: 0.86, animationClass: 'animate-bean-medium' },
+  { id: 18, x: 50.0, size: 34, duration: 9.2,  delay: -4.9, opacity: 0.94, animationClass: 'animate-bean-fast' },
+  { id: 19, x: 51.4, size: 22, duration: 13.9, delay: -14.0, opacity: 0.80, animationClass: 'animate-bean-slow' },
+  { id: 20, x: 52.8, size: 30, duration: 10.2, delay: -2.3, opacity: 0.90, animationClass: 'animate-bean-fast' },
+  { id: 21, x: 54.0, size: 24, duration: 14.5, delay: -6.0, opacity: 0.82, animationClass: 'animate-bean-medium' },
+
+  { id: 22, x: 48.5, size: 32, duration: 10.0, delay: -6.8, opacity: 0.90, animationClass: 'animate-bean-fast' },
+  { id: 23, x: 49.6, size: 20, duration: 15.8, delay: -11.5, opacity: 0.76, animationClass: 'animate-bean-slow' },
+  { id: 24, x: 51.0, size: 36, duration: 8.7,  delay: -3.0, opacity: 0.95, animationClass: 'animate-bean-fast' },
+  { id: 25, x: 52.2, size: 26, duration: 12.5, delay: -9.2, opacity: 0.84, animationClass: 'animate-bean-medium' },
+  { id: 26, x: 53.4, size: 32, duration: 9.6,  delay: -5.4, opacity: 0.92, animationClass: 'animate-bean-fast' },
+  { id: 27, x: 50.2, size: 24, duration: 13.2, delay: -1.5, opacity: 0.82, animationClass: 'animate-bean-medium' },
+  { id: 28, x: 51.6, size: 28, duration: 11.0, delay: -7.8, opacity: 0.88, animationClass: 'animate-bean-medium' },
 ];
 
-function RichCoffeeBeanSVG({ size }: { size: number }) {
+function ClearRoastedCoffeeBeanSVG({ size }: { size: number }) {
   const height = Math.round(size * 1.36);
   return (
     <svg
       width={size}
       height={height}
-      viewBox="0 0 40 54"
+      viewBox="0 0 44 60"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="drop-shadow-md"
+      className="filter drop-shadow-[0_4px_6px_rgba(25,10,4,0.45)]"
     >
-      {/* Outer Roasted Coffee Bean Body (Deep rich espresso) */}
+      {/* Outer Roasted Bean Body with Deep Dark Espresso Gradient */}
       <path
-        d="M20 2 C32 2 39 13 39 27 C39 41 32 52 20 52 C8 52 1 41 1 27 C1 13 8 2 20 2 Z"
-        fill="#2e170c"
+        d="M22 2 C35 2 42 14 42 30 C42 46 35 58 22 58 C9 58 2 46 2 30 C2 14 9 2 22 2 Z"
+        fill="url(#coffeeDarkRoastGradient)"
       />
 
-      {/* Warm Roasted Mahogany Highlight */}
+      {/* Warm Roasted Mahogany Inner Glow */}
       <path
-        d="M20 4 C30 4 36.5 14 36.5 27 C36.5 40 30 49.5 20 49.5 C10 49.5 3.5 40 3.5 27 C3.5 14 10 4 20 4 Z"
-        fill="#452313"
+        d="M22 4 C33 4 39.5 15 39.5 30 C39.5 45 33 55.5 22 55.5 C11 55.5 4.5 45 4.5 30 C4.5 15 11 4 22 4 Z"
+        fill="url(#coffeeInnerRoastGradient)"
+        opacity="0.9"
       />
 
-      {/* Surface Gloss Sheen */}
+      {/* Rich Natural Roasted Oil Gloss Sheen */}
       <ellipse
         cx="14"
-        cy="20"
+        cy="22"
         rx="7"
-        ry="13"
-        fill="#66361d"
-        opacity="0.55"
-        transform="rotate(-15 14 20)"
+        ry="14"
+        fill="#8a4721"
+        opacity="0.6"
+        transform="rotate(-18 14 22)"
       />
 
-      {/* Signature Arabica S-Curved Furrow / Crease */}
+      {/* Crisp Specular Gloss Reflection Point */}
+      <ellipse
+        cx="13"
+        cy="19"
+        rx="3.2"
+        ry="7"
+        fill="#f3c89d"
+        opacity="0.5"
+        transform="rotate(-16 13 19)"
+      />
+
+      {/* Deep Center Arabica Crease (Pure dark roast furrow) */}
       <path
-        d="M20 5 C17 16 23.5 24 18 36 C15.5 43 19.5 49 20 49"
-        stroke="#120703"
-        strokeWidth="3.6"
+        d="M22 6 C17.5 18 26.5 27 20 41 C16.5 48 21.5 54 22 54"
+        stroke="#0d0402"
+        strokeWidth="3.8"
         strokeLinecap="round"
       />
 
-      {/* Warm Golden Roast Edge on Crease */}
+      {/* Warm Golden Roasted Edge along Crease */}
       <path
-        d="M21 7 C18.5 17 24.5 24.5 19.5 36 C17 43 21 47 21 47"
-        stroke="#8f512a"
-        strokeWidth="1.2"
+        d="M23.5 8 C19.5 19 28 28 21.8 41 C18.5 48 23 52 23 52"
+        stroke="#a2572b"
+        strokeWidth="1.3"
         strokeLinecap="round"
-        strokeOpacity="0.85"
+        opacity="0.9"
       />
     </svg>
   );
@@ -91,28 +117,43 @@ function RichCoffeeBeanSVG({ size }: { size: number }) {
 export default function FloatingCoffeeBeans() {
   return (
     <div
-      className="absolute inset-0 pointer-events-none overflow-hidden select-none -z-0"
+      className="hidden lg:block absolute inset-0 pointer-events-none overflow-hidden select-none -z-0"
       aria-hidden="true"
     >
-      {BEANS.map((b) => (
+      {/* Shared Global SVG Gradients for Crisp Contrast and Performance */}
+      <svg width="0" height="0" className="absolute" aria-hidden="true">
+        <defs>
+          <radialGradient id="coffeeDarkRoastGradient" cx="30%" cy="28%" r="70%">
+            <stop offset="0%" stopColor="#542913" />
+            <stop offset="40%" stopColor="#35180a" />
+            <stop offset="80%" stopColor="#1e0c05" />
+            <stop offset="100%" stopColor="#100502" />
+          </radialGradient>
+
+          <linearGradient id="coffeeInnerRoastGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#4a220f" />
+            <stop offset="50%" stopColor="#2c1408" />
+            <stop offset="100%" stopColor="#160803" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      {/* Render 28 rich coffee beans cascading strictly in the middle corridor */}
+      {MIDDLE_CORRIDOR_BEANS.map((b) => (
         <div
           key={b.id}
           className={`absolute ${b.animationClass} will-change-transform`}
           style={{
             left: `${b.x}%`,
             top: 0,
-            filter: b.blur > 0 ? `blur(${b.blur}px)` : 'none',
             opacity: b.opacity,
             animationDuration: `${b.duration}s`,
             animationDelay: `${b.delay}s`,
           }}
         >
-          <RichCoffeeBeanSVG size={b.size} />
+          <ClearRoastedCoffeeBeanSVG size={b.size} />
         </div>
       ))}
-
-      {/* Gentle readability shield over headline and copy */}
-      <div className="absolute inset-y-0 left-0 w-full lg:w-1/2 bg-gradient-to-r from-white/80 via-white/40 to-transparent pointer-events-none" />
     </div>
   );
 }

@@ -53,10 +53,11 @@ export default function HeroSection() {
               </a>
 
               <a
-                href="#products"
+                href="/products"
                 className="outline-gold-button px-6 py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 text-center"
               >
-                <span>Explore Products & Grades</span>
+                <span>Browse Our Products</span>
+                <ArrowRight className="w-4 h-4" />
               </a>
             </div>
 

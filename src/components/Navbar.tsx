@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Menu, X, ArrowRight, ShieldCheck, Lock } from 'lucide-react';
 
 const MENU_ITEMS = [
   { label: 'Home', href: '/#home' },
@@ -23,30 +23,26 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-[#b57a44]" />
-            <span className="font-medium text-[#f4ece4]">Licensed Coffee Exporter | Kenya</span>
-            <span className="hidden md:inline text-white/30">•</span>
-            <span className="hidden md:inline text-white/80">Commercial Arabica &amp; Tea Supply</span>
+            <span className="font-medium tracking-wide">
+              Official Kenya Coffee &amp; Tea Board Licensed Exporters
+            </span>
           </div>
-          <div className="flex items-center gap-4 text-white/85 text-xs">
-            <span>Nairobi HQ: +254 721 487 948</span>
-            <span>•</span>
-            <a href="mailto:info@rovil.co.ke" className="hover:text-white underline">
-              info@rovil.co.ke
-            </a>
+          <div className="text-[#d8cbbe] text-[11px] hidden md:block">
+            Direct Port Dispatch: Mombasa Port &bull; Worldwide Air &amp; Ocean Freight
           </div>
         </div>
       </div>
 
-      {/* Main Navigation Bar */}
+      {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/#home" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-[#3e2211] flex items-center justify-center text-white font-bold text-xl shadow-xs">
-              R
+          {/* Brand Logo & Name */}
+          <Link href="/" className="flex items-center gap-3.5 group">
+            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#3e2211] via-[#23150c] to-[#120a06] border border-[#b57a44]/30 flex items-center justify-center shadow-md shadow-[#23150c]/15 group-hover:scale-105 transition-all duration-300">
+              <span className="text-white font-serif font-black text-xl tracking-tight">R</span>
             </div>
-            <div>
-              <span className="text-2xl font-bold tracking-tight text-[#23150c] block leading-none">
+            <div className="flex flex-col">
+              <span className="text-2xl font-serif font-black tracking-tight text-[#23150c] group-hover:text-[#7a4727] transition-colors leading-none">
                 ROVIL
               </span>
               <span className="text-xs font-semibold tracking-wide text-[#7a4727] uppercase block mt-1">
@@ -68,11 +64,23 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Desktop CTA Button */}
-          <div className="hidden sm:flex items-center gap-4">
+          {/* Desktop CTA & Admin Entrance */}
+          <div className="hidden sm:flex items-center gap-2.5">
+            <Link
+              href="/admin"
+              className="w-10 h-10 rounded-xl border border-[#e4d7ca] bg-[#f9f6f2] hover:bg-[#f1e9df] hover:border-[#b57a44]/60 flex items-center justify-center text-[#5c3a21] hover:text-[#23150c] transition-all duration-200 group relative shadow-xs"
+              title="Staff &amp; Admin Portal"
+              aria-label="Admin Portal"
+            >
+              <Lock className="w-4 h-4 text-[#8a5732] group-hover:text-[#23150c] transition-colors" />
+              <span className="pointer-events-none absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#23150c] px-2.5 py-1 text-[11px] font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-50">
+                Staff Portal
+              </span>
+            </Link>
+
             <Link
               href="/#contact"
-              className="inline-flex items-center gap-2 bg-[#3e2211] hover:bg-[#23150c] text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm"
+              className="inline-flex items-center gap-2 bg-[#3e2211] hover:bg-[#23150c] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm"
             >
               <span>Request a Quote</span>
               <ArrowRight className="w-4 h-4" />
@@ -103,7 +111,15 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
-          <div className="pt-3">
+          <div className="pt-3 flex flex-col gap-2">
+            <Link
+              href="/admin"
+              onClick={() => setMobileOpen(false)}
+              className="w-full text-center flex items-center justify-center gap-2 border border-[#e4d7ca] bg-[#f9f6f2] text-[#5c3a21] py-2.5 rounded-xl text-xs font-semibold hover:bg-[#f1e9df] transition-all"
+            >
+              <Lock className="w-3.5 h-3.5 text-[#8a5732]" />
+              <span>Staff Portal</span>
+            </Link>
             <Link
               href="/#contact"
               onClick={() => setMobileOpen(false)}
