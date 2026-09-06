@@ -11,8 +11,10 @@ export default function ContactQuote() {
     country: '',
     email: '',
     phone: '',
-    product: 'Kenyan Arabica Coffee (Grade AA / AB)',
-    quantity: '1 Full Container Load (20ft FCL / 19.2 MT)',
+    product: 'ROVIL Single Origin Arabica Grade AA',
+    customProduct: '',
+    quantity: 'Retail / Cafe Carton Order (10 – 200 Packs / Cups)',
+    customQuantity: '',
     destinationPort: '',
     message: '',
   });
@@ -214,15 +216,28 @@ export default function ContactQuote() {
                       onChange={(e) => setFormData({ ...formData, product: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-lg border border-[#ece3db] text-sm text-[#23150c] focus:outline-none focus:border-[#7a4727] bg-[#fbf9f6]"
                     >
-                      <option>ROVIL Branded Roasted Coffee (250g / 500g / 1kg)</option>
-                      <option>ROVIL Purple Tea Tins (100g Airtight Canister)</option>
-                      <option>ROVIL Cafe / Retail Cups &amp; Fresh Supply</option>
-                      <option>Bulk Green Coffee Grade AA (Containers / Pallets)</option>
-                      <option>Bulk Green Coffee Grade AB (Containers / Pallets)</option>
-                      <option>Bulk Green Coffee Grade PB (Peaberry)</option>
-                      <option>Bulk Commercial CTC Black Tea (BP1 / PF1)</option>
-                      <option>Bulk Specialty Purple Tea (TRFK 306)</option>
+                      <option value="ROVIL Single Origin Arabica Grade AA">ROVIL Single Origin Arabica Grade AA (Roasted)</option>
+                      <option value="ROVIL Mount Kenya Royal Purple & CTC Black Tea">ROVIL Mount Kenya Royal Purple &amp; CTC Black Tea</option>
+                      <option value="Bulk Green Coffee Grade AA (Containers / Pallets)">Bulk Green Coffee Grade AA (Containers / Pallets)</option>
+                      <option value="Bulk Green Coffee Grade AB (Containers / Pallets)">Bulk Green Coffee Grade AB (Containers / Pallets)</option>
+                      <option value="Bulk Green Coffee Grade PB (Peaberry)">Bulk Green Coffee Grade PB (Peaberry)</option>
+                      <option value="Bulk Commercial CTC Black Tea (BP1 / PF1)">Bulk Commercial CTC Black Tea (BP1 / PF1)</option>
+                      <option value="Bulk Specialty Purple Tea (TRFK 306)">Bulk Specialty Purple Tea (TRFK 306)</option>
+                      <option value="other">✏️ Other / Custom Product (Specify below)</option>
                     </select>
+
+                    {formData.product === 'other' && (
+                      <div className="mt-2 animate-fadeIn">
+                        <input
+                          type="text"
+                          required
+                          placeholder="Type the specific coffee/tea or custom product you need..."
+                          value={formData.customProduct}
+                          onChange={(e) => setFormData({ ...formData, customProduct: e.target.value })}
+                          className="w-full px-3.5 py-2 rounded-lg border border-[#b57a44] text-xs sm:text-sm text-[#23150c] focus:outline-none focus:ring-1 focus:ring-[#7a4727] bg-white shadow-xs"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div>
@@ -234,12 +249,26 @@ export default function ContactQuote() {
                       onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-lg border border-[#ece3db] text-sm text-[#23150c] focus:outline-none focus:border-[#7a4727] bg-[#fbf9f6]"
                     >
-                      <option>Retail / Cafe Carton Order (10 – 200 Packs / Cups)</option>
-                      <option>Distributor Wholesale Pallet (500 – 2,000 Packs)</option>
-                      <option>1 x 20ft Container (~19.2 MT / 320 Bags Bulk)</option>
-                      <option>2+ Containers (Commercial Bulk Supply)</option>
-                      <option>Trial Commercial Pallet (10 – 50 Bags)</option>
+                      <option value="Retail / Cafe Carton Order (10 – 200 Packs / Cups)">Retail / Cafe Carton Order (10 – 200 Packs / Cups)</option>
+                      <option value="Distributor Wholesale Pallet (500 – 2,000 Packs)">Distributor Wholesale Pallet (500 – 2,000 Packs)</option>
+                      <option value="1 x 20ft Container (~19.2 MT / 320 Bags Bulk)">1 x 20ft Container (~19.2 MT / 320 Bags Bulk)</option>
+                      <option value="2+ Containers (Commercial Bulk Supply)">2+ Containers (Commercial Bulk Supply)</option>
+                      <option value="Trial Commercial Pallet (10 – 50 Bags)">Trial Commercial Pallet (10 – 50 Bags)</option>
+                      <option value="other">✏️ Other / Custom Quantity (Specify below)</option>
                     </select>
+
+                    {formData.quantity === 'other' && (
+                      <div className="mt-2 animate-fadeIn">
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. 50 Cartons, 500kg sample, customized volume..."
+                          value={formData.customQuantity}
+                          onChange={(e) => setFormData({ ...formData, customQuantity: e.target.value })}
+                          className="w-full px-3.5 py-2 rounded-lg border border-[#b57a44] text-xs sm:text-sm text-[#23150c] focus:outline-none focus:ring-1 focus:ring-[#7a4727] bg-white shadow-xs"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
 
