@@ -76,7 +76,7 @@ const TRADE_ROUTES: TradeRoute[] = [
 
 // Kenya Center (Equator, East Africa)
 const KENYA = { lat: -0.2, lon: 36.8 };
-const GLOBE_RADIUS = 6.6;
+const GLOBE_RADIUS = 5.4;
 
 function latLonToVector3(lat: number, lon: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -133,12 +133,12 @@ export default function Real3DGlobe() {
     const container = containerRef.current;
     if (!container) return;
 
-    const width = container.clientWidth || 460;
-    const height = container.clientHeight || 380;
+    const width = container.clientWidth || 380;
+    const height = container.clientHeight || 300;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 1000);
-    camera.position.set(0, 1.2, 22);
+    const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 1000);
+    camera.position.set(0, 0.8, 22);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setSize(width, height);
@@ -533,10 +533,10 @@ export default function Real3DGlobe() {
   }, []);
 
   return (
-    <div className="relative w-full flex flex-col items-center select-none">
+    <div className="relative w-full max-w-[380px] sm:max-w-[420px] mx-auto flex flex-col items-center select-none">
       
       {/* 3D Canvas with Origin & Destination Indicator */}
-      <div className="relative w-full h-[300px] sm:h-[350px] flex items-center justify-center">
+      <div className="relative w-full h-[250px] sm:h-[280px] lg:h-[300px] flex items-center justify-center">
         <div
           ref={containerRef}
           className="w-full h-full cursor-grab active:cursor-grabbing relative z-10"
@@ -544,20 +544,20 @@ export default function Real3DGlobe() {
         />
 
         {/* Soft Ambient Depth Shadow */}
-        <div className="absolute bottom-1 w-[55%] h-6 bg-[#23150c]/8 rounded-full filter blur-lg pointer-events-none -z-10" />
+        <div className="absolute bottom-0 w-[55%] h-5 bg-[#23150c]/8 rounded-full filter blur-lg pointer-events-none -z-10" />
       </div>
 
       {/* Corridor Selector with Real-World Flags */}
-      <div className="w-full max-w-md pt-2 flex flex-col items-center gap-2.5 px-2">
-        <div className="text-[11px] font-bold uppercase tracking-wider text-[#7a4727] flex items-center gap-1.5">
+      <div className="w-full pt-1 flex flex-col items-center gap-2 px-1">
+        <div className="text-[10.5px] font-bold uppercase tracking-wider text-[#7a4727] flex items-center gap-1.5">
           <span>Active Export Trade Corridor</span>
         </div>
 
         {/* Connected Corridor Nodes: Real Kenya Flag -> Selected Destination Real Flag */}
-        <div className="w-full flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+        <div className="w-full flex flex-wrap items-center justify-center gap-1.5">
           {/* Kenya Origin Pill with Real Kenyan Flag */}
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f4ece4] border border-[#d8c2b0] text-xs font-bold text-[#23150c] shadow-2xs">
-            <FlagIcon countryCode="KE" size={16} />
+            <FlagIcon countryCode="KE" size={15} />
             <span>Kenya</span>
             <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping" />
           </div>
@@ -578,7 +578,7 @@ export default function Real3DGlobe() {
                     : 'bg-white text-[#44382e] border-[#e2d5c8] hover:border-[#b57a44] hover:bg-[#fbf9f6]'
                 }`}
               >
-                <FlagIcon countryCode={route.countryCode} size={16} />
+                <FlagIcon countryCode={route.countryCode} size={15} />
                 <span className="text-xs font-medium">{route.country}</span>
               </button>
             );
