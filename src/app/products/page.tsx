@@ -90,166 +90,134 @@ export default function ProductsPage() {
   }, [products, selectedCategory, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-[#3e2211] selection:text-white">
+    <div className="min-h-screen bg-white font-sans text-stone-900 selection:bg-[#3e2211] selection:text-white">
       <Navbar />
 
       <main className="pt-24 pb-20">
-        {/* Page Hero Header */}
-        <div className="bg-[#23150c] text-white pt-12 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden border-b border-[#3e2211]">
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div className="max-w-3xl">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/10 text-stone-200 border border-white/10 mb-4">
-                  ROVIL Complete Portfolio &amp; Catalog
-                </span>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-                  Packaged Retail Goods &amp; Export Commodities
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Compact Top Header & Controls Bar */}
+          <div className="pt-4 pb-6 border-b border-stone-200">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-[#23150c] tracking-tight">
+                  Products &amp; Export Catalog
                 </h1>
-                <p className="mt-3 text-base sm:text-lg text-stone-300 leading-relaxed">
-                  Explore ROVIL branded roasted coffee pouches, specialty purple &amp; orthodox tea canisters, eco takeaway cups, and commercial container-lot green coffee.
+                <p className="text-xs sm:text-sm text-stone-500 mt-1">
+                  ROVIL branded retail coffees, specialty teas, cafe supplies, and bulk container lots.
                 </p>
               </div>
 
-              {/* Currency Selector */}
-              <div className="flex items-center gap-2 bg-[#170e08] p-1.5 rounded-xl border border-white/10 self-start md:self-auto">
-                <span className="text-xs font-medium text-stone-400 pl-2">Currency:</span>
-                <button
-                  onClick={() => setCurrency('USD')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                    currency === 'USD'
-                      ? 'bg-white text-[#23150c] shadow-xs'
-                      : 'text-stone-300 hover:text-white'
-                  }`}
-                >
-                  USD ($)
-                </button>
-                <button
-                  onClick={() => setCurrency('KES')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                    currency === 'KES'
-                      ? 'bg-white text-[#23150c] shadow-xs'
-                      : 'text-stone-300 hover:text-white'
-                  }`}
-                >
-                  KES (KES)
-                </button>
-              </div>
-            </div>
-
-            {/* Owner Mode Toggle Bar */}
-            <div className="mt-8 p-4 rounded-2xl bg-[#1a100a] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    id="owner-toggle"
-                    checked={isOwnerMode}
-                    onChange={(e) => setIsOwnerMode(e.target.checked)}
-                    className="sr-only peer"
-                  />
-                  <div className="w-11 h-6 bg-stone-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#3e2211]"></div>
+              {/* Right Controls: Currency Switcher & Owner Mode Toggle */}
+              <div className="flex flex-wrap items-center gap-3">
+                {/* Currency Switcher */}
+                <div className="flex items-center gap-1 bg-stone-100 p-1 rounded-xl border border-stone-200">
+                  <span className="text-xs font-semibold text-stone-500 pl-2 pr-1">Currency:</span>
+                  <button
+                    onClick={() => setCurrency('USD')}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+                      currency === 'USD'
+                        ? 'bg-[#23150c] text-white shadow-xs'
+                        : 'text-stone-700 hover:text-stone-950'
+                    }`}
+                  >
+                    USD ($)
+                  </button>
+                  <button
+                    onClick={() => setCurrency('KES')}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+                      currency === 'KES'
+                        ? 'bg-[#23150c] text-white shadow-xs'
+                        : 'text-stone-700 hover:text-stone-950'
+                    }`}
+                  >
+                    KES (KES)
+                  </button>
                 </div>
-                <label htmlFor="owner-toggle" className="cursor-pointer">
-                  <span className="text-sm font-semibold text-stone-100 flex items-center gap-2">
-                    Site Owner Management Mode
-                    {isOwnerMode && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/20 text-white border border-white/20">
-                        ACTIVE
-                      </span>
-                    )}
-                  </span>
-                  <p className="text-xs text-stone-400">
-                    Enable to add new products or edit prices, images, and descriptions.
-                  </p>
-                </label>
-              </div>
 
-              {isOwnerMode && (
-                <div className="flex items-center gap-2 w-full sm:w-auto">
+                {/* Owner Mode Switch */}
+                <button
+                  onClick={() => setIsOwnerMode(!isOwnerMode)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                    isOwnerMode
+                      ? 'bg-[#23150c] text-white border-[#23150c] shadow-xs'
+                      : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+                  }`}
+                >
+                  <span>✏️</span>
+                  <span>Owner Edit Mode: {isOwnerMode ? 'ON' : 'OFF'}</span>
+                </button>
+
+                {isOwnerMode && (
                   <button
                     onClick={() => {
                       setEditProduct(null);
                       setIsEditModalOpen(true);
                     }}
-                    className="flex-1 sm:flex-initial px-4 py-2 rounded-xl bg-white hover:bg-stone-100 text-[#23150c] text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition-all"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#3e2211] text-white shadow-xs hover:bg-[#23150c] transition-all"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    Post New Product
+                    + Post Product
                   </button>
+                )}
+              </div>
+            </div>
 
+            {/* Filter Pills & Search */}
+            <div className="mt-5 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+              {/* Category Pills */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
+                {CATEGORIES.map((cat) => (
                   <button
-                    onClick={handleResetDefaults}
-                    title="Reset to default items"
-                    className="px-3 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-medium transition-colors"
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.id)}
+                    className={`whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                      selectedCategory === cat.id
+                        ? 'bg-[#23150c] text-white shadow-xs'
+                        : 'bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-200'
+                    }`}
                   >
-                    Reset Defaults
+                    {cat.label}
                   </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+                ))}
+              </div>
 
-        {/* Catalog Filtering & Interactive Grid */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-          {/* Controls Bar */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-stone-200">
-            {/* Category Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 ${
-                    selectedCategory === cat.id
-                      ? 'bg-[#23150c] text-white shadow-xs'
-                      : 'bg-white hover:bg-stone-100 text-stone-700 border border-stone-200'
-                  }`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Search Box */}
-            <div className="relative w-full lg:w-72">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search coffee, tea, cups..."
-                className="w-full pl-9 pr-4 py-2 rounded-xl border border-stone-300 text-stone-900 text-xs focus:outline-none focus:ring-2 focus:ring-[#3e2211] bg-white shadow-xs"
-              />
-              <svg
-                className="w-4 h-4 text-stone-400 absolute left-3 top-2.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              {/* Search Box */}
+              <div className="relative w-full lg:w-64">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search products..."
+                  className="w-full pl-8 pr-4 py-1.5 rounded-xl border border-stone-300 text-stone-900 text-xs focus:outline-none focus:ring-2 focus:ring-[#3e2211] bg-white"
                 />
-              </svg>
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-2.5 text-stone-400 hover:text-stone-600"
+                <svg
+                  className="w-3.5 h-3.5 text-stone-400 absolute left-2.5 top-2.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2.5 top-2 text-stone-400 hover:text-stone-600"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
           {/* Results Count */}
-          <div className="py-4 flex items-center justify-between text-xs text-stone-500">
+          <div className="py-3 flex items-center justify-between text-xs text-stone-500">
             <span>
               Showing <strong className="text-stone-800">{filteredProducts.length}</strong> items
               {selectedCategory !== 'all' && (
@@ -261,7 +229,7 @@ export default function ProductsPage() {
             </span>
           </div>
 
-          {/* 3D Products Grid */}
+          {/* 3D Products Grid (Immediately Visible) */}
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-2">
               {filteredProducts.map((product) => (
@@ -279,7 +247,7 @@ export default function ProductsPage() {
               ))}
             </div>
           ) : (
-            <div className="py-20 text-center bg-white rounded-3xl border border-stone-200">
+            <div className="py-20 text-center bg-stone-50 rounded-3xl border border-stone-200">
               <h3 className="text-base font-bold text-stone-900">No matching products found</h3>
               <p className="text-xs text-stone-500 mt-1 max-w-sm mx-auto">
                 Try searching for a different term or clearing your category filters.
@@ -295,30 +263,6 @@ export default function ProductsPage() {
               </button>
             </div>
           )}
-
-          {/* B2B Export Inquiries Callout */}
-          <div className="mt-16 p-8 sm:p-10 rounded-3xl bg-[#23150c] text-white shadow-lg relative overflow-hidden border border-[#3e2211]">
-            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-                  Custom Roasts • Private Label Packaging • Ocean Container Freight
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-bold mt-1">
-                  Need Custom Brand Packaging or Container-Sized Allocation?
-                </h3>
-                <p className="text-sm text-stone-300 mt-2 max-w-2xl leading-relaxed">
-                  We supply international supermarket distributors, specialty roasteries, and institutional beverage buyers with tailored packaging, private labeling, and FOB/CIF ocean shipping.
-                </p>
-              </div>
-
-              <a
-                href="/#contact"
-                className="whitespace-nowrap px-8 py-3.5 rounded-2xl bg-white hover:bg-stone-100 text-[#23150c] text-sm font-bold tracking-wide transition-all shadow-md text-center"
-              >
-                Request Custom Quotation
-              </a>
-            </div>
-          </div>
         </div>
       </main>
 
