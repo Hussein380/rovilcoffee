@@ -36,12 +36,12 @@ export default function ContactQuote() {
               <span>Nairobi Export Desk</span>
             </div>
 
-            <h2 className="text-3xl font-extrabold text-[#23150c] tracking-tight">
-              Request a Bulk Export Quote
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#23150c] tracking-tight">
+              Request an Export Quote &amp; Samples
             </h2>
 
             <p className="text-base text-[#574c43] leading-relaxed">
-              Looking for reliable shipments of Kenyan coffee or tea? Tell us your specifications, volume requirements, and destination port. Our export team will respond with a direct commercial quotation.
+              Seeking reliable commercial shipments or pre-shipment cupping samples (PSS)? Tell us your grade requirements, volume, and destination port. Our export trading desk will respond within 12 business hours.
             </p>
 
             <div className="space-y-4 pt-4 border-t border-[#ece3db]">
@@ -100,14 +100,14 @@ export default function ContactQuote() {
                   Our Nairobi export desk has received your request. We typically respond within <strong>1–2 business days</strong> with a commercial quotation.
                 </p>
                 <div className="pt-2 border-t border-[#ece3db] w-full max-w-xs text-xs text-[#574c43] space-y-1">
-                  <div>📞 Urgent? Call: <strong>+254 721 487 948</strong></div>
-                  <div>📧 Or email: <strong>info@rovil.co.ke</strong></div>
+                  <div>Urgent? Call: <strong>+254 721 487 948</strong></div>
+                  <div>Direct email: <strong>info@rovil.co.ke</strong></div>
                 </div>
                 <button
                   onClick={() => setSubmitted(false)}
                   className="mt-2 text-xs font-semibold text-[#3e2211] hover:underline underline-offset-2"
                 >
-                  ← Submit another enquiry
+                  Submit another enquiry
                 </button>
               </div>
             ) : (
@@ -223,7 +223,7 @@ export default function ContactQuote() {
                       <option value="Bulk Green Coffee Grade PB (Peaberry)">Bulk Green Coffee Grade PB (Peaberry)</option>
                       <option value="Bulk Commercial CTC Black Tea (BP1 / PF1)">Bulk Commercial CTC Black Tea (BP1 / PF1)</option>
                       <option value="Bulk Specialty Purple Tea (TRFK 306)">Bulk Specialty Purple Tea (TRFK 306)</option>
-                      <option value="other">✏️ Other / Custom Product (Specify below)</option>
+                      <option value="other">Other / Custom Product (Specify below)</option>
                     </select>
 
                     {formData.product === 'other' && (
@@ -254,7 +254,7 @@ export default function ContactQuote() {
                       <option value="1 x 20ft Container (~19.2 MT / 320 Bags Bulk)">1 x 20ft Container (~19.2 MT / 320 Bags Bulk)</option>
                       <option value="2+ Containers (Commercial Bulk Supply)">2+ Containers (Commercial Bulk Supply)</option>
                       <option value="Trial Commercial Pallet (10 – 50 Bags)">Trial Commercial Pallet (10 – 50 Bags)</option>
-                      <option value="other">✏️ Other / Custom Quantity (Specify below)</option>
+                      <option value="other">Other / Custom Quantity (Specify below)</option>
                     </select>
 
                     {formData.quantity === 'other' && (

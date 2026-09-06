@@ -53,13 +53,13 @@ export default function OurFarmPage() {
           </FadeIn>
 
           <SlideUp delay={0.1}>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
-              Our Farms &amp; <span className="text-[#d89f68]">Partnered Smallholder Network</span>
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight">
+              Our Farms &amp; <span className="text-[#d89f68] italic">Partnered Smallholders</span>
             </h1>
           </SlideUp>
 
           <SlideUp delay={0.2}>
-            <p className="text-white/85 text-base sm:text-xl leading-relaxed max-w-3xl mx-auto">
+            <p className="text-white/85 text-base sm:text-xl leading-relaxed max-w-3xl mx-auto font-light">
               Cultivated in nutrient-dense red volcanic soils under native shade canopies. In addition to our core estate plots, we partner with over 1,200 certified small-scale farming families across Mount Kenya and the Great Rift Valley, operating strictly under international agricultural and environmental standards.
             </p>
           </SlideUp>
@@ -90,11 +90,11 @@ export default function OurFarmPage() {
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6 space-y-6">
-              <span className="text-sm font-semibold text-[#7a4727] block">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727] block">
                 Ethical Sourcing &amp; Smallholder Empowerment
               </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#23150c] leading-tight">
-                Our Model Estates + <span className="text-[#7a4727]">1,200+ Small-Scale Farming Families</span>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#23150c] leading-tight">
+                Our Model Estates + <span className="text-[#7a4727] italic">1,200+ Smallholder Families</span>
               </h2>
               <p className="text-[#574c43] text-base leading-relaxed">
                 Rovil operates core demonstration coffee and tea estates in Nyeri and Kiambu, establishing the highest agronomic benchmarks for varietal purity (SL28, SL34, Batian, and TRFK 306 Purple Tea).
@@ -106,15 +106,15 @@ export default function OurFarmPage() {
               {/* 3 Quick Partnership Metrics */}
               <div className="grid grid-cols-3 gap-3 pt-2 text-center">
                 <div className="p-4 rounded-2xl bg-white border border-[#ece3db] shadow-xs">
-                  <div className="text-2xl font-extrabold text-[#23150c]">1,200+</div>
+                  <div className="text-2xl font-bold text-[#23150c] font-serif">1,200+</div>
                   <div className="text-xs text-[#7a4727] font-semibold mt-1">Partner Farmers</div>
                 </div>
                 <div className="p-4 rounded-2xl bg-white border border-[#ece3db] shadow-xs">
-                  <div className="text-2xl font-extrabold text-[#23150c]">2,100m</div>
+                  <div className="text-2xl font-bold text-[#23150c] font-serif">2,100m</div>
                   <div className="text-xs text-[#7a4727] font-semibold mt-1">Peak Elevation</div>
                 </div>
                 <div className="p-4 rounded-2xl bg-white border border-[#ece3db] shadow-xs">
-                  <div className="text-2xl font-extrabold text-[#23150c]">100%</div>
+                  <div className="text-2xl font-bold text-[#23150c] font-serif">100%</div>
                   <div className="text-xs text-[#7a4727] font-semibold mt-1">Traceability</div>
                 </div>
               </div>
@@ -149,10 +149,10 @@ export default function OurFarmPage() {
           {/* 4 International Standards & Compliance Pillars */}
           <div className="space-y-6 pt-6">
             <div className="text-center max-w-2xl mx-auto space-y-2">
-              <span className="text-sm font-semibold text-[#7a4727]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727]">
                 Rigorous International Procedures
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#23150c]">
+              <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-[#23150c]">
                 Global Compliance, EUDR &amp; Environmental Stewardship
               </h3>
               <p className="text-sm text-[#574c43]">
@@ -211,10 +211,10 @@ export default function OurFarmPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           
           <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-sm font-semibold text-[#7a4727]">
-              Agricultural Methodology
+            <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727]">
+              Agronomic Methodology
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#23150c]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#23150c]">
               The 6-Stage Farm &amp; Processing Cycle
             </h2>
             <p className="text-base text-[#574c43]">
@@ -270,61 +270,206 @@ export default function OurFarmPage() {
         </div>
       </section>
 
-      {/* 4b. Harvest Calendar & Cooperative Network */}
-      <section className="py-14 bg-[#23150c] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 space-y-2">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#d89f68]">
-              Seasonal Calendar
+      {/* 4b. Luxury Harvest Almanac & Regional Terroir Showcase */}
+      <section className="py-20 bg-gradient-to-b from-[#f9f6f1] via-[#faf7f3] to-[#f4ece4] border-y border-[#ece3db] text-[#23150c]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#7a4727] bg-[#7a4727]/10 px-3.5 py-1 rounded-full border border-[#7a4727]/20 inline-block">
+              Annual Sourcing Almanac
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Kenya's Two Harvest Windows — When We Source
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#23150c] tracking-tight">
+              Kenyan Harvest Cycles &amp; Origin Terroirs
             </h2>
-            <p className="text-sm text-white/70 max-w-xl mx-auto">
-              Kenya benefits from two rainy seasons, producing two distinct harvests. All Rovil green coffee is sourced exclusively during peak ripeness in each window.
+            <p className="text-base text-[#574c43] leading-relaxed">
+              Equatorial Kenya benefits from dual bimodal rainfall cycles off Mount Kenya and the Aberdare Range, yielding two distinct specialty harvest windows annually.
             </p>
           </div>
 
-          {/* Calendar Strip */}
-          <div className="grid grid-cols-12 gap-1 text-center text-[10px] font-semibold mb-6">
-            {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map((m, i) => {
-              const isMainCrop = i >= 9 || i <= 1; // Oct–Feb
-              const isFlyingCrop = i >= 4 && i <= 6; // May–Jul
-              return (
-                <div key={m} className={`py-3 rounded-lg ${isMainCrop ? 'bg-[#b57a44] text-white' : isFlyingCrop ? 'bg-[#b57a44]/40 text-white/80' : 'bg-white/5 text-white/30'}`}>
-                  <div>{m}</div>
-                  {isMainCrop && <div className="text-[9px] mt-0.5 opacity-80">Main</div>}
-                  {isFlyingCrop && <div className="text-[9px] mt-0.5 opacity-70">Fly</div>}
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex items-center justify-center gap-6 text-xs text-white/70 mb-10">
-            <span className="flex items-center gap-2"><span className="w-4 h-2 rounded bg-[#b57a44] inline-block" /> Main Crop (Oct–Feb)</span>
-            <span className="flex items-center gap-2"><span className="w-4 h-2 rounded bg-[#b57a44]/40 inline-block" /> Fly Crop (May–Jul)</span>
-          </div>
-
-          {/* Altitude & Cooperative Data */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { region: 'Nyeri', altitude: '1,700–2,100m', type: 'AA / AB', cooperatives: 'Othaya FCS, Gikanda FCS, Tegu FCS', notes: 'Bright acidity, blackcurrant & tomato' },
-              { region: 'Kirinyaga', altitude: '1,600–1,900m', type: 'AA / AB', cooperatives: 'Baragwi FCS, Kibirigwi FCS', notes: 'Floral jasmine, plum, clean cup' },
-              { region: 'Murang\'a', altitude: '1,500–1,800m', type: 'AB / PB', cooperatives: 'Gitugi FCS, Gatomboya FCS', notes: 'Stone fruit, medium body, caramel' },
-              { region: 'Kericho', altitude: '2,100–2,400m', type: 'CTC Tea / Purple Tea', cooperatives: 'TRFK Research Station supply, Direct smallholders', notes: 'Full-bodied CTC, antioxidant-rich purple leaf' },
-            ].map((d) => (
-              <div key={d.region} className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
+          {/* Comparative Dual Harvest Windows */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            
+            {/* 1. Main Harvest Window */}
+            <div className="bg-white rounded-3xl p-7 sm:p-8 border border-[#d8c2b0] shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#7a4727]" />
+              <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="font-extrabold text-white text-base">{d.region}</span>
-                  <span className="text-xs font-bold text-[#d89f68] bg-[#d89f68]/15 px-2.5 py-0.5 rounded-full">{d.type}</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727] bg-[#f4ece4] px-3 py-1 rounded-full">
+                    Primary Sourcing Window
+                  </span>
+                  <span className="text-xs font-bold text-stone-500">
+                    70% of Annual Volume
+                  </span>
                 </div>
-                <div className="text-xs text-white/60 space-y-1">
-                  <div>📍 <span className="text-white/80">{d.altitude} ASL</span></div>
-                  <div>🤝 <span className="text-white/80">{d.cooperatives}</span></div>
-                  <div>☕ <span className="text-white/80 italic">{d.notes}</span></div>
+
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-[#23150c]">
+                    Main Crop Harvest
+                  </h3>
+                  <div className="text-sm font-semibold text-[#8c4f2b] mt-0.5">
+                    October – February (Peak Picking: Nov–Dec)
+                  </div>
+                </div>
+
+                <p className="text-sm text-[#574c43] leading-relaxed">
+                  Following the long rains, peak elevation cherries ripen slowly in Nyeri and Kirinyaga at 1,800m–2,100m. Produces dense Grade AA lots with intense phosphoric blackcurrant notes.
+                </p>
+
+                {/* Technical Highlights */}
+                <div className="pt-3 border-t border-[#ece3db] grid grid-cols-2 gap-3 text-xs">
+                  <div className="bg-[#fbf9f6] p-3 rounded-xl border border-[#ece3db]">
+                    <span className="text-stone-400 block font-medium text-[10px] uppercase">Flavor Profile</span>
+                    <strong className="text-[#23150c] font-semibold text-xs">Blackcurrant, Meyer Lemon, Jasmine</strong>
+                  </div>
+                  <div className="bg-[#fbf9f6] p-3 rounded-xl border border-[#ece3db]">
+                    <span className="text-stone-400 block font-medium text-[10px] uppercase">Ocean Sailings</span>
+                    <strong className="text-[#23150c] font-semibold text-xs">December through April (Mombasa)</strong>
+                  </div>
                 </div>
               </div>
-            ))}
+
+              <div className="pt-4 mt-6 border-t border-[#ece3db] flex items-center justify-between text-xs text-stone-500">
+                <span className="font-medium">Primary Terroir: Nyeri, Kirinyaga, Kiambu</span>
+                <span className="font-bold text-[#7a4727]">Grade AA &amp; AB</span>
+              </div>
+            </div>
+
+            {/* 2. Fly Crop Harvest Window */}
+            <div className="bg-white rounded-3xl p-7 sm:p-8 border border-[#d8c2b0] shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#b57a44]" />
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#b57a44] bg-[#faf5ef] px-3 py-1 rounded-full">
+                    Secondary Sourcing Window
+                  </span>
+                  <span className="text-xs font-bold text-stone-500">
+                    30% of Annual Volume
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-[#23150c]">
+                    Fly Crop (Early Harvest)
+                  </h3>
+                  <div className="text-sm font-semibold text-[#b57a44] mt-0.5">
+                    May – July (Peak Picking: June)
+                  </div>
+                </div>
+
+                <p className="text-sm text-[#574c43] leading-relaxed">
+                  Generated by the short rains, the fly harvest produces succulent stone fruit and sweet cane caramel profiles from lower and mid-elevation highland slopes.
+                </p>
+
+                {/* Technical Highlights */}
+                <div className="pt-3 border-t border-[#ece3db] grid grid-cols-2 gap-3 text-xs">
+                  <div className="bg-[#fbf9f6] p-3 rounded-xl border border-[#ece3db]">
+                    <span className="text-stone-400 block font-medium text-[10px] uppercase">Flavor Profile</span>
+                    <strong className="text-[#23150c] font-semibold text-xs">Stone Fruit, White Peach, Tangerine</strong>
+                  </div>
+                  <div className="bg-[#fbf9f6] p-3 rounded-xl border border-[#ece3db]">
+                    <span className="text-stone-400 block font-medium text-[10px] uppercase">Ocean Sailings</span>
+                    <strong className="text-[#23150c] font-semibold text-xs">July through October (Mombasa)</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 mt-6 border-t border-[#ece3db] flex items-center justify-between text-xs text-stone-500">
+                <span className="font-medium">Primary Terroir: Murang&apos;a, Aberdares, Kisii</span>
+                <span className="font-bold text-[#b57a44]">Grade AB &amp; PB</span>
+              </div>
+            </div>
+
           </div>
+
+          {/* Four Distinct Micro-Terroir Cards */}
+          <div className="space-y-4 pt-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-serif text-2xl font-bold text-[#23150c]">
+                Key Origin Terroirs &amp; Agronomic Profiles
+              </h3>
+              <span className="text-xs font-semibold text-[#7a4727] hidden sm:inline-block">
+                Direct Outgrower Cooperative Network
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {[
+                {
+                  region: 'Nyeri Highlands',
+                  elevation: '1,700m – 2,100m ASL',
+                  grades: 'Grade AA & AB',
+                  soil: 'Deep Red Volcanic Loam',
+                  coops: 'Othaya, Gikanda, Tegu FCS',
+                  notes: 'High phosphoric acidity, blackcurrant, ruby grapefruit, jasmine',
+                  accent: 'border-t-[#7a4727]',
+                },
+                {
+                  region: 'Kirinyaga Slopes',
+                  elevation: '1,600m – 1,950m ASL',
+                  grades: 'Grade AA & PB',
+                  soil: 'Mount Kenya Volcanic Ash',
+                  coops: 'Baragwi, Kibirigwi, Kabare FCS',
+                  notes: 'Sweet floral jasmine, damson plum, honeyed apricot, pristine cup',
+                  accent: 'border-t-[#8c4f2b]',
+                },
+                {
+                  region: 'Murang\'a Terroir',
+                  elevation: '1,500m – 1,850m ASL',
+                  grades: 'Grade AB & C',
+                  soil: 'Clay Loam with High Minerals',
+                  coops: 'Gitugi, Gatomboya, Kangunu FCS',
+                  notes: 'Stone fruit, candied citrus peel, round body, toffee finish',
+                  accent: 'border-t-[#b57a44]',
+                },
+                {
+                  region: 'Kericho Highland Teas',
+                  elevation: '2,100m – 2,400m ASL',
+                  grades: 'Royal Purple & Black CTC',
+                  soil: 'High UV Great Rift Volcanic',
+                  coops: 'TRFK Foundation & Direct Outgrowers',
+                  notes: 'Antioxidant anthocyanins, sweet plum, brisk malty copper infusion',
+                  accent: 'border-t-purple-800',
+                },
+              ].map((d) => (
+                <div
+                  key={d.region}
+                  className={`bg-white rounded-2xl p-5 border border-[#ece3db] shadow-xs space-y-3.5 border-t-4 ${d.accent} hover:shadow-md transition-all flex flex-col justify-between`}
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-serif font-bold text-lg text-[#23150c]">{d.region}</span>
+                      <span className="text-[10px] font-bold text-[#7a4727] bg-[#f4ece4] px-2 py-0.5 rounded">
+                        {d.grades}
+                      </span>
+                    </div>
+
+                    <div className="text-xs text-[#7a4727] font-semibold">
+                      {d.elevation}
+                    </div>
+
+                    <p className="text-xs text-[#574c43] leading-relaxed pt-1">
+                      <span className="font-semibold text-stone-700">Terroir:</span> {d.soil}
+                    </p>
+
+                    <p className="text-xs text-[#574c43] leading-relaxed">
+                      <span className="font-semibold text-stone-700">Cooperatives:</span> {d.coops}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 border-t border-[#ece3db] bg-[#fbf9f6] -mx-5 -mb-5 p-3.5 rounded-b-2xl">
+                    <span className="text-[10px] font-bold text-stone-400 block uppercase tracking-wider mb-0.5">
+                      Cupping Notes
+                    </span>
+                    <p className="text-xs text-[#23150c] italic font-medium leading-snug">
+                      {d.notes}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 

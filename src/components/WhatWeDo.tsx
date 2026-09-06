@@ -41,34 +41,34 @@ export default function WhatWeDo() {
         {/* Section Header */}
         <div className="max-w-3xl">
           <SlideUp delay={0.0}>
-            <span className="text-sm font-semibold text-[#7a4727] mb-2 block">
-              Pure Kenyan Origin • Commercial Export &amp; ROVIL Packaged Goods
+            <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727] mb-2 block">
+              Direct Central Kenyan Origin • Commercial Export &amp; ROVIL Reserves
             </span>
           </SlideUp>
 
           <SlideUp delay={0.1}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#23150c] tracking-tight leading-tight">
-              What We Do: <span className="text-[#7a4727]">ROVIL Brand</span> &amp; Bulk Supply
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#23150c] tracking-tight leading-tight">
+              Export Dossier: <span className="text-[#7a4727] italic font-normal">Single-Origin</span> &amp; Bulk Reserves
             </h2>
           </SlideUp>
 
           <SlideUp delay={0.2}>
             <p className="mt-4 text-base sm:text-lg text-[#574c43] leading-relaxed">
-              We operate across the complete coffee and tea value chain. We package our own premium <strong>ROVIL</strong> retail brand for cafes, consumers, and grocery distribution, while also fulfilling multi-ton container export allocations for international commodity buyers worldwide.
+              We operate directly across the Kenyan origin value chain. We supply multi-container export allocations (FOB Mombasa / CIF Worldwide) for international green coffee importers, while roasting small-batch <strong>ROVIL</strong> reserves for cafes, hospitality groups, and gourmet distributors.
             </p>
             <div className="pt-4 flex flex-wrap gap-3">
               <Link
                 href="/what-we-do"
                 className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-5 py-3 rounded-xl text-sm font-semibold transition-all shadow-sm"
               >
-                <span>View Full Product Dossier</span>
+                <span>Full Technical Dossier</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <a
                 href="#branded-retail"
                 className="inline-flex items-center gap-2 bg-[#f4ece4] hover:bg-[#ece3db] text-[#3e2211] px-5 py-3 rounded-xl text-sm font-semibold transition-all border border-[#d8c2b0]"
               >
-                <span>Explore Retail Packaging</span>
+                <span>Packaged Retail Reserves</span>
               </a>
             </div>
           </SlideUp>
@@ -80,14 +80,14 @@ export default function WhatWeDo() {
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f4ece4] text-[#7a4727] text-xs font-semibold mb-2">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Our Consumer &amp; Retail Brand</span>
+                <span>Single-Origin Packaged Reserves</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#23150c]">
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#23150c]">
                 The ROVIL Packaged Collection
               </h3>
             </div>
             <p className="text-sm text-[#574c43] max-w-md">
-              Crafted in Nairobi for specialty coffee shops, retail consumers, and international distributors seeking ready-to-sell packaged Kenyan origins.
+              Artisanal small-batch roasted in Nairobi for specialty coffee shops, retail consumers, and international grocery distribution.
             </p>
           </div>
 
@@ -216,10 +216,10 @@ export default function WhatWeDo() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727] block">
-                Commercial Container Export
+                Commercial Container Export (FOB / CIF)
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#23150c]">
-                Bulk Green Coffee &amp; Wholesale Tea
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#23150c]">
+                Bulk Green Coffee &amp; Wholesale Teas
               </h3>
             </div>
 
