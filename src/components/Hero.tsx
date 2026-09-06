@@ -4,7 +4,7 @@ import Real3DGlobeWrapper from './Real3DGlobeWrapper';
 
 export default function Hero() {
   return (
-    <section id="home" className="relative pt-8 sm:pt-12 pb-12 sm:pb-16 bg-gradient-to-b from-[#fcfaf7] via-white to-[#fbf8f4] border-b border-[#ece3db] overflow-hidden">
+    <section id="home" className="relative pt-8 sm:pt-12 pb-16 sm:pb-20 lg:pb-24 bg-gradient-to-b from-[#fcfaf7] via-white to-[#fbf8f4] border-b border-[#ece3db] overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Split Screen Layout: Left = Editorial Authority, Right = 3D Trade Corridor Globe */}

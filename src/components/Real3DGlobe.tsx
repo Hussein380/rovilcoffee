@@ -536,7 +536,7 @@ export default function Real3DGlobe() {
     <div className="relative w-full flex flex-col items-center select-none">
       
       {/* 3D Canvas with Origin & Destination Indicator */}
-      <div className="relative w-full h-[340px] sm:h-[390px] flex items-center justify-center">
+      <div className="relative w-full h-[300px] sm:h-[350px] flex items-center justify-center">
         <div
           ref={containerRef}
           className="w-full h-full cursor-grab active:cursor-grabbing relative z-10"
@@ -544,53 +544,51 @@ export default function Real3DGlobe() {
         />
 
         {/* Soft Ambient Depth Shadow */}
-        <div className="absolute bottom-1 w-[60%] h-6 bg-[#23150c]/8 rounded-full filter blur-lg pointer-events-none -z-10" />
+        <div className="absolute bottom-1 w-[55%] h-6 bg-[#23150c]/8 rounded-full filter blur-lg pointer-events-none -z-10" />
       </div>
 
       {/* Corridor Selector with Real-World Flags */}
-      <div className="w-full max-w-lg pt-1 flex flex-col items-center gap-3">
-        <div className="text-xs font-semibold text-[#7a4727] flex items-center gap-2">
+      <div className="w-full max-w-md pt-2 flex flex-col items-center gap-2.5 px-2">
+        <div className="text-[11px] font-bold uppercase tracking-wider text-[#7a4727] flex items-center gap-1.5">
           <span>Active Export Trade Corridor</span>
         </div>
 
         {/* Connected Corridor Nodes: Real Kenya Flag -> Selected Destination Real Flag */}
-        <div className="w-full flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
+        <div className="w-full flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
           {/* Kenya Origin Pill with Real Kenyan Flag */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f4ece4] border border-[#d8c2b0] text-xs font-bold text-[#23150c] shadow-2xs">
-            <FlagIcon countryCode="KE" size={18} />
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f4ece4] border border-[#d8c2b0] text-xs font-bold text-[#23150c] shadow-2xs">
+            <FlagIcon countryCode="KE" size={16} />
             <span>Kenya</span>
             <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping" />
           </div>
 
-          <span className="text-[#b57a44] font-bold text-sm hidden sm:inline">➔</span>
+          <span className="text-[#b57a44] font-bold text-xs">➔</span>
 
           {/* Destination Nodes with Real-World Flags */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
-            {TRADE_ROUTES.map((route) => {
-              const isSelected = selectedRoute.id === route.id;
-              return (
-                <button
-                  key={route.id}
-                  onClick={() => handleSelectRoute(route)}
-                  title={`Track shipment lane to ${route.name} (${route.port})`}
-                  className={`px-3 py-1.5 rounded-full text-xs transition-all flex items-center gap-2 border cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#23150c] text-white border-[#23150c] shadow-sm font-semibold scale-105 ring-2 ring-[#7a4727]/30'
-                      : 'bg-white text-[#44382e] border-[#e2d5c8] hover:border-[#b57a44] hover:bg-[#fbf9f6]'
-                  }`}
-                >
-                  <FlagIcon countryCode={route.countryCode} size={18} />
-                  <span className="text-xs font-medium">{route.country}</span>
-                </button>
-              );
-            })}
-          </div>
+          {TRADE_ROUTES.map((route) => {
+            const isSelected = selectedRoute.id === route.id;
+            return (
+              <button
+                key={route.id}
+                onClick={() => handleSelectRoute(route)}
+                title={`Track shipment lane to ${route.name} (${route.port})`}
+                className={`px-2.5 py-1 rounded-full text-xs transition-all flex items-center gap-1.5 border cursor-pointer ${
+                  isSelected
+                    ? 'bg-[#23150c] text-white border-[#23150c] shadow-sm font-semibold scale-105 ring-2 ring-[#7a4727]/30'
+                    : 'bg-white text-[#44382e] border-[#e2d5c8] hover:border-[#b57a44] hover:bg-[#fbf9f6]'
+                }`}
+              >
+                <FlagIcon countryCode={route.countryCode} size={16} />
+                <span className="text-xs font-medium">{route.country}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Dynamic Cargo Route Lead Time & Port Callout */}
-        <div className="px-3.5 py-1.5 rounded-lg bg-[#fbf9f6] border border-[#ece3db] text-xs text-[#574c43] text-center flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block animate-pulse" />
-          <span>
+        <div className="w-full px-3 py-1.5 rounded-lg bg-[#fbf9f6] border border-[#ece3db] text-[11px] sm:text-xs text-[#574c43] text-center flex items-center justify-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block animate-pulse shrink-0" />
+          <span className="truncate">
             Port of Mombasa ➔ <strong className="text-[#23150c] font-semibold">{selectedRoute.port}</strong> • Transit: <strong className="text-[#7a4727] font-semibold">{selectedRoute.leadTime}</strong>
           </span>
         </div>

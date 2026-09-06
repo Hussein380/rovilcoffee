@@ -666,10 +666,10 @@ export default function FloatingAssistant() {
       )}
 
       {/* ------------------- FLOATING ACTION BUTTONS (Ergonomic Mobile & Desktop) ------------------- */}
-      <div className="fixed bottom-4 right-3.5 sm:bottom-5 sm:right-6 z-40 flex flex-col items-end gap-2 font-sans">
+      <div className="fixed bottom-4 right-3.5 sm:bottom-5 sm:right-5 z-40 flex flex-col items-end gap-2.5 font-sans pointer-events-none">
         {/* 1. Floating WhatsApp Button */}
-        <div className="relative group flex items-center">
-          <span className="hidden sm:inline-block absolute right-15 top-1/2 -translate-y-1/2 whitespace-nowrap bg-stone-900/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md z-10 border border-white/10">
+        <div className="relative group flex items-center pointer-events-auto">
+          <span className="hidden sm:inline-block absolute right-14 top-1/2 -translate-y-1/2 whitespace-nowrap bg-stone-900/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md z-10 border border-white/10">
             WhatsApp Export Desk (+254 721 487 948)
           </span>
 
@@ -677,13 +677,13 @@ export default function FloatingAssistant() {
             href="https://wa.me/254721487948?text=Hello%20Rovil%20Coffee%20%26%20Tea%2C%20I%20would%20like%20to%20inquire%20about%20your%20Kenyan%20coffee%20and%20tea%20exports"
             target="_blank"
             rel="noopener noreferrer"
-            className="relative flex items-center justify-center bg-[#25D366] hover:bg-[#20ba59] text-white w-11 h-11 sm:w-13 sm:h-13 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95"
-            style={{ boxShadow: '0 6px 20px -3px rgba(37, 211, 102, 0.45)' }}
+            className="relative flex items-center justify-center bg-[#25D366] hover:bg-[#20ba59] text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95"
+            style={{ boxShadow: '0 4px 16px -2px rgba(37, 211, 102, 0.45)' }}
             aria-label="Chat on WhatsApp (+254 721 487 948)"
           >
             <span className="absolute -inset-1 rounded-full bg-[#25D366] opacity-35 animate-ping pointer-events-none" />
             <svg
-              className="w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 fill-current relative z-10"
+              className="w-5.5 h-5.5 sm:w-6 sm:h-6 fill-current relative z-10"
               viewBox="0 0 24 24"
             >
               <path d="M12.031 2C6.516 2 2.031 6.484 2.031 12C2.031 13.805 2.508 15.516 3.391 17.031L2 22.125L7.266 20.766C8.734 21.562 10.344 22 12.031 22C17.547 22 22.031 17.516 22.031 12C22.031 6.484 17.547 2 12.031 2ZM12.031 20.312C10.516 20.312 9.078 19.906 7.828 19.156L7.516 18.969L4.391 19.781L5.234 16.734L5.031 16.406C4.219 15.109 3.781 13.578 3.781 12C3.781 7.453 7.484 3.75 12.031 3.75C16.578 3.75 20.281 7.453 20.281 12C20.281 16.547 16.578 20.312 12.031 20.312ZM16.562 14.656C16.312 14.531 15.094 13.938 14.859 13.859C14.625 13.781 14.469 13.734 14.312 13.969C14.156 14.203 13.688 14.75 13.547 14.906C13.406 15.062 13.266 15.078 13.016 14.953C12.766 14.828 11.953 14.562 11 13.719C10.25 13.047 9.75 12.219 9.594 11.969C9.438 11.719 9.578 11.578 9.703 11.453C9.812 11.344 9.953 11.156 10.078 11.016C10.203 10.875 10.25 10.766 10.328 10.609C10.406 10.453 10.359 10.312 10.297 10.188C10.234 10.062 9.766 8.922 9.578 8.453C9.391 7.984 9.203 8.047 9.062 8.047C8.938 8.047 8.781 8.031 8.625 8.031C8.469 8.031 8.219 8.094 8 8.328C7.781 8.562 7.172 9.141 7.172 10.312C7.172 11.484 8.031 12.609 8.156 12.766C8.281 12.922 9.844 15.344 12.234 16.375C12.812 16.625 13.25 16.781 13.594 16.891C14.172 17.078 14.688 17.047 15.109 16.984C15.578 16.906 16.547 16.391 16.75 15.828C16.953 15.266 16.953 14.781 16.891 14.688C16.828 14.594 16.703 14.547 16.453 14.422L16.562 14.656Z" />
@@ -692,37 +692,28 @@ export default function FloatingAssistant() {
         </div>
 
         {/* 2. Floating AI Chatbot Button */}
-        <div className="relative group flex items-center">
-          {!isOpen && (
-            <button
-              onClick={() => {
-                setIsOpen(true);
-                setIsMinimized(false);
-              }}
-              className="hidden sm:flex items-center gap-2 bg-stone-900/90 hover:bg-stone-900 text-white text-xs font-semibold px-3.5 py-2 rounded-full shadow-md mr-2 border border-amber-500/30 transition-all transform hover:scale-102 cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-              <span>Chat with AI Assistant</span>
-            </button>
-          )}
+        <div className="relative group flex items-center pointer-events-auto">
+          <span className="hidden sm:inline-block absolute right-14 top-1/2 -translate-y-1/2 whitespace-nowrap bg-stone-900/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md z-10 border border-white/10">
+            Chat with AI Export Assistant
+          </span>
 
           <button
             onClick={() => {
               setIsOpen(!isOpen);
               setIsMinimized(false);
             }}
-            className="relative flex items-center justify-center bg-gradient-to-br from-[#3d2314] via-[#54331d] to-[#8c5835] hover:from-[#2e1a0e] hover:to-[#6f4327] text-white w-11 h-11 sm:w-13 sm:h-13 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 border-2 border-amber-400/40 cursor-pointer"
-            style={{ boxShadow: '0 6px 20px -3px rgba(61, 35, 20, 0.55)' }}
+            className="relative flex items-center justify-center bg-gradient-to-br from-[#3d2314] via-[#54331d] to-[#8c5835] hover:from-[#2e1a0e] hover:to-[#6f4327] text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 border-2 border-amber-400/40 cursor-pointer"
+            style={{ boxShadow: '0 4px 16px -2px rgba(61, 35, 20, 0.55)' }}
             aria-label={isOpen ? 'Close AI Assistant' : 'Open AI Assistant'}
           >
             <span className="absolute -inset-1 rounded-full bg-amber-500 opacity-25 animate-pulse pointer-events-none" />
 
             {isOpen ? (
-              <X className="w-5 h-5 sm:w-6 sm:h-6 text-amber-200 relative z-10 transition-transform duration-200" />
+              <X className="w-5 h-5 sm:w-5.5 sm:h-5.5 text-amber-200 relative z-10 transition-transform duration-200" />
             ) : (
               <div className="relative z-10 flex items-center justify-center">
                 <svg
-                  className="w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 text-amber-200 drop-shadow"
+                  className="w-5.5 h-5.5 sm:w-6 sm:h-6 text-amber-200 drop-shadow"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
