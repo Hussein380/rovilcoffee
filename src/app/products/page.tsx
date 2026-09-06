@@ -128,14 +128,6 @@ export default function ProductsPage() {
                   </button>
                 </div>
 
-                {/* Direct Admin Access Button */}
-                <Link
-                  href="/admin"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#3e2211] hover:bg-[#23150c] text-white transition-all shadow-xs"
-                >
-                  <Lock className="w-3.5 h-3.5 text-[#d89f68]" />
-                  <span>Admin Portal</span>
-                </Link>
               </div>
             </div>
 

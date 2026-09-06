@@ -68,14 +68,11 @@ export default function Navbar() {
           <div className="hidden sm:flex items-center gap-2.5">
             <Link
               href="/admin"
-              className="w-10 h-10 rounded-xl border border-[#e4d7ca] bg-[#f9f6f2] hover:bg-[#f1e9df] hover:border-[#b57a44]/60 flex items-center justify-center text-[#5c3a21] hover:text-[#23150c] transition-all duration-200 group relative shadow-xs"
-              title="Staff &amp; Admin Portal"
-              aria-label="Admin Portal"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-[#d8c2b0] bg-[#fbf9f6] hover:bg-[#f4ece4] text-[#3e2211] hover:text-[#23150c] text-xs font-bold transition-all shadow-xs"
+              title="Admin Management"
             >
-              <Lock className="w-4 h-4 text-[#8a5732] group-hover:text-[#23150c] transition-colors" />
-              <span className="pointer-events-none absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#23150c] px-2.5 py-1 text-[11px] font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-50">
-                Staff Portal
-              </span>
+              <Lock className="w-3.5 h-3.5 text-[#7a4727]" />
+              <span>Admin</span>
             </Link>
 
             <Link
@@ -115,10 +112,10 @@ export default function Navbar() {
             <Link
               href="/admin"
               onClick={() => setMobileOpen(false)}
-              className="w-full text-center flex items-center justify-center gap-2 border border-[#e4d7ca] bg-[#f9f6f2] text-[#5c3a21] py-2.5 rounded-xl text-xs font-semibold hover:bg-[#f1e9df] transition-all"
+              className="w-full text-center flex items-center justify-center gap-2 border border-[#d8c2b0] bg-[#fbf9f6] text-[#3e2211] py-2.5 rounded-xl text-xs font-bold hover:bg-[#f4ece4] transition-all"
             >
-              <Lock className="w-3.5 h-3.5 text-[#8a5732]" />
-              <span>Staff Portal</span>
+              <Lock className="w-3.5 h-3.5 text-[#7a4727]" />
+              <span>Admin</span>
             </Link>
             <Link
               href="/#contact"
