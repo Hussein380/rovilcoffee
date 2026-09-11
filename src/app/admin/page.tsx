@@ -11,12 +11,26 @@ import {
 import ProductCard3D from '@/components/products/ProductCard3D';
 import { ProductItem } from '@/types/product';
 import { initialProductsCatalog } from '@/data/productsCatalog';
+import RovilLogo from '@/components/RovilLogo';
 
 // Category options
 const CATEGORY_OPTIONS = [
   { id: 'coffee', label: 'Kenyan Arabica Coffee' },
   { id: 'tea',    label: 'Kenyan Specialty Tea' },
   { id: 'other',  label: 'Other / Custom Product' },
+];
+
+const PRESET_ASSETS = [
+  { label: 'Medium Ground (125g)', url: '/images/branded/medium-ground-coffee-125g.png' },
+  { label: 'AA Beans/Ground (125g)', url: '/images/branded/aa-ground-beans-125g.png' },
+  { label: 'Royal Purple Tea', url: '/images/branded/purple-tea.png' },
+  { label: 'Black Orthodox & Purple', url: '/images/branded/black-orthodox-purple-tea-front.png' },
+  { label: 'High-Grown Green Tea', url: '/images/branded/green-tea-front.png' },
+  { label: 'Wild Hibiscus Infusion', url: '/images/branded/hibiscus-tea.png' },
+  { label: 'Roasted Mixed Nuts', url: '/images/branded/roasted-mixed-nuts.png' },
+  { label: '250g Whole Bean Pouch', url: '/images/branded/rovil-coffee-pouch.jpg' },
+  { label: 'Luxury Tea Canister', url: '/images/branded/rovil-tea-canister.jpg' },
+  { label: 'Eco Cafe Cups', url: '/images/branded/rovil-retail-cups.jpg' },
 ];
 
 const emptyForm = {
@@ -448,15 +462,12 @@ export default function AdminPage() {
       {/* Top bar */}
       <header className="sticky top-0 z-40 bg-[#23150c] border-b border-white/10 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#b57a44]/20 border border-[#b57a44]/30 flex items-center justify-center">
-              <Coffee className="w-5 h-5 text-[#d89f68]" />
-            </div>
-            <div>
-              <span className="font-extrabold text-white text-base tracking-tight block leading-none">ROVIL Admin</span>
-              <span className="text-white/40 text-[11px]">Product Catalog Management</span>
-            </div>
-          </div>
+          <RovilLogo
+            variant="light"
+            size="sm"
+            subtitleText="Catalog Management Portal"
+            href="/admin"
+          />
 
           <div className="flex items-center gap-3">
             <a
@@ -820,6 +831,32 @@ export default function AdminPage() {
                     onChange={handleFileSelect}
                     className="hidden"
                   />
+
+                  {/* Quick Select from ROVIL Branded Image Assets */}
+                  <div className="mt-2.5">
+                    <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block mb-1.5">
+                      Or pick from ROVIL branded packaging assets:
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {PRESET_ASSETS.map((asset) => (
+                        <button
+                          key={asset.url}
+                          type="button"
+                          onClick={() => {
+                            setForm((p) => ({ ...p, image: asset.url }));
+                            setImagePreview(asset.url);
+                          }}
+                          className={`px-2.5 py-1 rounded-lg text-[11px] font-medium border transition-all ${
+                            form.image === asset.url
+                              ? 'bg-[#23150c] text-white border-[#23150c] shadow-xs'
+                              : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+                          }`}
+                        >
+                          {asset.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Product Name & Tagline */}

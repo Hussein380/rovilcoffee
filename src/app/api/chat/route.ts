@@ -102,16 +102,18 @@ function buildSystemPrompt(products: any[]) {
 - Mission: ${companyInfo.subheading}
 - Licensing: Officially Licensed Coffee & Tea Exporter by the Government of Kenya | Coffee Directorate (Agriculture and Food Authority - AFA).
 - Origin: Republic of Kenya (Central Kenya Highlands, Mt. Kenya & Aberdares volcanic soils at 1,800m - 2,200m ASL).
-- Export Seaport: Port of Mombasa (Kilindini Harbour) for global ocean container shipments (FCL 20ft/40ft & LCL pallets).
-- Inland Container Hub: ICD Nairobi for rail container dispatch via SGR.
-- Air Cargo: Jomo Kenyatta International Airport (NBO) for express samples.
-- Shipping Terms: FOB Mombasa, CIF destination ports worldwide, CFR.
+- Export Logistics & Shipping Policy:
+  * Strict Incoterms: FOB (Free On Board). All international freight and shipping costs are paid and borne by the buyer.
+  * Consignments under 1 metric tonne (under 1,000 kg): Dispatched via Air Freight through Jomo Kenyatta International Airport (JKIA), Nairobi (freight paid by buyer).
+  * Consignments of 1 metric tonne and above (1,000 kg or more / FCL container lots): Shipped via Ocean Freight through the Port of Mombasa (Kilindini Harbour) (freight paid by buyer).
+  * Full End-to-End Traceability: Products can be tracked completely from the farm origin blocks (Mount Kenya / Aberdares) through the airport (JKIA) or seaport (Mombasa) right to the exact buyer destination worldwide.
+  * Rovil covers origin milling, GrainPro packing, phytosanitary clearance (KEPHIS/AFA), and loading aboard the vessel/carrier.
 
 ### DIRECT CONTACTS & DESK
 - WhatsApp: ${companyInfo.contacts.whatsapp} (Direct link: wa.me/254721487948)
 - Primary Phone: ${companyInfo.contacts.phonePrimary}
 - Secondary Phone: ${companyInfo.contacts.phoneSecondary}
-- Email: ${companyInfo.contacts.email}
+- Email: virovillimited@gmail.com
 - Head Office Address: ${companyInfo.address.street}, ${companyInfo.address.poBox}, ${companyInfo.address.city}, ${companyInfo.address.country}
 - Business Hours: ${companyInfo.hours}
 
@@ -173,22 +175,22 @@ For our Royal Purple Tea, steep in fresh water at 85°C to 90°C for 3 to 4 minu
     return `### Contact Information
 * WhatsApp Export Desk: +254 721 487 948
 * Telephone: +254 721 487 948 / +254 722 661 065
-* Email: info@rovil.co.ke
+* Email: virovillimited@gmail.com
 * Office Location: Moi Avenue, P.O. Box 21237-00100, Nairobi, Kenya
-* Export Shipping Hubs: Port of Mombasa (Kilindini Harbour) and ICD Nairobi
+* Export Ports: Port of Mombasa (Sea Freight for 1 tonne and above) and JKIA Airport Nairobi (Air Cargo for orders under 1 tonne)
 * Working Hours: Monday to Friday, 08:00 to 17:00 EAT (UTC+3)`;
   }
 
-  // 5. Shipping & Export procedure
-  if (query.includes('ship') || query.includes('export') || query.includes('port') || query.includes('mombasa') || query.includes('container') || query.includes('fob') || query.includes('cif') || query.includes('moq') || query.includes('logistics') || query.includes('lead time')) {
-    return `### Export Logistics and Shipping
-Rovil Coffee and Tea handles complete export logistics from Kenya to international destinations:
+  // 5. Shipping, Tracking & Export procedure
+  if (query.includes('ship') || query.includes('track') || query.includes('trace') || query.includes('export') || query.includes('port') || query.includes('mombasa') || query.includes('airport') || query.includes('container') || query.includes('fob') || query.includes('cif') || query.includes('moq') || query.includes('logistics') || query.includes('lead time')) {
+    return `### Export Logistics & Full Origin-to-Destination Traceability
+Rovil Coffee and Tea operates strictly under FOB (Free On Board) Incoterms. All international freight and shipping costs are paid and arranged at the buyer's cost.
 
-* Seaport of Origin: Port of Mombasa (Kilindini Harbour), Kenya.
-* Inland Depot: ICD Nairobi via Standard Gauge Railway (SGR).
-* Container Capacity: 20ft FCL holds 320 bags (19.2 Metric Tonnes); 40ft FCL available for bulk allocations.
-* Shipping Terms: FOB Mombasa, CFR, or CIF destination ports worldwide.
-* Export Documentation: Full Phytosanitary certificate, Certificate of Origin (ICO/AFA), Bill of Lading, and SCA cupping quality sheets.`;
+* End-to-End Lot Tracking: Every consignment is trackable from the specific Mount Kenya farm block and cooperative wet mill, through dry milling and grading, through the airport (JKIA) or seaport (Port of Mombasa), right to your exact destination port or warehouse.
+* Under 1 Metric Tonne (under 1,000 kg): Dispatched via Air Cargo through Jomo Kenyatta International Airport (JKIA), Nairobi at buyer's cost (tracked via Air Waybill / AWB).
+* 1 Metric Tonne and Above (1,000 kg or more): Shipped via Ocean Freight through the Port of Mombasa (Kilindini Harbour) in GrainPro hermetic lined containers at buyer's cost (tracked via Ocean Bill of Lading & container satellite GPS).
+* Origin Responsibilities: Rovil covers quality grading, milling, GrainPro packing, phytosanitary clearance (KEPHIS/AFA), and loading aboard the carrier.
+* Official Documentation Pack: Phytosanitary Certificate, ICO Certificate of Origin, Bill of Lading / Air Waybill, and SCA 86+ Laboratory Cupping Sheets.`;
   }
 
   // 6. Products / price inquiry

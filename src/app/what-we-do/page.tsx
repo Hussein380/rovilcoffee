@@ -91,7 +91,7 @@ export default function WhatWeDoPage() {
                 Bulk Green Coffee (320 Bags FCL)
               </span>
               <span className="px-3.5 py-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-[#f4ece4]">
-                Port of Mombasa (FOB / CIF)
+                Strict FOB Terms (Air &amp; Sea Dispatch)
               </span>
             </div>
           </SlideUp>
@@ -211,8 +211,8 @@ export default function WhatWeDoPage() {
                   <div className="group rounded-3xl overflow-hidden border border-[#d8c2b0] bg-white shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
                     <div className="relative h-80 w-full bg-[#fbf9f6] overflow-hidden">
                       <Image
-                        src="/images/branded/rovil-coffee-pouch.jpg"
-                        alt="ROVIL 100% Kenyan Arabica Grade AA Roasted Coffee Bag"
+                        src="/images/branded/rovil-coffee-showcase.jpg"
+                        alt="ROVIL 100% Kenyan Arabica Grade AA Roasted Coffee Pouch"
                         fill
                         unoptimized
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -222,7 +222,7 @@ export default function WhatWeDoPage() {
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-[#7a4727] bg-[#f4ece4] px-3 py-1 rounded-full">
-                            250g / 500g / 1kg Pouches
+                            125g / 250g / 500g Pouches
                           </span>
                           <span className="text-xs text-emerald-800 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded">
                             Grade AA Roast
@@ -261,8 +261,8 @@ export default function WhatWeDoPage() {
                   <div className="group rounded-3xl overflow-hidden border border-[#d8c2b0] bg-white shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
                     <div className="relative h-80 w-full bg-[#fbf9f6] overflow-hidden">
                       <Image
-                        src="/images/branded/rovil-tea-canister.jpg"
-                        alt="ROVIL Kenyan Highland Purple Tea Luxury Tin Canister"
+                        src="/images/branded/rovil-tea-showcase.jpg"
+                        alt="ROVIL Kenyan Highland Black Orthodox and Purple Tea Pouch"
                         fill
                         unoptimized
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -391,12 +391,12 @@ export default function WhatWeDoPage() {
                     <div className="grid grid-cols-2 gap-4 pt-2">
                       <div className="p-4 rounded-xl bg-white border border-[#ece3db] shadow-xs">
                         <div className="text-xs text-[#7d7065] font-semibold">Screen Accuracy</div>
-                        <div className="text-lg font-bold text-[#23150c] mt-0.5">&gt; 90% Above Sieve</div>
+                        <div className="text-lg font-bold text-[#23150c] mt-0.5">90% or higher Above Sieve</div>
                         <div className="text-xs text-[#574c43] mt-0.5">Exceeds national AFA standards</div>
                       </div>
                       <div className="p-4 rounded-xl bg-white border border-[#ece3db] shadow-xs">
                         <div className="text-xs text-[#7d7065] font-semibold">Density Metric</div>
-                        <div className="text-lg font-bold text-[#23150c] mt-0.5">&gt; 710 g / Litre</div>
+                        <div className="text-lg font-bold text-[#23150c] mt-0.5">710 g / Litre or higher</div>
                         <div className="text-xs text-[#574c43] mt-0.5">High thermal retention for roasters</div>
                       </div>
                     </div>
@@ -546,7 +546,7 @@ export default function WhatWeDoPage() {
                         </div>
                         <div className="p-3.5 rounded-xl bg-[#fbf9f6] border border-[#ece3db]">
                           <span className="text-[#7d7065] block text-xs font-semibold mb-0.5">Defect Threshold</span>
-                          <span className="font-bold text-[#23150c]">0 Primary / &lt;5 Sec.</span>
+                          <span className="font-bold text-[#23150c]">0 Primary / Under 5 Secondary</span>
                         </div>
                         <div className="p-3.5 rounded-xl bg-[#fbf9f6] border border-[#ece3db]">
                           <span className="text-[#7d7065] block text-xs font-semibold mb-0.5">Container Load</span>
@@ -670,7 +670,7 @@ export default function WhatWeDoPage() {
                           <Thermometer className="w-4 h-4" />
                           <span>Water Activity (aW)</span>
                         </div>
-                        <div className="text-xl font-bold text-[#23150c] mt-1">&lt; 0.60 Target</div>
+                        <div className="text-xl font-bold text-[#23150c] mt-1">Under 0.60 Target</div>
                         <p className="text-xs text-[#574c43] mt-1">
                           Inhibits fungal growth and lipid degradation during tropical ocean transport.
                         </p>
@@ -968,9 +968,9 @@ export default function WhatWeDoPage() {
                     <div className="w-10 h-10 rounded-xl bg-[#f4ece4] border border-[#d8c2b0] flex items-center justify-center text-[#7a4727]">
                       <Ship className="w-5 h-5" />
                     </div>
-                    <h4 className="font-bold text-[#23150c] text-base">Incoterms 2020: FOB / CIF</h4>
+                    <h4 className="font-bold text-[#23150c] text-base">Incoterms 2020: FOB (Air &amp; Sea)</h4>
                     <p className="text-sm text-[#574c43] leading-relaxed">
-                      Flexible commercial terms: FOB Mombasa Port (Kilindini) or CIF to Hamburg, Rotterdam, Felixstowe, New York, Kobe, and Jebel Ali.
+                      Strict FOB terms: Orders under 1 metric tonne dispatched via Air Freight (JKIA Nairobi); 1 metric tonne and above shipped via Ocean Freight (Port of Mombasa). All international freight and shipping costs are borne by the buyer.
                     </p>
                   </div>
                 </div>
@@ -995,8 +995,8 @@ export default function WhatWeDoPage() {
                     <div className="flex items-start gap-3 p-4 rounded-xl bg-[#fbf9f6] border border-[#ece3db]">
                       <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                       <div>
-                        <span className="font-bold text-[#23150c] block">Original Ocean Bill of Lading (B/L)</span>
-                        <span className="text-xs text-[#574c43]">3/3 clean on-board Ocean Bills of Lading</span>
+                        <span className="font-bold text-[#23150c] block">Air Waybill (AWB) / Ocean B/L</span>
+                        <span className="text-xs text-[#574c43]">JKIA Air Waybill (Air Cargo) or Port of Mombasa 3/3 Clean Ocean Bills of Lading (Ocean Freight)</span>
                       </div>
                     </div>
 

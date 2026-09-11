@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShieldCheck, Mail, Phone, MapPin, Anchor, ArrowUpRight } from 'lucide-react';
 import { companyInfo } from '@/data/companyInfo';
+import RovilLogo from '@/components/RovilLogo';
 
 export default function Footer() {
   return (
@@ -9,19 +10,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
           {/* Column 1: Corporate Brand */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#d4a373] to-[#8c5e32] flex items-center justify-center text-black font-bold text-lg tracking-wider">
-                R
-              </div>
-              <div>
-                <span className="text-xl font-bold tracking-widest text-white uppercase font-heading block">
-                  ROVIL
-                </span>
-                <span className="text-[10px] tracking-widest text-[#d4a373] uppercase block font-sans">
-                  Kenyan Coffee & Tea Exporters
-                </span>
-              </div>
-            </div>
+            <RovilLogo variant="light" size="md" />
 
             <p className="text-xs leading-relaxed text-[#baa99e] max-w-sm">
               Connecting premium Arabica coffee and distinct teas grown in Kenya’s fertile highlands to commercial roasters, importers, and distributors across Africa, Europe, the UK, the USA, Asia, and Japan.

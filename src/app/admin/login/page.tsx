@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Coffee, Lock, ArrowRight, AlertCircle } from 'lucide-react';
+import { Lock, ArrowRight, AlertCircle } from 'lucide-react';
+import RovilLogo from '@/components/RovilLogo';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -49,11 +50,13 @@ export default function AdminLoginPage() {
         <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 shadow-2xl">
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-[#b57a44]/20 border border-[#b57a44]/30 flex items-center justify-center mb-4">
-              <Coffee className="w-7 h-7 text-[#d89f68]" />
-            </div>
-            <h1 className="text-xl font-extrabold text-white tracking-tight">ROVIL Admin</h1>
-            <p className="text-xs text-white/50 mt-1">Product Catalog Management</p>
+            <RovilLogo
+              variant="light"
+              size="lg"
+              subtitleText="Catalog Management Portal"
+              href=""
+              className="flex-col text-center items-center"
+            />
           </div>
 
           {/* Form */}

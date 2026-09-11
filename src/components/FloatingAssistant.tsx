@@ -17,9 +17,11 @@ import {
   Package,
   Ship,
   Coffee,
-  Leaf
+  Leaf,
+  Mail
 } from 'lucide-react';
 import Image from 'next/image';
+import { RovilLogoIcon } from '@/components/RovilLogo';
 
 interface SuggestedProduct {
   id: string;
@@ -68,9 +70,9 @@ const DISCOVERY_CARDS = [
   },
   {
     icon: Ship,
-    title: 'Port of Mombasa Shipping',
-    sub: 'FCL / LCL Transit & FOB/CIF',
-    prompt: 'How does container export shipping work from the Port of Mombasa?',
+    title: 'FOB Shipping & Freight',
+    sub: 'Air under 1 tonne, Sea for 1 tonne and above',
+    prompt: 'How does your FOB shipping work (air freight for orders under 1 tonne vs ocean containers for 1 tonne and above) and what are the buyer freight costs?',
   },
 ];
 
@@ -237,7 +239,7 @@ export default function FloatingAssistant() {
     } catch (err) {
       console.error('Chat error:', err);
       const fallbackId = 'assistant-err-' + Date.now();
-      const fallbackText = 'We are experiencing a temporary network delay. You can reach our export sales team directly on WhatsApp at +254 721 487 948 or email info@rovil.co.ke.';
+      const fallbackText = 'We are experiencing a temporary network delay. You can reach our export sales team directly on WhatsApp at +254 721 487 948 or email virovillimited@gmail.com.';
       
       setMessages((prev) => [
         ...prev,
@@ -358,23 +360,8 @@ export default function FloatingAssistant() {
           {/* Header */}
           <div className="bg-gradient-to-r from-[#3d2314] via-[#54331d] to-[#6f4327] text-white px-4 py-3 flex items-center justify-between shadow-sm select-none shrink-0 border-b border-white/10">
             <div className="flex items-center gap-2.5">
-              <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-amber-400/20 border border-amber-300/40 text-amber-200">
-                <svg
-                  className="w-4.5 h-4.5 text-amber-200"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="6" width="18" height="13" rx="3" fill="currentColor" fillOpacity="0.15" />
-                  <line x1="12" y1="2" x2="12" y2="6" />
-                  <circle cx="12" cy="2" r="1" fill="currentColor" />
-                  <circle cx="8.5" cy="11.5" r="1" fill="#fde68a" />
-                  <circle cx="15.5" cy="11.5" r="1" fill="#fde68a" />
-                  <path d="M9 15c.83.8 2 1.2 3 1.2s2.17-.4 3-1.2" stroke="#fde68a" strokeWidth="1.6" />
-                </svg>
+              <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-white/10 border border-white/20 p-1">
+                <RovilLogoIcon variant="light" className="w-5 h-6" />
                 <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-[#3d2314] rounded-full" />
               </div>
               <div>
@@ -666,7 +653,23 @@ export default function FloatingAssistant() {
       )}
 
       {/* ------------------- FLOATING ACTION BUTTONS (Ergonomic Mobile & Desktop) ------------------- */}
-      <div className="fixed bottom-4 right-3.5 sm:bottom-5 sm:right-5 z-40 flex flex-col items-end gap-2.5 font-sans pointer-events-none">
+      <div className="fixed bottom-16 right-3 sm:bottom-5 sm:right-5 z-40 flex flex-col items-end gap-2 sm:gap-2.5 font-sans pointer-events-none">
+        {/* 0. Floating Email Button */}
+        <div className="relative group flex items-center pointer-events-auto">
+          <span className="hidden sm:inline-block absolute right-14 top-1/2 -translate-y-1/2 whitespace-nowrap bg-stone-900/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md z-10 border border-white/10">
+            Email Export Desk (virovillimited@gmail.com)
+          </span>
+
+          <a
+            href="mailto:virovillimited@gmail.com?subject=Kenyan%20Coffee%20%26%20Tea%20Export%20Inquiry"
+            className="relative flex items-center justify-center bg-[#23150c] hover:bg-[#3e2211] text-[#d89f68] hover:text-white w-11 h-11 sm:w-12 sm:h-12 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 border border-[#b57a44]/50 cursor-pointer"
+            style={{ boxShadow: '0 4px 16px -2px rgba(35, 21, 12, 0.55)' }}
+            aria-label="Email virovillimited@gmail.com"
+          >
+            <Mail className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
+          </a>
+        </div>
+
         {/* 1. Floating WhatsApp Button */}
         <div className="relative group flex items-center pointer-events-auto">
           <span className="hidden sm:inline-block absolute right-14 top-1/2 -translate-y-1/2 whitespace-nowrap bg-stone-900/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md z-10 border border-white/10">

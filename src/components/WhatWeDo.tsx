@@ -1,497 +1,327 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  Coffee,
-  Leaf,
-  ShieldCheck,
-  ArrowRight,
-  Layers,
-  Ship,
-  FileCheck2,
-  Package,
-  ShoppingBag,
-  Sparkles,
-} from 'lucide-react';
-import { coffeeGrades } from '@/data/coffeeGrades';
-import { teaVarieties } from '@/data/teaVarieties';
-import {
-  SlideUp,
-  AnimatePresence,
-  motion,
-} from '@/components/motion/MotionWrappers';
+import { ArrowRight } from 'lucide-react';
 
 export default function WhatWeDo() {
-  const [activeTab, setActiveTab] = useState<'coffee' | 'tea' | 'branded'>('branded');
-  const [selectedGradeId, setSelectedGradeId] = useState<string>('grade-aa');
-
-  // 4 primary coffee grades for clean 4-column display
-  const primaryGrades = coffeeGrades.slice(0, 4);
+  const packagedProducts = [
+    {
+      id: 'coffee-125g',
+      title: 'ROVIL Global Kenyan Coffee',
+      weight: '125g Net Weight',
+      tag: '100% Arabica Medium Roast Ground',
+      desc: 'Grown in rich volcanic soils of Mount Kenya. Bold acid flavor, mellow wine aftertaste, and pleasant caramel aroma.',
+      notes: ['Blackberry', 'Maple Syrup', 'Dark Cocoa', 'Green Apple'],
+      image: '/images/branded/rovil-coffee-showcase.jpg',
+      roaster: 'Virovil (K) Co. Ltd',
+      cta: 'Inquire Packs',
+    },
+    {
+      id: 'tea-150g',
+      title: 'ROVIL Black Orthodox & Purple Tea',
+      weight: '150g Stand-up Pouch',
+      tag: 'Rare High-Altitude TRFK 306',
+      desc: 'A blend of rich flavor and natural antioxidants. High in anthocyanin polyphenols with a refreshing aromatic liquor.',
+      notes: ['Anthocyanin-Rich', 'Wild Berry', 'Sweet Plum', 'Smooth Malt'],
+      image: '/images/branded/rovil-tea-showcase.jpg',
+      roaster: 'Natural & Aromatic',
+      cta: 'Inquire Packs',
+    },
+    {
+      id: 'greentea-100g',
+      title: 'ROVIL Highland Pure Green Tea',
+      weight: '100g Eco Pouch',
+      tag: 'Steamed Non-Fermented Leaf',
+      desc: 'Produced from tender young leaves grown in high altitude volcanic soil. High in bioactive EGCG catechins with crisp vegetal clarity.',
+      notes: ['High EGCG', 'Spring Blossom', 'Zero Additives', 'Clean Liquor'],
+      image: '/images/branded/rovil-greentea-showcase.jpg',
+      roaster: 'Highland Tea Estate',
+      cta: 'Inquire Packs',
+    },
+    {
+      id: 'nuts-150g',
+      title: 'ROVIL Premium Roasted Mixed Nuts',
+      weight: '150g Gourmet Foil Pouch',
+      tag: 'Highland Macadamias & Cashews',
+      desc: 'Prime Kenyan macadamias and jumbo coastal cashews, dry-roasted in small batches with sea salt. Packaged for retail and luxury hospitality.',
+      notes: ['Macadamias', 'Coastal Cashews', 'Sea Salt', 'Slow Roasted'],
+      image: '/images/branded/rovil-nuts-showcase.jpg',
+      roaster: 'Export Selection',
+      cta: 'Inquire Packs',
+    },
+  ];
 
   return (
-    <section id="what-we-do" className="relative py-20 bg-white border-b border-[#ece3db] overflow-hidden">
-      
-      {/* Background Subtle Ambient Texture */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#fbf9f6]/60 to-[#f4ece4]/30 pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
+    <section id="what-we-do" className="py-10 sm:py-14 bg-white border-b border-stone-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
         
-        {/* Section Header */}
-        <div className="max-w-3xl">
-          <SlideUp delay={0.0}>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727] mb-2 block">
-              Direct Central Kenyan Origin • Commercial Export &amp; ROVIL Reserves
-            </span>
-          </SlideUp>
+        {/* SECTION 1: PACKAGED PRODUCT RESERVES */}
+        <div className="space-y-6">
+          
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-stone-200 pb-4">
+            <div className="max-w-2xl space-y-1.5">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#7a4727] block">
+                Official ROVIL Packaged Line • Nairobi, Kenya
+              </span>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#23150c] tracking-tight">
+                Single-Origin <span className="text-[#7a4727]">Packaged Reserves</span>
+              </h2>
+              <p className="text-sm text-[#574c43] leading-relaxed">
+                Artisanal coffees and specialty highland teas packaged in Nairobi for boutique cafes, gourmet grocers, and international retail distribution.
+              </p>
+            </div>
 
-          <SlideUp delay={0.1}>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#23150c] tracking-tight leading-tight">
-              Export Dossier: <span className="text-[#7a4727] italic font-normal">Single-Origin</span> &amp; Bulk Reserves
-            </h2>
-          </SlideUp>
-
-          <SlideUp delay={0.2}>
-            <p className="mt-4 text-base sm:text-lg text-[#574c43] leading-relaxed">
-              We operate directly across the Kenyan origin value chain. We supply multi-container export allocations (FOB Mombasa / CIF Worldwide) for international green coffee importers, while roasting small-batch <strong>ROVIL</strong> reserves for cafes, hospitality groups, and gourmet distributors.
-            </p>
-            <div className="pt-4 flex flex-wrap gap-3">
+            <div className="flex items-center gap-3 shrink-0">
               <Link
-                href="/what-we-do"
-                className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-5 py-3 rounded-xl text-sm font-semibold transition-all shadow-sm"
+                href="/products"
+                className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#382315] text-white px-5 py-2.5 rounded-sm text-xs font-semibold tracking-wider uppercase transition-colors"
               >
-                <span>Full Technical Dossier</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>Full Catalog</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <a
-                href="#branded-retail"
-                className="inline-flex items-center gap-2 bg-[#f4ece4] hover:bg-[#ece3db] text-[#3e2211] px-5 py-3 rounded-xl text-sm font-semibold transition-all border border-[#d8c2b0]"
+                href="#contact"
+                className="inline-flex items-center gap-2 bg-white hover:bg-stone-50 text-[#23150c] border border-stone-300 px-5 py-2.5 rounded-sm text-xs font-semibold tracking-wider uppercase transition-colors"
               >
-                <span>Packaged Retail Reserves</span>
+                <span>Request Pricing</span>
               </a>
             </div>
-          </SlideUp>
+          </div>
+
+          {/* 4 Clean Editorial Product Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {packagedProducts.map((p) => (
+              <div
+                key={p.id}
+                className="border border-stone-200 bg-white rounded-sm overflow-hidden flex flex-col justify-between hover:border-stone-400 transition-colors shadow-xs"
+              >
+                {/* Product Photo */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone-100">
+                  <Image
+                    src={p.image}
+                    alt={p.title}
+                    fill
+                    unoptimized
+                    className="object-cover"
+                  />
+                  <div className="absolute top-2 right-2 bg-[#23150c]/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-xs uppercase tracking-wider">
+                    {p.weight}
+                  </div>
+                </div>
+
+                {/* Product Details */}
+                <div className="p-4 space-y-2.5 flex-1 flex flex-col justify-between">
+                  <div className="space-y-1.5">
+                    <span className="text-[11px] font-bold text-[#7a4727] block uppercase tracking-wider">
+                      {p.tag}
+                    </span>
+
+                    <h3 className="text-[#23150c] text-base font-bold leading-snug">
+                      {p.title}
+                    </h3>
+
+                    <p className="text-xs text-[#574c43] leading-relaxed line-clamp-2">
+                      {p.desc}
+                    </p>
+
+                    {/* Tasting Tags */}
+                    <div className="flex flex-wrap gap-1 pt-1">
+                      {p.notes.map((note) => (
+                        <span
+                          key={note}
+                          className="text-[10px] font-medium bg-stone-100 border border-stone-200 px-2 py-0.5 rounded-xs text-stone-700"
+                        >
+                          {note}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-2.5 border-t border-stone-200 flex items-center justify-between text-xs">
+                    <span className="text-[11px] text-stone-500 truncate max-w-[120px]">{p.roaster}</span>
+                    <a
+                      href="#contact"
+                      className="font-bold text-[#7a4727] hover:text-[#23150c] flex items-center gap-1 transition-colors text-[11px] uppercase tracking-wider"
+                    >
+                      <span>{p.cta}</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Clean Sub-Page Banner */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-sm bg-[#faf9f7] border border-stone-200 text-xs text-[#574c43]">
+            <div>
+              <strong className="text-[#23150c] font-bold">Looking for additional packaging formats, gift tins, or cafe supplies? </strong>
+              <span className="text-stone-600">Explore our complete catalog with multi-currency pricing (USD &amp; KES) and specifications.</span>
+            </div>
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-1 font-bold text-[#7a4727] hover:text-[#23150c] transition-colors shrink-0 uppercase text-[11px] tracking-wider"
+            >
+              <span>Products Catalog</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
         </div>
 
-        {/* 1. HIGHLIGHT SECTION: ROVIL BRANDED CONSUMER & RETAIL LINE */}
-        <div id="branded-retail" className="space-y-6 pt-2">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f4ece4] text-[#7a4727] text-xs font-semibold mb-2">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Single-Origin Packaged Reserves</span>
-              </div>
-              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#23150c]">
-                The ROVIL Packaged Collection
-              </h3>
-            </div>
-            <p className="text-sm text-[#574c43] max-w-md">
-              Artisanal small-batch roasted in Nairobi for specialty coffee shops, retail consumers, and international grocery distribution.
+        {/* SECTION 2: COMMERCIAL BULK GREEN COFFEE EXPORTS */}
+        <div className="space-y-6 pt-6 border-t border-stone-200">
+          
+          <div className="max-w-2xl space-y-1.5">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#7a4727] block">
+              Commercial Export • Port of Mombasa Dispatch
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#23150c] tracking-tight">
+              Bulk Green Arabica <span className="text-[#7a4727]">&amp; Container Lots</span>
+            </h2>
+            <p className="text-sm text-[#574c43] leading-relaxed">
+              We supply international roasting companies, commodity importers, and trading houses with container allocations in 60kg GrainPro hermetic lined jute bags strictly under FOB Incoterms.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* 2-Column Clean Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center bg-[#faf9f7] p-5 sm:p-6 rounded-sm border border-stone-200">
             
-            {/* ROVIL Coffee Pouches */}
-            <div className="group rounded-3xl overflow-hidden border border-[#d8c2b0] bg-white shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
-              <div className="relative h-72 w-full bg-[#fbf9f6] overflow-hidden">
-                <Image
-                  src="/images/branded/rovil-coffee-pouch.jpg"
-                  alt="ROVIL 100% Kenyan Arabica Grade AA Roasted Coffee 250g Pouch"
-                  fill
-                  unoptimized
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#7a4727] bg-[#f4ece4] px-2.5 py-1 rounded-full">
-                      250g / 500g / 1kg
-                    </span>
-                    <span className="text-xs text-emerald-800 font-semibold bg-emerald-50 px-2 py-0.5 rounded">
-                      Freshly Roasted
-                    </span>
-                  </div>
-                  <h4 className="text-xl font-bold text-[#23150c] group-hover:text-[#7a4727] transition-colors">
-                    ROVIL Single Origin Roasted Coffee
-                  </h4>
-                  <p className="text-sm text-[#574c43] leading-relaxed">
-                    100% Kenyan Arabica Grade AA, artisanal roasted in small batches. Sealed in premium degassing valve pouches preserving rich blackcurrant and jasmine aromatics.
-                  </p>
-                </div>
-                <div className="pt-4 border-t border-[#ece3db] flex items-center justify-between text-sm">
-                  <span className="text-xs text-[#7d7065]">Whole Bean &amp; Fine Ground</span>
-                  <a href="#contact" className="font-bold text-[#7a4727] hover:text-[#23150c] flex items-center gap-1">
-                    <span>Order Packs</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
+            {/* Left: Genuine Warehouse Photo */}
+            <div className="lg:col-span-6 relative aspect-[4/3] rounded-sm overflow-hidden border border-stone-200 bg-white shadow-sm">
+              <Image
+                src="/images/branded/rovil-bulk-coffee.jpg"
+                alt="Kenyan Green Arabica Grade AA 60kg Burlap Export Bags at Milling Warehouse"
+                fill
+                unoptimized
+                className="object-cover"
+              />
             </div>
 
-            {/* ROVIL Tea Canisters */}
-            <div className="group rounded-3xl overflow-hidden border border-[#d8c2b0] bg-white shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
-              <div className="relative h-72 w-full bg-[#fbf9f6] overflow-hidden">
-                <Image
-                  src="/images/branded/rovil-tea-canister.jpg"
-                  alt="ROVIL Kenyan Highland Purple Tea Luxury Canister 100g"
-                  fill
-                  unoptimized
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#7a4727] bg-[#f4ece4] px-2.5 py-1 rounded-full">
-                      100g Airtight Tin
-                    </span>
-                    <span className="text-xs text-purple-800 font-semibold bg-purple-50 px-2 py-0.5 rounded">
-                      TRFK 306 Cultivar
-                    </span>
+            {/* Right: Clean Export Specifications */}
+            <div className="lg:col-span-6 space-y-3">
+              
+              <div className="space-y-2.5">
+                <div className="p-3 rounded-sm bg-white border border-stone-200 flex items-start justify-between gap-3">
+                  <div>
+                    <h4 className="font-bold text-sm text-[#23150c]">Kenya Grade AA Arabica (Screen 17/18)</h4>
+                    <p className="text-xs text-[#574c43] mt-0.5">
+                      Uniform large beans (7.2mm). Intense blackcurrant aromatics, bright citric acidity, and heavy winey mouthfeel.
+                    </p>
                   </div>
-                  <h4 className="text-xl font-bold text-[#23150c] group-hover:text-[#7a4727] transition-colors">
-                    ROVIL Highland Purple &amp; Specialty Tea
-                  </h4>
-                  <p className="text-sm text-[#574c43] leading-relaxed">
-                    High-altitude antioxidant purple tea and golden-tipped orthodox leaves packed in elegant canisters. Delivers a vibrant violet infusion with natural sweet berry notes.
-                  </p>
+                  <span className="text-[11px] font-bold text-[#7a4727] bg-[#faf9f7] border border-stone-200 px-2 py-0.5 rounded-xs shrink-0">
+                    SCA 87.5+
+                  </span>
                 </div>
-                <div className="pt-4 border-t border-[#ece3db] flex items-center justify-between text-sm">
-                  <span className="text-xs text-[#7d7065]">Luxury Loose Leaf</span>
-                  <a href="#contact" className="font-bold text-[#7a4727] hover:text-[#23150c] flex items-center gap-1">
-                    <span>Order Tins</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
-            </div>
 
-            {/* ROVIL Cafe & Retail Cups Experience */}
-            <div className="group rounded-3xl overflow-hidden border border-[#d8c2b0] bg-white shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
-              <div className="relative h-72 w-full bg-[#fbf9f6] overflow-hidden">
-                <Image
-                  src="/images/branded/rovil-retail-cups.jpg"
-                  alt="ROVIL Branded Takeaway Cups and Fresh Artisanal Cafe Brew"
-                  fill
-                  unoptimized
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[#7a4727] bg-[#f4ece4] px-2.5 py-1 rounded-full">
-                      Cafe &amp; Consumer Cups
-                    </span>
-                    <span className="text-xs text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded">
-                      Local &amp; Events
-                    </span>
+                <div className="p-3 rounded-sm bg-white border border-stone-200 flex items-start justify-between gap-3">
+                  <div>
+                    <h4 className="font-bold text-sm text-[#23150c]">Kenya Grade AB Arabica (Screen 15/16)</h4>
+                    <p className="text-xs text-[#574c43] mt-0.5">
+                      Combines premium A and B screen sizes (6.8mm). Crisp malic acidity, floral sweetness, and caramel finish.
+                    </p>
                   </div>
-                  <h4 className="text-xl font-bold text-[#23150c] group-hover:text-[#7a4727] transition-colors">
-                    ROVIL Fresh Brew &amp; Cafe Supply
-                  </h4>
-                  <p className="text-sm text-[#574c43] leading-relaxed">
-                    Supplying hospitality venues, retail outlets, and corporate offices with branded ROVIL takeaway cups, signature espresso blends, and pour-over single origins.
-                  </p>
+                  <span className="text-[11px] font-bold text-[#7a4727] bg-[#faf9f7] border border-stone-200 px-2 py-0.5 rounded-xs shrink-0">
+                    SCA 85.5+
+                  </span>
                 </div>
-                <div className="pt-4 border-t border-[#ece3db] flex items-center justify-between text-sm">
-                  <span className="text-xs text-[#7d7065]">Hospitality &amp; Retail</span>
-                  <a href="#contact" className="font-bold text-[#7a4727] hover:text-[#23150c] flex items-center gap-1">
-                    <span>Cafe Inquiries</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
+
+                <div className="p-3 rounded-sm bg-white border border-stone-200 flex items-start justify-between gap-3">
+                  <div>
+                    <h4 className="font-bold text-sm text-[#23150c]">Kenya Grade PB Arabica (Peaberry)</h4>
+                    <p className="text-xs text-[#574c43] mt-0.5">
+                      Single rounded whole bean per cherry with concentrated sugar and bright stone fruit complexity.
+                    </p>
+                  </div>
+                  <span className="text-[11px] font-bold text-[#7a4727] bg-[#faf9f7] border border-stone-200 px-2 py-0.5 rounded-xs shrink-0">
+                    SCA 86.5+
+                  </span>
                 </div>
               </div>
+
+              {/* Shipping Logistics Summary */}
+              <div className="pt-1 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                <span className="text-[#574c43]">
+                  Standard Load: <strong className="text-[#23150c]">320 Bags (19.2 Tonnes)</strong> per 20ft Container
+                </span>
+                <a
+                  href="#contact"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-sm bg-[#23150c] hover:bg-[#382315] text-white font-semibold text-xs tracking-wider uppercase text-center transition-colors"
+                >
+                  Request Bulk Quote
+                </a>
+              </div>
+
             </div>
 
           </div>
+
+          {/* Clean Sub-Page Banner */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-sm bg-[#faf9f7] border border-stone-200 text-xs text-[#574c43]">
+            <div>
+              <strong className="text-[#23150c] font-bold">Need full technical export specifications? </strong>
+              <span className="text-stone-600">Review moisture tolerance levels, screen sorting methods, laboratory cupping sheets, and ICO certificates.</span>
+            </div>
+            <Link
+              href="/what-we-do"
+              className="inline-flex items-center gap-1 font-bold text-[#7a4727] hover:text-[#23150c] transition-colors shrink-0 uppercase text-[11px] tracking-wider"
+            >
+              <span>Technical Dossier</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+
         </div>
 
-        {/* 2. BULK EXPORT GRADES & COMMODITY TABS */}
-        <div className="space-y-8 pt-10 border-t border-[#ece3db]">
-          
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727] block">
-                Commercial Container Export (FOB / CIF)
+        {/* SECTION 3: MOUNT KENYA TERROIR & TRACEABILITY */}
+        <div className="p-6 sm:p-8 rounded-sm bg-[#23150c] text-white space-y-3">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+            <div className="max-w-2xl space-y-1.5">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#d8a87b] block">
+                Terroir Provenance &amp; Lot Traceability
               </span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#23150c]">
-                Bulk Green Coffee &amp; Wholesale Teas
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">
+                Grown at 1,950m on the Volcanic Slopes of Mount Kenya
               </h3>
+              <p className="text-xs sm:text-sm text-stone-300 leading-relaxed font-normal">
+                Our coffee cherries and purple tea leaves are hand-harvested by partnered smallholder farmer cooperatives across Nyeri, Kiambu, and Kirinyaga. Every shipment includes GPS polygon lot mapping compliant with European Union Deforestation Regulations (EUDR).
+              </p>
             </div>
 
-            {/* Tab Switcher */}
-            <div className="inline-flex p-1.5 rounded-2xl bg-[#f4ece4] border border-[#d8c2b0] shadow-xs self-start sm:self-auto">
-              <button
-                onClick={() => setActiveTab('coffee')}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
-                  activeTab === 'coffee'
-                    ? 'bg-[#23150c] text-white shadow-sm'
-                    : 'text-[#574c43] hover:text-[#23150c]'
-                }`}
+            <div className="shrink-0">
+              <Link
+                href="/our-farm"
+                className="inline-flex items-center gap-2 bg-[#d8a87b] hover:bg-[#c69566] text-[#23150c] px-5 py-2.5 rounded-sm text-xs font-bold tracking-wider uppercase transition-colors"
               >
-                <Coffee className="w-4 h-4" />
-                <span>Green Arabica (4 Grades)</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('tea')}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
-                  activeTab === 'tea'
-                    ? 'bg-[#23150c] text-white shadow-sm'
-                    : 'text-[#574c43] hover:text-[#23150c]'
-                }`}
-              >
-                <Leaf className="w-4 h-4" />
-                <span>Highland Teas (Bulk)</span>
-              </button>
+                <span>Farm &amp; Milling Process</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
-
-          {/* Tab Content Panels */}
-          <AnimatePresence mode="wait">
-            {activeTab === 'coffee' || activeTab === 'branded' ? (
-              <motion.div
-                key="coffee-tab"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-10"
-              >
-                {/* 4 Column Coffee Grades Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {primaryGrades.map((grade) => {
-                    const isSelected = grade.id === selectedGradeId;
-
-                    return (
-                      <motion.div
-                        key={grade.id}
-                        onClick={() => setSelectedGradeId(grade.id)}
-                        className={`group relative rounded-2xl p-6 transition-all duration-300 cursor-pointer flex flex-col justify-between border ${
-                          isSelected
-                            ? 'bg-white border-[#b57a44] shadow-md ring-2 ring-[#b57a44]/30'
-                            : 'bg-white border-[#ece3db] hover:border-[#d8c2b0] shadow-xs'
-                        }`}
-                        whileHover={{ y: -4 }}
-                      >
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <span className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#7a4727]/10 border border-[#7a4727]/20 text-[#7a4727] font-bold text-lg group-hover:bg-[#7a4727] group-hover:text-white transition-all">
-                              {grade.code}
-                            </span>
-
-                            <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-[#f4ece4] text-[#3e2211]">
-                              {grade.accentBadge}
-                            </span>
-                          </div>
-
-                          <div>
-                            <h3 className="font-bold text-[#23150c] text-lg group-hover:text-[#7a4727] transition-colors">
-                              {grade.name}
-                            </h3>
-                            <div className="text-xs font-medium text-[#7a4727] mt-0.5">
-                              Screen: {grade.screenSize} ({grade.screenMm})
-                            </div>
-                          </div>
-
-                          <p className="text-sm text-[#574c43] leading-relaxed line-clamp-3">
-                            {grade.beanDescription}
-                          </p>
-
-                          {/* Cupping Flavor Tags */}
-                          <div className="pt-2">
-                            <div className="text-xs font-semibold text-[#7d7065] mb-1.5">
-                              Cup Profile
-                            </div>
-                            <div className="flex flex-wrap gap-1.5">
-                              {grade.cupProfile.notes.slice(0, 3).map((note) => (
-                                <span
-                                  key={note}
-                                  className="px-2.5 py-1 rounded-md text-xs bg-[#fbf9f6] border border-[#ece3db] text-[#3e2211] font-medium"
-                                >
-                                  {note}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Card Footer */}
-                        <div className="pt-4 mt-5 border-t border-[#ece3db] flex items-center justify-between text-sm">
-                          <span className="text-[#574c43] font-medium">60kg GrainPro</span>
-                          <a
-                            href="#contact"
-                            className="font-bold text-[#7a4727] group-hover:text-[#23150c] flex items-center gap-1 transition-colors"
-                          >
-                            <span>Inquire</span>
-                            <ArrowRight className="w-4 h-4" />
-                          </a>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-
-                {/* Selected Grade Commercial Deep-Dive Box */}
-                {selectedGradeId && (
-                  <div className="p-6 sm:p-8 rounded-2xl bg-[#faf8f5] border border-[#d8c2b0] shadow-xs">
-                    {(() => {
-                      const grade = coffeeGrades.find((g) => g.id === selectedGradeId) || coffeeGrades[0];
-                      return (
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                          <div className="lg:col-span-8 space-y-3">
-                            <div className="flex items-center gap-2">
-                              <span className="px-3 py-1 rounded bg-[#23150c] text-white font-semibold text-xs">
-                                {grade.code} SPEC SHEET
-                              </span>
-                              <span className="text-sm text-[#7a4727] font-semibold">{grade.tagline}</span>
-                            </div>
-
-                            <h4 className="text-2xl font-bold text-[#23150c]">
-                              {grade.name} Technical Export Profile
-                            </h4>
-
-                            <p className="text-base text-[#574c43] leading-relaxed">
-                              {grade.beanDescription}
-                            </p>
-
-                            {/* Technical Indicators */}
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-sm">
-                              <div className="p-3.5 rounded-xl bg-white border border-[#ece3db]">
-                                <span className="text-[#7d7065] block text-xs font-semibold mb-0.5">Moisture Spec</span>
-                                <span className="font-bold text-[#23150c]">10.0% – 11.5% Max</span>
-                              </div>
-                              <div className="p-3.5 rounded-xl bg-white border border-[#ece3db]">
-                                <span className="text-[#7d7065] block text-xs font-semibold mb-0.5">Screen Diameter</span>
-                                <span className="font-bold text-[#23150c]">{grade.screenMm}</span>
-                              </div>
-                              <div className="p-3.5 rounded-xl bg-white border border-[#ece3db]">
-                                <span className="text-[#7d7065] block text-xs font-semibold mb-0.5">Container Load</span>
-                                <span className="font-bold text-[#23150c]">320 Bags / 19.2 MT</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="lg:col-span-4 flex flex-col items-stretch gap-3 bg-white p-6 rounded-xl border border-[#d8c2b0] text-center">
-                            <span className="text-xs font-semibold text-[#7a4727] uppercase">
-                              Ready for FOB / CIF Contract
-                            </span>
-                            <span className="text-base font-bold text-[#23150c]">
-                              Pre-Shipment Samples (PSS) Available
-                            </span>
-                            <a
-                              href="#contact"
-                              className="w-full py-3 px-4 rounded-xl bg-[#23150c] hover:bg-[#3e2211] text-white text-sm font-semibold transition-all shadow-xs"
-                            >
-                              <span>Request Quote for {grade.code}</span>
-                            </a>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                )}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="tea-tab"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-10"
-              >
-                {/* 4 Column Tea Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {teaVarieties.map((tea) => (
-                    <motion.div
-                      key={tea.id}
-                      className="group relative rounded-2xl p-6 bg-white border border-[#ece3db] hover:border-[#d8c2b0] shadow-xs flex flex-col justify-between"
-                      whileHover={{ y: -4 }}
-                    >
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <span className="px-2.5 py-1 rounded-md text-xs font-semibold bg-[#f4ece4] text-[#3e2211]">
-                            {tea.subtitle}
-                          </span>
-                        </div>
-
-                        <div>
-                          <h3 className="font-bold text-[#23150c] text-lg group-hover:text-[#7a4727] transition-colors">
-                            {tea.name}
-                          </h3>
-                        </div>
-
-                        <p className="text-sm text-[#574c43] leading-relaxed">
-                          {tea.description}
-                        </p>
-
-                        <div className="p-3 bg-[#fbf9f6] rounded-xl border border-[#ece3db] space-y-1.5 text-xs">
-                          <div className="flex justify-between">
-                            <span className="text-[#7d7065]">Liquor:</span>
-                            <strong className="text-[#23150c]">{tea.liquorColor}</strong>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-[#7d7065]">Packaging:</span>
-                            <strong className="text-[#23150c] truncate max-w-[140px]">{tea.packaging}</strong>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="pt-4 mt-5 border-t border-[#ece3db] flex items-center justify-between text-sm">
-                        <span className="text-[#574c43] font-medium">{tea.originDetails}</span>
-                        <a
-                          href="#contact"
-                          className="font-bold text-[#7a4727] group-hover:text-[#23150c] flex items-center gap-1 transition-colors"
-                        >
-                          <span>Inquire</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </a>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
 
-        {/* 4 Corporate Credibility Metrics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-[#ece3db]">
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-[#ece3db]">
-            <ShieldCheck className="w-5 h-5 text-[#7a4727] shrink-0" />
-            <div>
-              <div className="text-sm font-bold text-[#23150c]">EUDR Compliant</div>
-              <div className="text-xs text-[#574c43]">GPS Polygon Farm Mapping</div>
-            </div>
+        {/* SECTION 4: 4 CORPORATE CREDIBILITY PILLARS */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1 border-t border-stone-200">
+          <div className="p-3.5 rounded-sm bg-[#faf9f7] border border-stone-200">
+            <div className="text-xs font-bold text-[#23150c] uppercase tracking-wider">EUDR Compliant</div>
+            <div className="text-[11px] text-stone-500 mt-0.5">GPS Polygon Farm Mapping</div>
           </div>
 
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-[#ece3db]">
-            <Layers className="w-5 h-5 text-[#7a4727] shrink-0" />
-            <div>
-              <div className="text-sm font-bold text-[#23150c]">SCA Certified</div>
-              <div className="text-xs text-[#574c43]">Lab Cupping Scores 84–88+</div>
-            </div>
+          <div className="p-3.5 rounded-sm bg-[#faf9f7] border border-stone-200">
+            <div className="text-xs font-bold text-[#23150c] uppercase tracking-wider">SCA Certified</div>
+            <div className="text-[11px] text-stone-500 mt-0.5">Cupping Scores 84 to 89+</div>
           </div>
 
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-[#ece3db]">
-            <FileCheck2 className="w-5 h-5 text-[#7a4727] shrink-0" />
-            <div>
-              <div className="text-sm font-bold text-[#23150c]">Hermetic Liners</div>
-              <div className="text-xs text-[#574c43]">GrainPro Sealed Against Moisture</div>
-            </div>
+          <div className="p-3.5 rounded-sm bg-[#faf9f7] border border-stone-200">
+            <div className="text-xs font-bold text-[#23150c] uppercase tracking-wider">Hermetic Liners</div>
+            <div className="text-[11px] text-stone-500 mt-0.5">GrainPro Sealed Export</div>
           </div>
 
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-white border border-[#ece3db]">
-            <Ship className="w-5 h-5 text-[#7a4727] shrink-0" />
-            <div>
-              <div className="text-sm font-bold text-[#23150c]">Port of Mombasa</div>
-              <div className="text-xs text-[#574c43]">FOB &amp; CIF Contract Terms</div>
-            </div>
+          <div className="p-3.5 rounded-sm bg-[#faf9f7] border border-stone-200">
+            <div className="text-xs font-bold text-[#23150c] uppercase tracking-wider">FOB Incoterms</div>
+            <div className="text-[11px] text-stone-500 mt-0.5">Air Cargo &amp; Ocean Freight</div>
           </div>
         </div>
 

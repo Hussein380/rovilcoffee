@@ -49,10 +49,10 @@ const MARKETS: MarketCard[] = [
     countryCode: 'EU',
     region: 'Germany, Netherlands, Belgium, Scandinavia & Italy',
     ports: 'Rotterdam, Hamburg, Antwerp, Genoa',
-    days: '21–26 Days',
+    days: '21–26 Days (Sea) | 2–3 Days (Air)',
     topProducts: 'Grade AA, Grade AB, Kenyan Purple Tea',
-    shippingLines: 'Maersk, MSC, CMA CGM, Hapag-Lloyd',
-    incoterms: 'CIF Rotterdam / Hamburg (preferred) or FOB Mombasa',
+    shippingLines: 'Maersk, MSC, CMA CGM, Hapag-Lloyd / Air Cargo',
+    incoterms: 'FOB Mombasa (Sea Freight) / FOB JKIA (Air Cargo) — Freight at buyer\'s cost',
     image: '/images/ports/rotterdam-europe.jpg',
   },
   {
@@ -61,10 +61,10 @@ const MARKETS: MarketCard[] = [
     countryCode: 'GB',
     region: 'England, Scotland & UK Roasters',
     ports: 'London Gateway, Felixstowe, Southampton',
-    days: '22–28 Days',
+    days: '22–28 Days (Sea) | 2–3 Days (Air)',
     topProducts: 'Black CTC Teas (BP1, PF1), Grade AA Coffee',
-    shippingLines: 'MSC, Maersk, ONE Line',
-    incoterms: 'CIF London Gateway / Felixstowe or FOB Mombasa',
+    shippingLines: 'MSC, Maersk, ONE Line / Kenya Airways Cargo',
+    incoterms: 'FOB Mombasa (Sea Freight) / FOB JKIA (Air Cargo) — Freight at buyer\'s cost',
     image: '/images/ports/london-uk.jpg',
   },
   {
@@ -73,10 +73,10 @@ const MARKETS: MarketCard[] = [
     countryCode: 'US',
     region: 'East Coast, West Coast & Gulf Roasters',
     ports: 'New York, Houston, Oakland, Norfolk',
-    days: '28–35 Days',
+    days: '28–35 Days (Sea) | 3–4 Days (Air)',
     topProducts: 'Specialty Grade AA, Peaberry (PB), Micro-lots',
-    shippingLines: 'Maersk, MSC, Hapag-Lloyd',
-    incoterms: 'FOB Mombasa (standard) — buyer arranges US freight',
+    shippingLines: 'Maersk, MSC, Hapag-Lloyd / Air Cargo',
+    incoterms: 'FOB Mombasa (Sea Freight) / FOB JKIA (Air Cargo) — Freight at buyer\'s cost',
     image: '/images/ports/newyork-usa.jpg',
   },
   {
@@ -85,10 +85,10 @@ const MARKETS: MarketCard[] = [
     countryCode: 'JP',
     region: 'Japan, South Korea & Asian Importers',
     ports: 'Yokohama, Kobe, Busan, Shanghai',
-    days: '24–30 Days',
+    days: '24–30 Days (Sea) | 3–4 Days (Air)',
     topProducts: 'Specialty Grade AA, Peaberry, Orthodox Teas',
-    shippingLines: 'ONE, Evergreen, PIL',
-    incoterms: 'CIF Yokohama / Busan or FOB Mombasa',
+    shippingLines: 'ONE, Evergreen, PIL / Air Cargo',
+    incoterms: 'FOB Mombasa (Sea Freight) / FOB JKIA (Air Cargo) — Freight at buyer\'s cost',
     image: '/images/ports/yokohama-japan.jpg',
   },
   {
@@ -97,10 +97,10 @@ const MARKETS: MarketCard[] = [
     countryCode: 'AE',
     region: 'UAE, Saudi Arabia, Oman & GCC',
     ports: 'Jebel Ali (Dubai), Dammam, Jeddah',
-    days: '10–14 Days',
+    days: '10–14 Days (Sea) | 1–2 Days (Air)',
     topProducts: 'Commercial Arabica (AB, C, MH), CTC Black Tea',
-    shippingLines: 'Emirates Shipping Line, MSC, DP World',
-    incoterms: 'FOB Mombasa or CIF Jebel Ali (shortest transit)',
+    shippingLines: 'Emirates Shipping Line, MSC, DP World / Air Cargo',
+    incoterms: 'FOB Mombasa (Sea Freight) / FOB JKIA (Air Cargo) — Freight at buyer\'s cost',
     image: '/images/ports/jebelali-dubai.jpg',
   },
 ];
@@ -109,13 +109,13 @@ const BUYER_REQUIREMENTS = [
   {
     step: '01',
     title: 'Company & Consignee Details',
-    desc: 'Your registered business name, tax/VAT number, destination discharge port, and clearing agent details.',
+    desc: 'Your registered business name, tax/VAT number, destination discharge port/airport, and nominated clearing agent.',
     icon: Building2,
   },
   {
     step: '02',
     title: 'Product Selection & Volume',
-    desc: 'Target coffee grade (AA, AB, PB, C, MH) or tea type + container volume (20ft FCL = 320 bags / 19.2 MT, or pallets).',
+    desc: 'Target coffee grade (AA, AB, PB, C, MH) or tea type and volume (Air Cargo for orders under 1 tonne; Ocean containers for 1 tonne and above).',
     icon: Coffee,
   },
   {
@@ -126,8 +126,8 @@ const BUYER_REQUIREMENTS = [
   },
   {
     step: '04',
-    title: 'Contract & Payment Terms',
-    desc: 'Standard FOB Mombasa or CIF destination terms. Payment via confirmed Irrevocable Letter of Credit (L/C) or Telegraphic Transfer (T/T).',
+    title: 'Strict FOB Terms & Payment',
+    desc: 'Standard FOB Incoterms: Orders under 1 tonne dispatched by Air (JKIA Nairobi); 1 tonne and above shipped by Sea (Port of Mombasa). All shipping & freight costs are borne by the buyer. Payment via confirmed L/C or T/T.',
     icon: CreditCard,
   },
 ];
@@ -565,7 +565,7 @@ export default function ExportMarketsPage() {
                 Request a Container Quote or Cupping Sample
               </h2>
               <p className="text-sm sm:text-base text-white/85 leading-relaxed">
-                Tell us your target destination port and grade requirement. Our Nairobi export desk will respond with current FOB/CIF pricing and vessel schedules within 24 hours.
+                Tell us your target destination port/airport and grade requirement. Our Nairobi export desk will respond with current FOB pricing, vessel and flight cargo schedules within 24 hours.
               </p>
 
               <div className="space-y-3 pt-2 text-sm text-white/85">
@@ -575,7 +575,7 @@ export default function ExportMarketsPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-[#d89f68] shrink-0" />
-                  <span>Email: info@rovil.co.ke</span>
+                  <span>Email: <a href="mailto:virovillimited@gmail.com" className="text-white hover:underline">virovillimited@gmail.com</a></span>
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="w-4 h-4 text-[#d89f68] shrink-0" />
@@ -583,9 +583,13 @@ export default function ExportMarketsPage() {
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-white/10 border border-white/15 text-sm text-white/90 space-y-1.5">
-                <strong className="text-[#d89f68] block">Pre-Shipment Samples (PSS):</strong>
-                <p className="text-xs sm:text-sm text-white/80">250g–500g green coffee or loose leaf tea sample tins sent via DHL Express worldwide for laboratory cupping.</p>
+              <div className="p-4 rounded-xl bg-white/10 border border-white/15 text-sm text-white/90 space-y-2">
+                <strong className="text-[#d89f68] block">FOB Shipping Policy:</strong>
+                <p className="text-xs sm:text-sm text-white/80">
+                  • <strong>Orders under 1 tonne:</strong> Air Cargo via JKIA Airport, Nairobi (freight paid by buyer).<br />
+                  • <strong>1 tonne and above:</strong> Ocean Freight via Port of Mombasa (freight paid by buyer).<br />
+                  • Standard FOB Incoterms 2020 apply to all export contracts.
+                </p>
               </div>
             </div>
 
@@ -596,7 +600,7 @@ export default function ExportMarketsPage() {
                   <CheckCircle2 className="w-12 h-12 text-[#3d5a45] mx-auto" />
                   <h3 className="font-bold text-xl text-[#23150c]">Inquiry Received</h3>
                   <p className="text-sm text-[#574c43] max-w-sm mx-auto leading-relaxed">
-                    Thank you. Our Nairobi export team has received your request and will contact you directly with current FOB/CIF rates.
+                    Thank you. Our Nairobi export team has received your request and will contact you directly with official FOB quotation and freight guidance.
                   </p>
                 </div>
               ) : (

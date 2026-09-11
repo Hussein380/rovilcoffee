@@ -15,6 +15,10 @@ import {
   Trees,
   Compass,
   Check,
+  Ship,
+  Plane,
+  FileCheck2,
+  ScanLine,
 } from 'lucide-react';
 import { farmStages } from '@/data/farmStages';
 import {
@@ -30,117 +34,106 @@ export default function OurFarmPage() {
       <Navbar />
 
       {/* 2. Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-[#180f08] text-white pt-16 pb-20">
+      <section className="relative min-h-[460px] flex items-center justify-center overflow-hidden bg-[#180f08] text-white pt-16 pb-16">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/our-farm/ripe-coffee-cherries.jpg"
-            alt="Ripe Crimson Kenyan Arabica Coffee Cherries on Branch"
+            src="/images/our-farm/kenya-coffee-farm-hero.jpg"
+            alt="Rovil Highland Arabica Coffee Farm Terraced Slopes and Ripe Cherries"
             fill
             unoptimized
             priority
-            className="object-cover object-center opacity-55 scale-105"
+            className="object-cover object-center opacity-60"
           />
         </div>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-[#180f08]/70 via-[#180f08]/50 to-[#180f08]/95 pointer-events-none z-1" />
+        <div className="absolute inset-0 bg-[#180f08]/60 pointer-events-none z-1" />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <FadeIn>
-            <span className="inline-flex items-center gap-2 bg-[#b57a44]/20 border border-[#b57a44]/40 rounded-full px-4 py-1.5 text-[#f4ece4] text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-[#b57a44] animate-pulse" />
-              Highland Origins (1,700m – 2,200m ASL) • Mount Kenya &amp; Great Rift Valley
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
+          <div className="text-xs font-bold uppercase tracking-widest text-[#d8a87b]">
+            Highland Origins (1,700m – 2,200m ASL) • Mount Kenya
+          </div>
+
+          <h1 className="text-3xl sm:text-5xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+            Our Farms &amp; <span className="text-[#d8a87b]">Partnered Smallholders</span>
+          </h1>
+
+          <p className="text-stone-200 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto font-normal">
+            Cultivated in nutrient-dense red volcanic soils under native shade canopies. In addition to our core estate plots, we partner with over 1,200 certified small-scale farming families across Mount Kenya and the Great Rift Valley, operating strictly under international agricultural and environmental standards.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-1 text-xs text-stone-200 font-medium">
+            <span className="px-3 py-1.5 rounded-sm bg-stone-900/80 border border-stone-700">
+              EUDR GPS Polygon Verified
             </span>
-          </FadeIn>
-
-          <SlideUp delay={0.1}>
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight">
-              Our Farms &amp; <span className="text-[#d89f68] italic">Partnered Smallholders</span>
-            </h1>
-          </SlideUp>
-
-          <SlideUp delay={0.2}>
-            <p className="text-white/85 text-base sm:text-xl leading-relaxed max-w-3xl mx-auto font-light">
-              Cultivated in nutrient-dense red volcanic soils under native shade canopies. In addition to our core estate plots, we partner with over 1,200 certified small-scale farming families across Mount Kenya and the Great Rift Valley, operating strictly under international agricultural and environmental standards.
-            </p>
-          </SlideUp>
-
-          {/* Quick Pillar Badges */}
-          <SlideUp delay={0.3}>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2 text-sm">
-              <span className="px-3.5 py-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-[#f4ece4]">
-                EUDR GPS Polygon Verified
-              </span>
-              <span className="px-3.5 py-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-[#f4ece4]">
-                100% Selective Ripe Cherry Plucking
-              </span>
-              <span className="px-3.5 py-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-[#f4ece4]">
-                72-Hour Double-Washed Glacial Soak
-              </span>
-              <span className="px-3.5 py-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-[#f4ece4]">
-                Sun-Drying on Raised African Beds
-              </span>
-            </div>
-          </SlideUp>
+            <span className="px-3 py-1.5 rounded-sm bg-stone-900/80 border border-stone-700">
+              100% Selective Ripe Cherry Plucking
+            </span>
+            <span className="px-3 py-1.5 rounded-sm bg-stone-900/80 border border-stone-700">
+              72-Hour Double-Washed Glacial Soak
+            </span>
+            <span className="px-3 py-1.5 rounded-sm bg-stone-900/80 border border-stone-700">
+              Sun-Drying on Raised African Beds
+            </span>
+          </div>
         </div>
       </section>
 
       {/* 3. Core Estate & Smallholder Partnership Split */}
-      <section className="py-16 lg:py-24 bg-[#faf8f5] border-b border-[#ece3db]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <section className="py-12 sm:py-16 bg-[#faf9f7] border-b border-stone-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-6 space-y-5">
               <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727] block">
                 Ethical Sourcing &amp; Smallholder Empowerment
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#23150c] leading-tight">
-                Our Model Estates + <span className="text-[#7a4727] italic">1,200+ Smallholder Families</span>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#23150c] leading-tight">
+                Our Model Estates + <span className="text-[#7a4727]">1,200+ Smallholder Families</span>
               </h2>
-              <p className="text-[#574c43] text-base leading-relaxed">
+              <p className="text-[#574c43] text-sm sm:text-base leading-relaxed">
                 Rovil operates core demonstration coffee and tea estates in Nyeri and Kiambu, establishing the highest agronomic benchmarks for varietal purity (SL28, SL34, Batian, and TRFK 306 Purple Tea).
               </p>
-              <p className="text-[#574c43] text-base leading-relaxed">
+              <p className="text-[#574c43] text-sm sm:text-base leading-relaxed">
                 To guarantee commercial volume for international buyers, we have formed long-term cooperative partnerships with over 1,200 small-scale farmers owning 1 to 5-acre plots (shambas) across Mount Kenya, Kirinyaga, Murang’a, and Kericho. We provide direct pre-financing, soil analysis, organic compost training, and guaranteed premium purchase contracts above local auction averages.
               </p>
 
               {/* 3 Quick Partnership Metrics */}
               <div className="grid grid-cols-3 gap-3 pt-2 text-center">
-                <div className="p-4 rounded-2xl bg-white border border-[#ece3db] shadow-xs">
-                  <div className="text-2xl font-bold text-[#23150c] font-serif">1,200+</div>
-                  <div className="text-xs text-[#7a4727] font-semibold mt-1">Partner Farmers</div>
+                <div className="p-3.5 rounded-sm bg-white border border-stone-200 shadow-xs">
+                  <div className="text-2xl font-bold text-[#23150c]">1,200+</div>
+                  <div className="text-xs text-[#7a4727] font-semibold mt-0.5">Partner Farmers</div>
                 </div>
-                <div className="p-4 rounded-2xl bg-white border border-[#ece3db] shadow-xs">
-                  <div className="text-2xl font-bold text-[#23150c] font-serif">2,100m</div>
-                  <div className="text-xs text-[#7a4727] font-semibold mt-1">Peak Elevation</div>
+                <div className="p-3.5 rounded-sm bg-white border border-stone-200 shadow-xs">
+                  <div className="text-2xl font-bold text-[#23150c]">2,100m</div>
+                  <div className="text-xs text-[#7a4727] font-semibold mt-0.5">Peak Elevation</div>
                 </div>
-                <div className="p-4 rounded-2xl bg-white border border-[#ece3db] shadow-xs">
-                  <div className="text-2xl font-bold text-[#23150c] font-serif">100%</div>
-                  <div className="text-xs text-[#7a4727] font-semibold mt-1">Traceability</div>
+                <div className="p-3.5 rounded-sm bg-white border border-stone-200 shadow-xs">
+                  <div className="text-2xl font-bold text-[#23150c]">100%</div>
+                  <div className="text-xs text-[#7a4727] font-semibold mt-0.5">Traceability</div>
                 </div>
               </div>
             </div>
 
-            {/* Macro Photo Card: Ripe Cherries */}
-            <div className="lg:col-span-6 relative rounded-3xl overflow-hidden border border-[#ece3db] shadow-md group">
-              <div className="relative h-[380px] sm:h-[440px] w-full">
+            {/* Photo Card: Client's Coffee Farm Terraces & Cherries */}
+            <div className="lg:col-span-6 relative rounded-sm overflow-hidden border border-stone-200 shadow-sm bg-white">
+              <div className="relative h-[380px] sm:h-[440px] w-full bg-stone-100">
                 <Image
-                  src="/images/our-farm/ripe-coffee-cherries.jpg"
-                  alt="Close-up of Ripe Crimson Arabica Coffee Cherries on Branch"
+                  src="/images/our-farm/kenya-coffee-farm-hero.jpg"
+                  alt="Rovil Highland Arabica Coffee Farm Terraces and Ripe Red Cherries"
                   fill
                   unoptimized
-                  className="object-cover group-hover:scale-103 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#180f08]/85 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-white/30 shadow-md">
+              <div className="p-4 border-t border-stone-200 bg-white">
                 <div className="flex items-center justify-between font-bold text-[#23150c] text-sm">
-                  <span>Kenyan Arabica (SL28 / SL34) Cherries</span>
-                  <span className="text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full text-xs font-semibold">
-                    Brix &gt; 21% Sugar Density
+                  <span>Kenyan Arabica (SL28 / SL34) Estate Farm</span>
+                  <span className="text-stone-900 bg-stone-100 border border-stone-200 px-2.5 py-0.5 rounded-xs text-xs font-semibold">
+                    1,950m ASL Elevation
                   </span>
                 </div>
-                <p className="text-[#574c43] text-xs mt-1">
-                  High-elevation volcanic loam soil produces dense, slowly ripened crimson cherries rich in phosphoric and citric acidity.
+                <p className="text-stone-600 text-xs mt-1">
+                  High-elevation volcanic slopes producing dense, slowly ripened crimson cherries on terraced hillsides with full lot traceability.
                 </p>
               </div>
             </div>
@@ -152,7 +145,7 @@ export default function OurFarmPage() {
               <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727]">
                 Rigorous International Procedures
               </span>
-              <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-[#23150c]">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#23150c]">
                 Global Compliance, EUDR &amp; Environmental Stewardship
               </h3>
               <p className="text-sm text-[#574c43]">
@@ -214,7 +207,7 @@ export default function OurFarmPage() {
             <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727]">
               Agronomic Methodology
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#23150c]">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#23150c]">
               The 6-Stage Farm &amp; Processing Cycle
             </h2>
             <p className="text-base text-[#574c43]">
@@ -279,7 +272,7 @@ export default function OurFarmPage() {
             <span className="text-xs font-bold uppercase tracking-widest text-[#7a4727] bg-[#7a4727]/10 px-3.5 py-1 rounded-full border border-[#7a4727]/20 inline-block">
               Annual Sourcing Almanac
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#23150c] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#23150c] tracking-tight">
               Kenyan Harvest Cycles &amp; Origin Terroirs
             </h2>
             <p className="text-base text-[#574c43] leading-relaxed">
@@ -304,7 +297,7 @@ export default function OurFarmPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-serif text-2xl font-bold text-[#23150c]">
+                  <h3 className="text-2xl font-bold text-[#23150c]">
                     Main Crop Harvest
                   </h3>
                   <div className="text-sm font-semibold text-[#8c4f2b] mt-0.5">
@@ -349,7 +342,7 @@ export default function OurFarmPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-serif text-2xl font-bold text-[#23150c]">
+                  <h3 className="text-2xl font-bold text-[#23150c]">
                     Fly Crop (Early Harvest)
                   </h3>
                   <div className="text-sm font-semibold text-[#b57a44] mt-0.5">
@@ -385,7 +378,7 @@ export default function OurFarmPage() {
           {/* Four Distinct Micro-Terroir Cards */}
           <div className="space-y-4 pt-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-serif text-2xl font-bold text-[#23150c]">
+              <h3 className="text-2xl font-bold text-[#23150c]">
                 Key Origin Terroirs &amp; Agronomic Profiles
               </h3>
               <span className="text-xs font-semibold text-[#7a4727] hidden sm:inline-block">
@@ -438,7 +431,7 @@ export default function OurFarmPage() {
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-serif font-bold text-lg text-[#23150c]">{d.region}</span>
+                      <span className="font-bold text-lg text-[#23150c]">{d.region}</span>
                       <span className="text-[10px] font-bold text-[#7a4727] bg-[#f4ece4] px-2 py-0.5 rounded">
                         {d.grades}
                       </span>
@@ -461,12 +454,113 @@ export default function OurFarmPage() {
                     <span className="text-[10px] font-bold text-stone-400 block uppercase tracking-wider mb-0.5">
                       Cupping Notes
                     </span>
-                    <p className="text-xs text-[#23150c] italic font-medium leading-snug">
+                    <p className="text-xs text-[#23150c] font-medium leading-snug">
                       {d.notes}
                     </p>
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 4B. 100% End-to-End Lot Traceability Pipeline (Farm -> Port/Airport -> Destination) */}
+      <section className="py-16 lg:py-24 bg-white border-b border-[#ece3db]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          <div className="text-center max-w-3xl mx-auto space-y-3">
+            <span className="inline-flex items-center gap-2 bg-[#f4ece4] border border-[#d8c2b0] rounded-full px-3.5 py-1 text-[#7a4727] text-xs font-bold uppercase tracking-wider">
+              <ScanLine className="w-3.5 h-3.5 text-[#7a4727]" />
+              Complete Chain of Custody
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#23150c] tracking-tight">
+              Tracked from the Farm to the <span className="text-[#7a4727]">Airport, Sea &amp; Exact Destination</span>
+            </h2>
+            <p className="text-[#574c43] text-base leading-relaxed">
+              Every single export consignment is assigned a unique ICO lot tracking identifier. International buyers can trace their coffee and tea through every stage of custody, from specific Mount Kenya harvest blocks right to their exact nominated port, airport, or final warehouse.
+            </p>
+          </div>
+
+          {/* 4 Interactive Milestone Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+            {/* Step 1 */}
+            <div className="p-6 rounded-3xl bg-[#fbf9f6] border border-[#ece3db] space-y-4 hover:shadow-lg transition-all relative">
+              <div className="flex items-center justify-between">
+                <span className="w-8 h-8 rounded-xl bg-[#23150c] text-white flex items-center justify-center font-bold text-xs">
+                  01
+                </span>
+                <span className="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full">
+                  Farm Harvest Log
+                </span>
+              </div>
+              <h3 className="font-bold text-lg text-[#23150c]">Mount Kenya Farm Origin</h3>
+              <p className="text-xs text-[#574c43] leading-relaxed">
+                GPS-logged farmer plots in Nyeri, Kirinyaga &amp; Kiambu. Cherries picked at peak Brix sugar density with cooperative batch numbers logged upon wet mill delivery.
+              </p>
+              <div className="pt-2 border-t border-[#ece3db] text-[11px] font-semibold text-[#7a4727]">
+                ✓ SL28 / SL34 / Purple Cultivar Verified
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="p-6 rounded-3xl bg-[#fbf9f6] border border-[#ece3db] space-y-4 hover:shadow-lg transition-all relative">
+              <div className="flex items-center justify-between">
+                <span className="w-8 h-8 rounded-xl bg-[#23150c] text-white flex items-center justify-center font-bold text-xs">
+                  02
+                </span>
+                <span className="text-[11px] font-bold text-[#7a4727] bg-[#f4ece4] px-2.5 py-1 rounded-full">
+                  Milling &amp; Cupping QC
+                </span>
+              </div>
+              <h3 className="font-bold text-lg text-[#23150c]">Dry Milling &amp; Lab Grading</h3>
+              <p className="text-xs text-[#574c43] leading-relaxed">
+                Precision screen sizing (Grade AA 17/18, AB, PB) and density sorting. SCA 86+ cupping notes certified with moisture stabilized strictly between 10.5%–11.5%.
+              </p>
+              <div className="pt-2 border-t border-[#ece3db] text-[11px] font-semibold text-[#7a4727]">
+                ✓ GrainPro Hermetic Lined Packaging
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="p-6 rounded-3xl bg-[#fbf9f6] border border-[#ece3db] space-y-4 hover:shadow-lg transition-all relative">
+              <div className="flex items-center justify-between">
+                <span className="w-8 h-8 rounded-xl bg-[#23150c] text-white flex items-center justify-center font-bold text-xs">
+                  03
+                </span>
+                <span className="text-[11px] font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full">
+                  Port / Airport Dispatch
+                </span>
+              </div>
+              <h3 className="font-bold text-lg text-[#23150c]">Airport or Seaport Hub</h3>
+              <p className="text-xs text-[#574c43] leading-relaxed">
+                <strong>Orders under 1 tonne:</strong> Dispatched via Air Cargo through JKIA Airport, Nairobi.<br />
+                <strong>1 tonne and above:</strong> Shipped via Ocean Freight through Port of Mombasa.<br />
+                <em>Strict FOB terms (freight paid by buyer).</em>
+              </p>
+              <div className="pt-2 border-t border-[#ece3db] text-[11px] font-semibold text-[#7a4727]">
+                ✓ AWB / Ocean B/L &amp; Container Seal Tracking
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="p-6 rounded-3xl bg-[#23150c] text-white space-y-4 hover:shadow-xl transition-all relative">
+              <div className="flex items-center justify-between">
+                <span className="w-8 h-8 rounded-xl bg-[#d89f68] text-[#23150c] flex items-center justify-center font-bold text-xs">
+                  04
+                </span>
+                <span className="text-[11px] font-bold text-white bg-white/20 px-2.5 py-1 rounded-full border border-white/20">
+                  Destination Arrival
+                </span>
+              </div>
+              <h3 className="font-bold text-lg text-white">Exact Buyer Destination</h3>
+              <p className="text-xs text-white/80 leading-relaxed">
+                Live flight cargo &amp; vessel satellite GPS tracking directly to your nominated discharge port, international airport, or receiving warehouse across Europe, UK, USA, Asia, and worldwide.
+              </p>
+              <div className="pt-2 border-t border-white/10 text-[11px] font-semibold text-[#d89f68]">
+                ✓ Official Phytosanitary &amp; ICO Certificate
+              </div>
             </div>
           </div>
 
@@ -493,24 +587,24 @@ export default function OurFarmPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            {/* Image 1: Ripe Cherries */}
-            <div className="group relative rounded-3xl overflow-hidden border border-[#ece3db] bg-white shadow-xs">
-              <div className="relative h-64 w-full">
+            {/* Image 1: Client's Farm & Ripe Cherries */}
+            <div className="rounded-sm overflow-hidden border border-stone-200 bg-white shadow-xs">
+              <div className="relative h-60 w-full bg-stone-100">
                 <Image
-                  src="/images/our-farm/ripe-coffee-cherries.jpg"
-                  alt="Macro of Ripe Crimson Coffee Cherries on Branch"
+                  src="/images/our-farm/kenya-coffee-farm-hero.jpg"
+                  alt="Kenyan Highland Coffee Terraces and Crimson Cherries"
                   fill
                   unoptimized
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <div className="p-5 space-y-1.5">
+              <div className="p-4 space-y-1">
                 <div className="flex items-center justify-between text-sm font-bold text-[#23150c]">
-                  <span>Arabica Crimson Cherries</span>
-                  <span className="text-red-700 bg-red-50 px-2 py-0.5 rounded text-xs">SL28 / SL34</span>
+                  <span>Arabica Terraces &amp; Cherries</span>
+                  <span className="text-stone-900 bg-stone-100 border border-stone-200 px-2 py-0.5 rounded-xs text-xs font-semibold">SL28 / SL34</span>
                 </div>
                 <p className="text-[#574c43] text-xs leading-relaxed">
-                  Hand-plucked selectively when sugar Brix density peaks above 21%, ensuring maximum sweetness and clarity.
+                  Hand-tended terraced mountain slopes yielding dense, high-altitude Arabica cherries in volcanic soil.
                 </p>
               </div>
             </div>

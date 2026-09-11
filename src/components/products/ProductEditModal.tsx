@@ -13,8 +13,15 @@ interface ProductEditModalProps {
 }
 
 const PRESET_IMAGES = [
-  { label: 'ROVIL Coffee Pouch (Roasted)', url: '/images/branded/rovil-coffee-pouch.jpg' },
-  { label: 'ROVIL Tea Canister (Purple/Orthodox)', url: '/images/branded/rovil-tea-canister.jpg' },
+  { label: 'ROVIL Medium Ground Coffee (125g)', url: '/images/branded/medium-ground-coffee-125g.png' },
+  { label: 'ROVIL AA Ground & Beans (125g)', url: '/images/branded/aa-ground-beans-125g.png' },
+  { label: 'ROVIL Royal Purple Tea (Pack)', url: '/images/branded/purple-tea.png' },
+  { label: 'ROVIL Black Orthodox & Purple Tea', url: '/images/branded/black-orthodox-purple-tea-front.png' },
+  { label: 'ROVIL High-Grown Green Tea', url: '/images/branded/green-tea-front.png' },
+  { label: 'ROVIL Wild Hibiscus Botanical Infusion', url: '/images/branded/hibiscus-tea.png' },
+  { label: 'ROVIL Roasted Mixed Nuts (Export)', url: '/images/branded/roasted-mixed-nuts.png' },
+  { label: 'ROVIL Whole Bean Coffee Pouch (250g)', url: '/images/branded/rovil-coffee-pouch.jpg' },
+  { label: 'ROVIL Purple/CTC Tea Luxury Canister', url: '/images/branded/rovil-tea-canister.jpg' },
   { label: 'ROVIL Eco Cups & Barista Gear', url: '/images/branded/rovil-retail-cups.jpg' },
   { label: 'Bulk Raw Green Coffee Grading', url: '/images/what-we-do/green-coffee-grading.jpg' },
   { label: 'Bulk 60kg GrainPro Bags', url: '/images/what-we-do/grainpro-export-bags.jpg' },

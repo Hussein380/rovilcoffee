@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, ArrowRight, ShieldCheck, Lock } from 'lucide-react';
 
+import RovilLogo from '@/components/RovilLogo';
+
 const MENU_ITEMS = [
   { label: 'Home', href: '/#home' },
   { label: 'Products', href: '/products' },
@@ -37,19 +39,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Brand Logo & Name */}
-          <Link href="/" className="flex items-center gap-3.5 group">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#3e2211] via-[#23150c] to-[#120a06] border border-[#b57a44]/30 flex items-center justify-center shadow-md shadow-[#23150c]/15 group-hover:scale-105 transition-all duration-300">
-              <span className="text-white font-serif font-black text-xl tracking-tight">R</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-2xl font-serif font-black tracking-tight text-[#23150c] group-hover:text-[#7a4727] transition-colors leading-none">
-                ROVIL
-              </span>
-              <span className="text-xs font-semibold tracking-wide text-[#7a4727] uppercase block mt-1">
-                Coffee &amp; Tea Exporters Kenya
-              </span>
-            </div>
-          </Link>
+          <RovilLogo variant="color" size="md" />
 
           {/* Desktop Nav Items */}
           <nav className="hidden lg:flex items-center gap-8">
@@ -64,30 +54,21 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Desktop CTA & Admin Entrance */}
-          <div className="hidden sm:flex items-center gap-2.5">
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-[#d8c2b0] bg-[#fbf9f6] hover:bg-[#f4ece4] text-[#3e2211] hover:text-[#23150c] text-xs font-bold transition-all shadow-xs"
-              title="Admin Management"
-            >
-              <Lock className="w-3.5 h-3.5 text-[#7a4727]" />
-              <span>Admin</span>
-            </Link>
-
+          {/* Desktop CTA */}
+          <div className="hidden sm:flex items-center gap-4">
             <Link
               href="/#contact"
-              className="inline-flex items-center gap-2 bg-[#3e2211] hover:bg-[#23150c] text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm"
+              className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-5 py-2.5 rounded-sm text-xs font-semibold tracking-wider uppercase transition-colors"
             >
               <span>Request a Quote</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 rounded-lg text-[#23150c] hover:bg-[#f4ece4] transition-colors"
+            className="lg:hidden p-2 rounded text-[#23150c] hover:bg-[#f4ece4] transition-colors"
             aria-label="Open navigation menu"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -103,27 +84,19 @@ export default function Navbar() {
               key={item.label}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className="block px-3 py-2.5 rounded-md text-base font-medium text-[#3e2211] hover:bg-[#f4ece4]"
+              className="block px-3 py-2.5 text-sm font-medium text-[#23150c] hover:bg-[#f4ece4]"
             >
               {item.label}
             </Link>
           ))}
-          <div className="pt-3 flex flex-col gap-2">
-            <Link
-              href="/admin"
-              onClick={() => setMobileOpen(false)}
-              className="w-full text-center flex items-center justify-center gap-2 border border-[#d8c2b0] bg-[#fbf9f6] text-[#3e2211] py-2.5 rounded-xl text-xs font-bold hover:bg-[#f4ece4] transition-all"
-            >
-              <Lock className="w-3.5 h-3.5 text-[#7a4727]" />
-              <span>Admin</span>
-            </Link>
+          <div className="pt-3">
             <Link
               href="/#contact"
               onClick={() => setMobileOpen(false)}
-              className="w-full text-center flex items-center justify-center gap-2 bg-[#3e2211] text-white py-3 rounded-lg text-sm font-semibold"
+              className="w-full text-center flex items-center justify-center gap-2 bg-[#23150c] text-white py-3 rounded-sm text-xs font-semibold uppercase tracking-wider"
             >
               <span>Request a Quote</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

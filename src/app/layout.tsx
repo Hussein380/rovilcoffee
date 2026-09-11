@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
-import FloatingAssistant from '@/components/FloatingAssistant';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -38,7 +37,6 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-white text-[#1f1610] antialiased selection:bg-[#6f4327] selection:text-white relative`}>
         {children}
-        <FloatingAssistant />
       </body>
     </html>
   );

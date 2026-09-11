@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Menu, X, ArrowUpRight, PhoneCall } from 'lucide-react';
 import { companyInfo } from '@/data/companyInfo';
+import RovilLogo from '@/components/RovilLogo';
 
 const NAV_ITEMS = [
   { label: 'Origin', href: '#hero' },
@@ -79,19 +80,7 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo & Corporate Identifier */}
-          <a href="#hero" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#d4a373] to-[#8c5e32] flex items-center justify-center text-black font-bold text-lg tracking-wider shadow-md group-hover:scale-105 transition-transform">
-              R
-            </div>
-            <div>
-              <span className="text-xl font-bold tracking-widest text-white uppercase font-heading block leading-tight">
-                ROVIL
-              </span>
-              <span className="text-[10px] tracking-wider text-[#d4a373] uppercase block font-sans font-medium">
-                Kenyan Coffee & Tea Exporters
-              </span>
-            </div>
-          </a>
+          <RovilLogo variant="light" size="md" href="#hero" />
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
