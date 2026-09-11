@@ -2,38 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Product from '@/lib/models/Product';
 import { verifyAdminRequest } from '@/lib/auth';
-import { initialProductsCatalog } from '@/data/productsCatalog';
 
 // GET /api/products — public, returns all products
 export async function GET() {
   try {
     await dbConnect();
     let products = await Product.find({}).sort({ createdAt: -1 }).lean();
-
-    // Auto-seed initial items if collection is empty
-    if (products.length === 0) {
-      const seedItems = initialProductsCatalog.map((item) => ({
-        name: item.name,
-        category: item.category,
-        categoryLabel: item.categoryLabel,
-        tagline: item.tagline,
-        description: item.description,
-        image: item.image,
-        priceRetailUSD: item.priceRetailUSD,
-        priceRetailKES: item.priceRetailKES,
-        unitWeight: item.unitWeight,
-        wholesalePriceUSD: item.wholesalePriceUSD,
-        wholesaleMOQ: item.wholesaleMOQ,
-        isPopular: !!item.isPopular,
-        isNew: !!item.isNew,
-        origin: item.origin,
-        flavorNotes: item.flavorNotes || [],
-        specs: item.specs || [],
-      }));
-
-      await Product.insertMany(seedItems);
-      products = await Product.find({}).sort({ createdAt: -1 }).lean();
-    }
 
     // Map MongoDB _id to id string for frontend compatibility
     const mapped = products.map((p) => ({

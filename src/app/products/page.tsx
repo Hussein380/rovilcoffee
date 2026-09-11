@@ -1,15 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect, useMemo } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProductCard3D from '@/components/products/ProductCard3D';
 import ProductDetailDrawer from '@/components/products/ProductDetailDrawer';
-import { initialProductsCatalog } from '@/data/productsCatalog';
 import { ProductItem } from '@/types/product';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lock } from 'lucide-react';
+import { Package, Search } from 'lucide-react';
 
 const BASE_CATEGORIES = [
   { id: 'all', label: 'All Products' },
@@ -18,34 +16,42 @@ const BASE_CATEGORIES = [
 ];
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<ProductItem[]>(initialProductsCatalog);
+  const [products, setProducts] = useState<ProductItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [currency, setCurrency] = useState<'USD' | 'KES'>('USD');
   // Quick view drawer state
   const [inspectProduct, setInspectProduct] = useState<ProductItem | null>(null);
 
-  // Fetch live products from MongoDB API
+  // Fetch live products from MongoDB API (strictly admin-created products)
   useEffect(() => {
+    let isMounted = true;
     async function loadProducts() {
       try {
         const res = await fetch('/api/products');
         if (res.ok) {
           const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            setProducts(data);
-            return;
+          if (isMounted) {
+            setProducts(Array.isArray(data) ? data : []);
           }
+        } else {
+          if (isMounted) setProducts([]);
         }
       } catch (e) {
-        console.warn('Could not fetch from /api/products, using initial catalog:', e);
+        console.warn('Could not fetch from /api/products:', e);
+        if (isMounted) setProducts([]);
+      } finally {
+        if (isMounted) setLoading(false);
       }
-      setProducts(initialProductsCatalog);
     }
     loadProducts();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  // Dynamically compute category tabs to include any new coffee/tea/custom types added by admin
+  // Dynamically compute category tabs to include any categories added by admin
   const categories = useMemo(() => {
     const list = [...BASE_CATEGORIES];
     const seen = new Set(list.map((c) => c.id));
@@ -70,18 +76,14 @@ export default function ProductsPage() {
       const matchesSearch =
         !q ||
         p.name.toLowerCase().includes(q) ||
-        p.tagline.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q) ||
-        p.flavorNotes.some((n) => n.toLowerCase().includes(q)) ||
-        p.origin.toLowerCase().includes(q);
+        (p.tagline && p.tagline.toLowerCase().includes(q)) ||
+        (p.description && p.description.toLowerCase().includes(q)) ||
+        (p.flavorNotes && p.flavorNotes.some((n) => n.toLowerCase().includes(q))) ||
+        (p.origin && p.origin.toLowerCase().includes(q));
 
       return matchesCategory && matchesSearch;
     });
   }, [products, selectedCategory, searchQuery]);
-
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
 
   return (
     <div className="min-h-screen bg-white font-sans text-stone-900 selection:bg-[#3e2211] selection:text-white">
@@ -97,18 +99,17 @@ export default function ProductsPage() {
                   Products &amp; Export Catalog
                 </h1>
                 <p className="text-xs sm:text-sm text-stone-500 mt-1">
-                  ROVIL branded retail coffees, specialty teas, cafe supplies, and bulk container lots.
+                  ROVIL verified Kenyan coffees, specialty teas, cafe supplies, and export lots.
                 </p>
               </div>
 
-              {/* Right Controls: Currency Switcher & Admin Portal */}
+              {/* Right Controls: Currency Switcher */}
               <div className="flex flex-wrap items-center gap-3">
-                {/* Currency Switcher */}
-                <div className="flex items-center gap-1 bg-stone-100 p-1 rounded-xl border border-stone-200">
+                <div className="flex items-center gap-1 bg-stone-100 p-1 rounded-lg border border-stone-200">
                   <span className="text-xs font-semibold text-stone-500 pl-2 pr-1">Currency:</span>
                   <button
                     onClick={() => setCurrency('USD')}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-2.5 py-1 rounded text-xs font-semibold transition-all ${
                       currency === 'USD'
                         ? 'bg-[#23150c] text-white shadow-xs'
                         : 'text-stone-700 hover:text-stone-950'
@@ -118,7 +119,7 @@ export default function ProductsPage() {
                   </button>
                   <button
                     onClick={() => setCurrency('KES')}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-2.5 py-1 rounded text-xs font-semibold transition-all ${
                       currency === 'KES'
                         ? 'bg-[#23150c] text-white shadow-xs'
                         : 'text-stone-700 hover:text-stone-950'
@@ -127,20 +128,19 @@ export default function ProductsPage() {
                     KES (KES)
                   </button>
                 </div>
-
               </div>
             </div>
 
             {/* Filter Pills & Search */}
             <div className="mt-5 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-              {/* Category Pills — mobile fade on right edge indicates scroll */}
+              {/* Category Pills */}
               <div className="relative">
                 <div className="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0 scrollbar-none pr-8 lg:pr-0">
                   {categories.map((cat) => (
                     <button
                       key={cat.id}
                       onClick={() => setSelectedCategory(cat.id)}
-                      className={`whitespace-nowrap px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                      className={`whitespace-nowrap px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         selectedCategory === cat.id
                           ? 'bg-[#23150c] text-white shadow-xs'
                           : 'bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-200'
@@ -150,8 +150,6 @@ export default function ProductsPage() {
                     </button>
                   ))}
                 </div>
-                {/* Fade hint for mobile — hidden on lg */}
-                <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-white to-transparent pointer-events-none lg:hidden" />
               </div>
 
               {/* Search Box */}
@@ -160,109 +158,118 @@ export default function ProductsPage() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search products..."
-                  className="w-full pl-8 pr-4 py-1.5 rounded-xl border border-stone-300 text-stone-900 text-xs focus:outline-none focus:ring-2 focus:ring-[#3e2211] bg-white"
+                  placeholder="Search catalog..."
+                  className="w-full pl-8 pr-4 py-1.5 rounded-lg border border-stone-300 text-stone-900 text-xs focus:outline-none focus:ring-2 focus:ring-[#3e2211] bg-white"
                 />
-                <svg
-                  className="w-3.5 h-3.5 text-stone-400 absolute left-2.5 top-2.5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
+                <Search className="w-3.5 h-3.5 text-stone-400 absolute left-2.5 top-2.5" />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-2.5 top-2 text-stone-400 hover:text-stone-600"
+                    className="absolute right-2.5 top-2 text-stone-400 hover:text-stone-600 text-xs"
                   >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    ✕
                   </button>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Framing sentence + results count */}
+          {/* Results count indicator */}
           <div className="py-3 flex items-center justify-between text-xs text-stone-500">
             <span>
-              Showing <strong className="text-stone-800">{filteredProducts.length}</strong> items
-              {selectedCategory !== 'all' && (
-                <> in <span className="text-stone-800 font-semibold">{categories.find((c) => c.id === selectedCategory)?.label}</span></>
+              {loading ? (
+                'Loading catalog...'
+              ) : (
+                <>
+                  Showing <strong className="text-stone-800">{filteredProducts.length}</strong> items
+                  {selectedCategory !== 'all' && (
+                    <> in <span className="text-stone-800 font-semibold">{categories.find((c) => c.id === selectedCategory)?.label}</span></>
+                  )}
+                </>
               )}
             </span>
             <span className="hidden sm:inline text-stone-400">
-              Retail packs and bulk container lots — direct from Kenyan farms
+              Verified lots direct from Kenya farmers and licensed exporters
             </span>
           </div>
 
-          {/* 3D Products Grid */}
-          <AnimatePresence mode="wait">
-            {filteredProducts.length > 0 ? (
-              <motion.div
-                key={selectedCategory + searchQuery}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-2"
-              >
-                {filteredProducts.map((product, i) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: i * 0.05 }}
-                  >
-                    <ProductCard3D
-                      product={product}
-                      currency={currency}
-                      isOwnerMode={false}
-                      onQuickView={(p) => setInspectProduct(p)}
-                      onEdit={() => {}}
-                    />
-                  </motion.div>
-                ))}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="empty"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="py-20 text-center bg-stone-50 rounded-3xl border border-stone-200"
-              >
-                <h3 className="text-base font-bold text-stone-900">No matching products found</h3>
-                <p className="text-xs text-stone-500 mt-1 max-w-sm mx-auto">
-                  Try searching for a different term or clearing your category filters.
-                </p>
-                <button
-                  onClick={() => {
-                    setSelectedCategory('all');
-                    setSearchQuery('');
-                  }}
-                  className="mt-4 px-4 py-2 rounded-xl bg-[#23150c] text-white text-xs font-semibold"
+          {/* Grid display: Loading skeleton, products, or empty state */}
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+              {[1, 2, 3].map((n) => (
+                <div key={n} className="bg-stone-50 border border-stone-200 rounded-xl p-5 animate-pulse">
+                  <div className="w-full h-56 bg-stone-200 rounded-lg mb-4" />
+                  <div className="h-4 bg-stone-200 rounded w-3/4 mb-2" />
+                  <div className="h-3 bg-stone-200 rounded w-1/2 mb-4" />
+                  <div className="h-8 bg-stone-200 rounded w-full" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <AnimatePresence mode="wait">
+              {filteredProducts.length > 0 ? (
+                <motion.div
+                  key={selectedCategory + searchQuery}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-2"
                 >
-                  Reset All Filters
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  {filteredProducts.map((product, i) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.25, delay: i * 0.04 }}
+                    >
+                      <ProductCard3D
+                        product={product}
+                        currency={currency}
+                        isOwnerMode={false}
+                        onQuickView={(p) => setInspectProduct(p)}
+                        onEdit={() => {}}
+                      />
+                    </motion.div>
+                  ))}
+                </motion.div>
+              ) : products.length === 0 ? (
+                <motion.div
+                  key="no-products"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="py-16 text-center bg-stone-50 rounded-xl border border-stone-200 my-4"
+                >
+                  <div className="w-12 h-12 rounded-full bg-stone-200 text-stone-600 flex items-center justify-center mx-auto mb-3">
+                    <Package className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-base font-bold text-stone-900">No products in catalog yet</h3>
+                  <p className="text-xs text-stone-500 mt-1 max-w-sm mx-auto">
+                    Products published by the administrator will appear here automatically.
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="no-match"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="py-16 text-center bg-stone-50 rounded-xl border border-stone-200 my-4"
+                >
+                  <h3 className="text-base font-bold text-stone-900">No matching products found</h3>
+                  <p className="text-xs text-stone-500 mt-1 max-w-sm mx-auto">
+                    Try adjusting your search query or clearing selected filters.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSelectedCategory('all');
+                      setSearchQuery('');
+                    }}
+                    className="mt-4 px-4 py-2 rounded-lg bg-[#23150c] text-white text-xs font-semibold hover:bg-[#3e2211] transition-colors"
+                  >
+                    Reset Filters
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          )}
         </div>
       </main>
-
-      {/* Back to Top button */}
-      <button
-        onClick={scrollToTop}
-        aria-label="Back to top"
-        className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-[#23150c] text-white flex items-center justify-center shadow-lg hover:bg-[#3e2211] transition-all hover:scale-110"
-      >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" />
-        </svg>
-      </button>
 
       {/* Product Inspect / Specs Modal */}
       <ProductDetailDrawer

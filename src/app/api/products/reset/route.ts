@@ -27,13 +27,13 @@ export async function POST() {
       specs: item.specs || [],
     }));
 
-    const inserted = await Product.insertMany(seedItems);
+    const inserted = seedItems.length > 0 ? await Product.insertMany(seedItems) : [];
 
     return NextResponse.json({
       success: true,
       deletedCount: deleted.deletedCount,
       insertedCount: inserted.length,
-      items: inserted.map((i) => ({ id: i._id, name: i.name, category: i.category })),
+      items: inserted.map((i: any) => ({ id: i._id, name: i.name, category: i.category })),
     });
   } catch (error) {
     console.error('Reset error:', error);

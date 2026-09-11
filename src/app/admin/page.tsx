@@ -10,7 +10,6 @@ import {
 } from 'lucide-react';
 import ProductCard3D from '@/components/products/ProductCard3D';
 import { ProductItem } from '@/types/product';
-import { initialProductsCatalog } from '@/data/productsCatalog';
 import RovilLogo from '@/components/RovilLogo';
 
 // Category options
@@ -65,10 +64,8 @@ export default function AdminPage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize with initialProductsCatalog for instant zero-wait rendering
-  const [products, setProducts] = useState<(ProductItem & { _mongoId?: string })[]>(
-    initialProductsCatalog.map((p) => ({ ...p, _mongoId: p.id }))
-  );
+  // Initialize with empty array; products loaded directly from database
+  const [products, setProducts] = useState<(ProductItem & { _mongoId?: string })[]>([]);
   const [activeTab, setActiveTab] = useState<'all' | 'coffee' | 'tea'>('all');
   const [formOpen, setFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -83,13 +80,13 @@ export default function AdminPage() {
 
   const showToast = (type: 'success' | 'error', msg: string) => setToast({ type, msg });
 
-  // Silent live sync with API
+  // Live sync with API
   const fetchProducts = useCallback(async () => {
     try {
       const res = await fetch('/api/products');
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           setProducts(
             data.map((p: any) => ({
               ...p,
