@@ -70,8 +70,8 @@ export default function ContactQuote() {
                 <Mail className="w-5 h-5 text-[#7a4727] shrink-0 mt-0.5" />
                 <div>
                   <div className="text-sm font-bold text-stone-950">Export Desk Email</div>
-                  <a href="mailto:virovillimited@gmail.com" className="text-sm text-stone-700 hover:underline font-medium">
-                    virovillimited@gmail.com
+                  <a href="mailto:info@rovilcoffee.com" className="text-sm text-stone-700 hover:underline font-medium">
+                    info@rovilcoffee.com
                   </a>
                 </div>
               </div>
@@ -105,7 +105,7 @@ export default function ContactQuote() {
                 </p>
                 <div className="pt-3 border-t border-stone-300 w-full max-w-xs text-sm text-stone-700 space-y-1">
                   <div>Direct Phone: <strong className="text-stone-950">+254 721 487 948</strong></div>
-                  <div>Direct Email: <strong className="text-stone-950">virovillimited@gmail.com</strong></div>
+                  <div>Direct Email: <strong className="text-stone-950">info@rovilcoffee.com</strong></div>
                 </div>
                 <button
                   onClick={() => setSubmitted(false)}

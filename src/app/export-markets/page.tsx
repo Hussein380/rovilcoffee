@@ -575,7 +575,7 @@ export default function ExportMarketsPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-[#d89f68] shrink-0" />
-                  <span>Email: <a href="mailto:virovillimited@gmail.com" className="text-white hover:underline">virovillimited@gmail.com</a></span>
+                  <span>Email: <a href="mailto:info@rovilcoffee.com" className="text-white hover:underline">info@rovilcoffee.com</a></span>
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="w-4 h-4 text-[#d89f68] shrink-0" />

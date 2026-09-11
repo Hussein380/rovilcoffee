@@ -113,7 +113,7 @@ function buildSystemPrompt(products: any[]) {
 - WhatsApp: ${companyInfo.contacts.whatsapp} (Direct link: wa.me/254721487948)
 - Primary Phone: ${companyInfo.contacts.phonePrimary}
 - Secondary Phone: ${companyInfo.contacts.phoneSecondary}
-- Email: virovillimited@gmail.com
+- Email: info@rovilcoffee.com
 - Head Office Address: ${companyInfo.address.street}, ${companyInfo.address.poBox}, ${companyInfo.address.city}, ${companyInfo.address.country}
 - Business Hours: ${companyInfo.hours}
 

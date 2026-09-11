@@ -82,7 +82,7 @@ export default function Footer() {
                 <Mail className="w-4 h-4 text-stone-400 shrink-0 mt-1" />
                 <div>
                   <strong className="text-white block font-bold">Export Email:</strong>
-                  <a href="mailto:virovillimited@gmail.com" className="hover:text-white block text-xs break-all font-medium">virovillimited@gmail.com</a>
+                  <a href="mailto:info@rovilcoffee.com" className="hover:text-white block text-xs break-all font-medium">info@rovilcoffee.com</a>
                 </div>
               </div>
 

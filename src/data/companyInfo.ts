@@ -34,7 +34,7 @@ export const companyInfo = {
   contacts: {
     phonePrimary: '+254 721 487 948',
     phoneSecondary: '+254 722 661 065',
-    email: 'virovillimited@gmail.com',
+    email: 'info@rovilcoffee.com',
     whatsapp: '+254721487948',
   },
   hours: 'Monday – Friday: 08:00 – 17:00 EAT (UTC+3)',
