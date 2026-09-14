@@ -6,7 +6,8 @@ import Image from 'next/image';
 import {
   Coffee, Plus, Pencil, Trash2, LogOut, X, Upload,
   Eye, Check, AlertCircle, Loader2,
-  Package, Star, Sparkles, Leaf
+  Package, Star, Sparkles, Leaf,
+  Clipboard
 } from 'lucide-react';
 import ProductCard3D from '@/components/products/ProductCard3D';
 import { ProductItem } from '@/types/product';
@@ -72,6 +73,7 @@ export default function AdminPage() {
   const [form, setForm] = useState<FormState>(emptyForm);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
@@ -202,21 +204,30 @@ export default function AdminPage() {
     setFormOpen(true);
   };
 
-  // Handle image file selection
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  // Core image upload processing function (handles File from file picker, paste, or drop)
+  const processImageUpload = useCallback(async (file: File) => {
+    if (!file.type.startsWith('image/')) {
+      showToast('error', 'Please provide a valid image file (JPG, PNG, WebP).');
+      return;
+    }
+
+    // Ensure valid file with proper filename for Cloudinary
+    const uploadFile = file.name
+      ? file
+      : new File([file], `pasted-image-${Date.now()}.${file.type.split('/')[1] || 'png'}`, {
+          type: file.type || 'image/png',
+        });
 
     // Instant local preview
     const reader = new FileReader();
     reader.onload = (ev) => setImagePreview(ev.target?.result as string);
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(uploadFile);
 
     // Upload to Cloudinary via API
     setUploadingImage(true);
     try {
       const fd = new FormData();
-      fd.append('file', file);
+      fd.append('file', uploadFile);
       const token = typeof window !== 'undefined' ? localStorage.getItem('rovil_admin_token') : null;
       const headers: Record<string, string> = {};
       if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -231,12 +242,104 @@ export default function AdminPage() {
       const { url } = await res.json();
       setForm((prev) => ({ ...prev, image: url }));
       setImagePreview(url);
+      showToast('success', 'Image uploaded successfully!');
     } catch {
       showToast('error', 'Image upload failed. Try again.');
     } finally {
       setUploadingImage(false);
     }
+  }, []);
+
+  // Handle image file selection from file input
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await processImageUpload(file);
+    if (e.target) e.target.value = '';
   };
+
+  // Drag and drop handlers for image dropzone
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+    const file = e.dataTransfer?.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      await processImageUpload(file);
+    } else if (file) {
+      showToast('error', 'Please drop a valid image file.');
+    }
+  };
+
+  // Listen for clipboard paste events (Ctrl+V / Cmd+V) whenever the product form modal is open
+  useEffect(() => {
+    if (!formOpen) return;
+
+    const handlePaste = async (e: ClipboardEvent) => {
+      const items = e.clipboardData?.items;
+      if (!items || items.length === 0) return;
+
+      // 1. Check if an image item is on the clipboard (e.g. copied image, screenshot)
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.type.startsWith('image/')) {
+          const file = item.getAsFile();
+          if (file) {
+            e.preventDefault();
+            await processImageUpload(file);
+            return;
+          }
+        }
+      }
+
+      // 2. Also check clipboard files directly (e.g. copied from file manager)
+      const files = e.clipboardData?.files;
+      if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          if (files[i].type.startsWith('image/')) {
+            e.preventDefault();
+            await processImageUpload(files[i]);
+            return;
+          }
+        }
+      }
+
+      // 3. If user pasted a direct image URL and is NOT currently typing in a text field
+      const activeElement = document.activeElement;
+      const isTyping =
+        activeElement instanceof HTMLInputElement ||
+        activeElement instanceof HTMLTextAreaElement;
+
+      if (!isTyping) {
+        const text = e.clipboardData?.getData('text')?.trim();
+        if (
+          text &&
+          (text.startsWith('http://') || text.startsWith('https://')) &&
+          /\.(jpeg|jpg|png|webp|svg|gif)(\?.*)?$/i.test(text)
+        ) {
+          e.preventDefault();
+          setForm((prev) => ({ ...prev, image: text }));
+          setImagePreview(text);
+          showToast('success', 'Pasted image URL attached!');
+        }
+      }
+    };
+
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, [formOpen, processImageUpload]);
 
   // Build a preview ProductItem from current form state
   const previewProduct: ProductItem = {
@@ -786,38 +889,81 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-                {/* Image Upload */}
+                {/* Image Upload & Paste Dropzone */}
                 <div>
-                  <label className="block text-xs font-bold text-[#23150c] mb-2 uppercase tracking-wider">
-                    Product Image <span className="text-red-500">*</span>
-                  </label>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-xs font-bold text-[#23150c] uppercase tracking-wider">
+                      Product Image <span className="text-red-500">*</span>
+                    </label>
+                    <span className="inline-flex items-center gap-1 text-[11px] text-[#7a4727] bg-[#fbf9f6] border border-[#d8c2b0]/60 px-2 py-0.5 rounded-md font-medium">
+                      <Clipboard className="w-3 h-3 text-[#b57a44]" />
+                      <span>Paste (Ctrl+V) anywhere</span>
+                    </span>
+                  </div>
                   <div
+                    tabIndex={0}
+                    role="button"
+                    aria-label="Upload product image or paste from clipboard"
                     onClick={() => fileInputRef.current?.click()}
-                    className={`relative h-48 rounded-2xl border-2 border-dashed cursor-pointer transition-all overflow-hidden ${
-                      imagePreview ? 'border-[#b57a44]/50' : 'border-stone-300 hover:border-[#b57a44]/50 bg-stone-50'
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        fileInputRef.current?.click();
+                      }
+                    }}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`relative h-48 rounded-2xl border-2 border-dashed cursor-pointer transition-all overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#b57a44] ${
+                      isDragOver
+                        ? 'border-[#b57a44] bg-[#b57a44]/10 scale-[1.01]'
+                        : imagePreview
+                        ? 'border-[#b57a44]/50 hover:border-[#b57a44]'
+                        : 'border-stone-300 hover:border-[#b57a44]/50 bg-stone-50'
                     }`}
                   >
+                    {/* Live Uploading Progress Overlay */}
+                    {uploadingImage && (
+                      <div className="absolute inset-0 bg-[#23150c]/75 backdrop-blur-xs flex flex-col items-center justify-center gap-2 text-white z-20">
+                        <Loader2 className="w-7 h-7 animate-spin text-[#d89f68]" />
+                        <span className="text-xs font-bold tracking-wide">Uploading &amp; Syncing Image...</span>
+                        <span className="text-[10px] text-stone-300">Processing with Cloudinary</span>
+                      </div>
+                    )}
+
                     {imagePreview ? (
                       <>
                         <Image src={imagePreview} alt="Preview" fill unoptimized className="object-cover" />
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                        <div className="absolute inset-0 bg-black/45 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity gap-1.5 p-3 text-center">
                           <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl text-xs font-bold text-[#23150c] shadow-md">
                             <Upload className="w-4 h-4" />
                             <span>Change Image</span>
                           </div>
+                          <span className="text-[11px] text-white font-medium drop-shadow-sm">
+                            Or press <kbd className="px-1.5 py-0.5 bg-white/20 rounded font-mono text-[10px]">Ctrl+V</kbd> to paste a new one
+                          </span>
                         </div>
                       </>
                     ) : (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-stone-400">
-                        {uploadingImage ? (
-                          <Loader2 className="w-6 h-6 animate-spin text-[#b57a44]" />
-                        ) : (
-                          <>
-                            <Upload className="w-6 h-6 text-stone-400" />
-                            <span className="text-xs font-semibold text-stone-700">Click to upload photo</span>
-                            <span className="text-[11px] text-stone-400">JPG, PNG, WebP — Cloudinary automatic sync</span>
-                          </>
-                        )}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-stone-400 p-4 text-center">
+                        <div className="w-11 h-11 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center text-[#7a4727]">
+                          <Upload className="w-5 h-5" />
+                        </div>
+                        <div className="flex flex-col items-center">
+                          <span className="text-xs font-bold text-[#23150c]">
+                            Click to upload or press <span className="text-[#b57a44] underline decoration-dotted">Ctrl+V</span> to paste
+                          </span>
+                          <span className="text-[11px] text-stone-500 mt-0.5">
+                            Copy any image from web, screenshot, or file and paste directly
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-[10px] text-stone-400 font-medium">
+                          <span>PNG, JPG, WebP</span>
+                          <span>&bull;</span>
+                          <span>Drag &amp; Drop</span>
+                          <span>&bull;</span>
+                          <span>Clipboard</span>
+                        </div>
                       </div>
                     )}
                   </div>
