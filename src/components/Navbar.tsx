@@ -54,8 +54,17 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden sm:flex items-center gap-4">
+          {/* Desktop CTA & Admin */}
+          <div className="hidden sm:flex items-center gap-3">
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-sm border border-[#d8c2b0] bg-[#fbf9f6] hover:bg-[#f4ece4] text-[#3e2211] hover:text-[#23150c] text-xs font-semibold tracking-wide transition-all shadow-xs"
+              title="Admin Portal"
+            >
+              <Lock className="w-3.5 h-3.5 text-[#7a4727]" />
+              <span>Admin</span>
+            </Link>
+
             <Link
               href="/#contact"
               className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-5 py-2.5 rounded-sm text-xs font-semibold tracking-wider uppercase transition-colors"
@@ -89,7 +98,15 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
-          <div className="pt-3">
+          <div className="pt-3 flex flex-col gap-2">
+            <Link
+              href="/admin"
+              onClick={() => setMobileOpen(false)}
+              className="w-full text-center flex items-center justify-center gap-2 border border-[#d8c2b0] bg-[#fbf9f6] text-[#3e2211] py-2.5 rounded-sm text-xs font-semibold hover:bg-[#f4ece4] transition-all"
+            >
+              <Lock className="w-3.5 h-3.5 text-[#7a4727]" />
+              <span>Admin Portal</span>
+            </Link>
             <Link
               href="/#contact"
               onClick={() => setMobileOpen(false)}
