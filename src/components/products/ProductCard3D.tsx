@@ -194,20 +194,26 @@ export default function ProductCard3D({
             </p>
 
             {/* Flavor / Spec Pills */}
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {product.flavorNotes.slice(0, 3).map((note, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 py-0.5 rounded-md bg-stone-100 text-stone-700 text-[11px] font-medium border border-stone-200"
-                >
-                  {note}
-                </span>
-              ))}
-              {product.flavorNotes.length > 3 && (
-                <span className="px-1.5 py-0.5 rounded-md bg-stone-50 text-stone-500 text-[11px] font-medium border border-stone-200">
-                  +{product.flavorNotes.length - 3}
-                </span>
-              )}
+            <div className="mt-3 flex flex-wrap gap-1.5 min-h-[22px] items-center">
+              {product.flavorNotes && product.flavorNotes.length > 0 ? (
+                <>
+                  {product.flavorNotes.slice(0, 3).map((note, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-0.5 rounded-md bg-stone-100 text-stone-700 text-[11px] font-medium border border-stone-200"
+                    >
+                      {note}
+                    </span>
+                  ))}
+                  {product.flavorNotes.length > 3 && (
+                    <span className="px-1.5 py-0.5 rounded-md bg-stone-50 text-stone-500 text-[11px] font-medium border border-stone-200">
+                      +{product.flavorNotes.length - 3}
+                    </span>
+                  )}
+                </>
+              ) : previewMode ? (
+                <span className="text-[11px] text-stone-400 italic">No tags selected</span>
+              ) : null}
             </div>
           </div>
 

@@ -7,7 +7,7 @@ import {
   Coffee, Plus, Pencil, Trash2, LogOut, X, Upload,
   Eye, Check, AlertCircle, Loader2,
   Package, Star, Sparkles, Leaf,
-  Clipboard
+  Clipboard, Tag, Image as ImageIcon
 } from 'lucide-react';
 import ProductCard3D from '@/components/products/ProductCard3D';
 import { ProductItem } from '@/types/product';
@@ -32,6 +32,37 @@ const PRESET_ASSETS = [
   { label: 'Luxury Tea Canister', url: '/images/branded/rovil-tea-canister.jpg' },
   { label: 'Eco Cafe Cups', url: '/images/branded/rovil-retail-cups.jpg' },
 ];
+
+// Curated quick tags for one-click multi-tagging
+const POPULAR_TAGS = {
+  coffee: [
+    'Grade AA',
+    'Grade AB',
+    'Peaberry (PB)',
+    'Medium Roast',
+    'Dark Roast',
+    'Single Origin',
+    'SL-28 & SL-34',
+    'Citrus & Blackcurrant',
+    'Chocolate & Caramel',
+  ],
+  tea: [
+    'Royal Purple Tea',
+    'Kenyan Black Orthodox',
+    'High-Grown Green Tea',
+    'Wild Hibiscus',
+    'High Anthocyanin',
+    'Hand-Plucked Leaf',
+  ],
+  common: [
+    'Mount Kenya Highlands',
+    '125g Ground Pouch',
+    '250g Valve Pouch',
+    '100g Luxury Canister',
+    'Whole Bean',
+    'Export Grade',
+  ],
+};
 
 const emptyForm = {
   name: '',
@@ -358,7 +389,7 @@ export default function AdminPage() {
     isPopular:      form.isPopular,
     isNew:          form.isNew,
     origin:         form.origin || 'Kenya Highlands',
-    flavorNotes:    form.flavorNotes.length > 0 ? form.flavorNotes : ['Note 1', 'Note 2'],
+    flavorNotes:    form.flavorNotes,
     specs:          form.specs.filter((s) => s.label && s.value),
   };
 
@@ -453,7 +484,7 @@ export default function AdminPage() {
     }
   };
 
-  // Flavor notes helpers
+  // Flavor notes / product tags helpers
   const addFlavorNote = () => {
     const note = newFlavorNote.trim();
     if (note && !form.flavorNotes.includes(note)) {
@@ -464,6 +495,18 @@ export default function AdminPage() {
 
   const removeFlavorNote = (idx: number) => {
     setForm((prev) => ({ ...prev, flavorNotes: prev.flavorNotes.filter((_, i) => i !== idx) }));
+  };
+
+  const toggleTag = (tag: string) => {
+    setForm((prev) => {
+      const exists = prev.flavorNotes.includes(tag);
+      return {
+        ...prev,
+        flavorNotes: exists
+          ? prev.flavorNotes.filter((t) => t !== tag)
+          : [...prev.flavorNotes, tag],
+      };
+    });
   };
 
   // Spec helpers
@@ -975,30 +1018,64 @@ export default function AdminPage() {
                     className="hidden"
                   />
 
-                  {/* Quick Select from ROVIL Branded Image Assets */}
-                  <div className="mt-2.5">
-                    <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block mb-1.5">
-                      Or pick from ROVIL branded packaging assets:
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {PRESET_ASSETS.map((asset) => (
+                  {/* Image status & ROVIL Stock Photo Library (Collapsible) */}
+                  <div className="mt-3 space-y-2">
+                    {imagePreview && (
+                      <div className="flex items-center justify-between text-xs px-3 py-2 rounded-xl bg-stone-50 border border-stone-200">
+                        <div className="flex items-center gap-1.5 text-[#23150c] font-medium">
+                          <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                          <span>Photo attached &amp; active</span>
+                        </div>
                         <button
-                          key={asset.url}
                           type="button"
                           onClick={() => {
-                            setForm((p) => ({ ...p, image: asset.url }));
-                            setImagePreview(asset.url);
+                            setForm((p) => ({ ...p, image: '' }));
+                            setImagePreview('');
                           }}
-                          className={`px-2.5 py-1 rounded-lg text-[11px] font-medium border transition-all ${
-                            form.image === asset.url
-                              ? 'bg-[#23150c] text-white border-[#23150c] shadow-xs'
-                              : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
-                          }`}
+                          className="text-stone-400 hover:text-red-500 text-[11px] font-medium transition-colors"
                         >
-                          {asset.label}
+                          Clear image
                         </button>
-                      ))}
-                    </div>
+                      </div>
+                    )}
+
+                    <details className="group border border-stone-200 rounded-xl overflow-hidden bg-stone-50/50">
+                      <summary className="cursor-pointer list-none flex items-center justify-between px-3 py-2.5 text-xs font-bold text-stone-600 uppercase tracking-wider hover:bg-stone-100 transition-colors select-none">
+                        <div className="flex items-center gap-2">
+                          <ImageIcon className="w-3.5 h-3.5 text-[#b57a44]" />
+                          <span>Optional: Pick from ROVIL Stock Packaging Photos</span>
+                        </div>
+                        <span className="text-[10px] text-stone-400 font-semibold group-open:rotate-180 transition-transform">▼</span>
+                      </summary>
+                      <div className="p-3 border-t border-stone-200 bg-white space-y-2">
+                        <p className="text-[11px] text-stone-500 leading-snug">
+                          Note: These are stock photographs for the card image. (To add tags or flavor profiles, use the Product Tags section below).
+                        </p>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                          {PRESET_ASSETS.map((asset) => (
+                            <button
+                              key={asset.url}
+                              type="button"
+                              onClick={() => {
+                                setForm((p) => ({ ...p, image: asset.url }));
+                                setImagePreview(asset.url);
+                                showToast('success', `Selected ${asset.label} photo`);
+                              }}
+                              className={`flex items-center gap-2 p-1.5 rounded-xl border text-left transition-all ${
+                                form.image === asset.url
+                                  ? 'bg-[#23150c] text-white border-[#23150c] shadow-xs ring-2 ring-[#b57a44]'
+                                  : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+                              }`}
+                            >
+                              <div className="relative w-8 h-8 rounded-lg overflow-hidden shrink-0 bg-stone-200">
+                                <Image src={asset.url} alt={asset.label} fill className="object-cover" />
+                              </div>
+                              <span className="text-[11px] font-medium truncate leading-tight">{asset.label}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </details>
                   </div>
                 </div>
 
@@ -1043,6 +1120,110 @@ export default function AdminPage() {
                     placeholder="Describe flavor characteristics, harvest method, elevation..."
                     className="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm text-[#23150c] focus:outline-none focus:border-[#b57a44] bg-white"
                   />
+                </div>
+
+                {/* Product Tags & Highlights (Multiple selection) */}
+                <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Tag className="w-4 h-4 text-[#b57a44]" />
+                      <label className="text-xs font-bold text-[#23150c] uppercase tracking-wider">
+                        Product Tags &amp; Highlights
+                      </label>
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#23150c] text-white">
+                        {form.flavorNotes.length} added
+                      </span>
+                    </div>
+                    <span className="text-[11px] text-stone-500">
+                      Multi-select chips to add/remove tags
+                    </span>
+                  </div>
+
+                  {/* Active Selected Tags */}
+                  {form.flavorNotes.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5 p-2 bg-white rounded-xl border border-stone-200 min-h-[38px] items-center">
+                      {form.flavorNotes.map((tag, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#23150c] text-white text-xs font-semibold shadow-xs"
+                        >
+                          <span>{tag}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeFlavorNote(idx)}
+                            className="text-stone-300 hover:text-white transition-colors p-0.5"
+                            title="Remove tag"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-2.5 bg-white rounded-xl border border-dashed border-stone-300 text-center">
+                      <span className="text-xs text-stone-400">
+                        No tags added yet. Click any quick tag below or type your own.
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Quick-Add Presets */}
+                  <div>
+                    <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block mb-1.5">
+                      Click to Add / Remove Tags (Multiple Allowed):
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {(form.category === 'tea' ? POPULAR_TAGS.tea : POPULAR_TAGS.coffee)
+                        .concat(POPULAR_TAGS.common)
+                        .map((tag) => {
+                          const isSelected = form.flavorNotes.includes(tag);
+                          return (
+                            <button
+                              key={tag}
+                              type="button"
+                              onClick={() => toggleTag(tag)}
+                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                                isSelected
+                                  ? 'bg-[#23150c] text-white border-[#23150c] shadow-xs ring-2 ring-[#b57a44]/40'
+                                  : 'bg-white hover:bg-stone-100 text-stone-700 border-stone-200'
+                              }`}
+                            >
+                              {isSelected ? (
+                                <Check className="w-3.5 h-3.5 text-[#d89f68]" />
+                              ) : (
+                                <Plus className="w-3.5 h-3.5 text-stone-400" />
+                              )}
+                              <span>{tag}</span>
+                            </button>
+                          );
+                        })}
+                    </div>
+                  </div>
+
+                  {/* Custom Tag Input */}
+                  <div className="flex gap-2 pt-1">
+                    <input
+                      type="text"
+                      value={newFlavorNote}
+                      onChange={(e) => setNewFlavorNote(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          addFlavorNote();
+                        }
+                      }}
+                      placeholder="Type custom tag (e.g. SL-28, Fruity, 250g Pouch)..."
+                      className="flex-1 px-3 py-2 rounded-xl border border-stone-200 text-xs text-[#23150c] focus:outline-none focus:border-[#b57a44] bg-white"
+                    />
+                    <button
+                      type="button"
+                      onClick={addFlavorNote}
+                      className="px-4 py-2 rounded-xl bg-[#23150c] hover:bg-[#3e2211] text-xs font-bold text-white transition-colors flex items-center gap-1 shrink-0"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add Tag</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Pricing & Unit Weight */}
@@ -1124,39 +1305,7 @@ export default function AdminPage() {
                   </label>
                 </div>
 
-                {/* Flavor Notes */}
-                <div>
-                  <label className="block text-xs font-bold text-[#23150c] mb-1.5 uppercase tracking-wider">
-                    Flavor Notes &amp; Tasting Profile
-                  </label>
-                  <div className="flex flex-wrap gap-1.5 mb-2">
-                    {form.flavorNotes.map((n, i) => (
-                      <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#f4ece4] text-[#23150c] text-xs font-medium">
-                        {n}
-                        <button type="button" onClick={() => removeFlavorNote(i)} className="text-stone-400 hover:text-red-500 ml-0.5">
-                          <X className="w-3 h-3" />
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={newFlavorNote}
-                      onChange={(e) => setNewFlavorNote(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addFlavorNote())}
-                      placeholder="Type note and hit Enter"
-                      className="flex-1 px-3 py-2 rounded-xl border border-stone-200 text-xs text-[#23150c] focus:outline-none focus:border-[#b57a44] bg-stone-50"
-                    />
-                    <button
-                      type="button"
-                      onClick={addFlavorNote}
-                      className="px-3 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-xs font-bold text-[#23150c]"
-                    >
-                      + Add Note
-                    </button>
-                  </div>
-                </div>
+
 
                 {/* Specifications */}
                 <div>
