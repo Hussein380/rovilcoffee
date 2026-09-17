@@ -4,6 +4,7 @@ import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import JsonLd from '@/components/JsonLd';
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister';
+import FloatingAssistant from '@/components/FloatingAssistant';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -121,7 +122,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'ROVIL Coffee',
+    title: 'rovil',
   },
   icons: {
     icon: [
@@ -150,7 +151,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#23150c" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="ROVIL Coffee" />
+        <meta name="apple-mobile-web-app-title" content="rovil" />
         <meta name="application-name" content="ROVIL Coffee" />
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="preload" href="/textures/earth_atmos_2048.jpg" as="image" />
@@ -176,6 +177,7 @@ export default function RootLayout({
           `}
         </Script>
         {children}
+        <FloatingAssistant />
       </body>
     </html>
   );

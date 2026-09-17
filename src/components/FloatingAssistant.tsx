@@ -451,6 +451,7 @@ export default function FloatingAssistant() {
                                     src={prod.image}
                                     alt={prod.name}
                                     fill
+                                    sizes="44px"
                                     className="object-cover"
                                   />
                                 </div>

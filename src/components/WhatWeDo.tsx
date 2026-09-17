@@ -103,6 +103,7 @@ export default function WhatWeDo() {
                     src={p.image}
                     alt={p.title}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     unoptimized
                     className="object-cover"
                   />
@@ -195,6 +196,7 @@ export default function WhatWeDo() {
                 src="/images/branded/rovil-bulk-coffee.jpg"
                 alt="Kenyan Green Arabica Grade AA 60kg Burlap Export Bags at Milling Warehouse"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 unoptimized
                 className="object-cover"
               />

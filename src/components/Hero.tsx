@@ -1,7 +1,7 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import HeroSlider from './HeroSlider';
 
 export default function Hero() {
   return (
@@ -25,18 +25,9 @@ export default function Hero() {
               <span className="text-[#7a4727]">Exported to the World.</span>
             </h1>
 
-            {/* Mobile-Only Product Photo */}
+            {/* Mobile-Only Product Photo Slider */}
             <div className="lg:hidden w-full pt-1 pb-1">
-              <div className="relative w-full aspect-[4/3] rounded-sm overflow-hidden border border-stone-200 shadow-sm">
-                <Image
-                  src="/images/branded/rovil-hero-advert.jpg"
-                  alt="ROVIL Global Kenyan Coffee 125g and Black Orthodox & Purple Tea 150g"
-                  fill
-                  priority
-                  unoptimized
-                  className="object-cover"
-                />
-              </div>
+              <HeroSlider />
             </div>
 
             {/* Compact, Clear Commercial Copy */}
@@ -92,17 +83,10 @@ export default function Hero() {
 
           </div>
 
-          {/* Desktop Right Column: Studio Product Showcase */}
+          {/* Desktop Right Column: Studio Product Showcase Slider */}
           <div className="hidden lg:flex lg:col-span-6 relative items-center justify-center">
-            <div className="relative w-full max-w-lg aspect-[4/3] rounded-sm overflow-hidden border border-stone-200 shadow-sm bg-white">
-              <Image
-                src="/images/branded/rovil-hero-advert.jpg"
-                alt="ROVIL Global Kenyan Coffee 125g and Black Orthodox & Purple Tea 150g"
-                fill
-                priority
-                unoptimized
-                className="object-cover"
-              />
+            <div className="w-full">
+              <HeroSlider />
             </div>
           </div>
 
