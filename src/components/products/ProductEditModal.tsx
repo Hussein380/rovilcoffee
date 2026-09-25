@@ -68,8 +68,8 @@ export default function ProductEditModal({
   useEffect(() => {
     if (productToEdit) {
       setFormData(productToEdit);
-      setNotesInput(productToEdit.flavorNotes.join(', '));
-      setCustomImageInput(productToEdit.image);
+      setNotesInput((productToEdit.flavorNotes || []).join(', '));
+      setCustomImageInput(productToEdit.image || '');
     } else {
       setFormData({
         name: '',

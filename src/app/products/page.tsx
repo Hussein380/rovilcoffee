@@ -71,11 +71,12 @@ export default function ProductsPage() {
   // Filtered list
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
-      const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
+      const itemCat = p.category || 'coffee';
+      const matchesCategory = selectedCategory === 'all' || itemCat === selectedCategory;
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
-        p.name.toLowerCase().includes(q) ||
+        (p.name && p.name.toLowerCase().includes(q)) ||
         (p.tagline && p.tagline.toLowerCase().includes(q)) ||
         (p.description && p.description.toLowerCase().includes(q)) ||
         (p.flavorNotes && p.flavorNotes.some((n) => n.toLowerCase().includes(q))) ||

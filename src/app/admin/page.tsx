@@ -213,24 +213,24 @@ export default function AdminPage() {
   // Open form to edit existing product
   const openEditForm = (p: ProductItem & { _mongoId?: string }) => {
     setForm({
-      name:             p.name,
-      category:         p.category,
-      categoryLabel:    p.categoryLabel,
-      tagline:          p.tagline,
-      description:      p.description,
-      image:            p.image,
-      priceRetailUSD:   String(p.priceRetailUSD),
-      priceRetailKES:   String(p.priceRetailKES),
-      unitWeight:       p.unitWeight,
-      wholesalePriceUSD: String(p.wholesalePriceUSD || ''),
+      name:             p.name || '',
+      category:         p.category || 'coffee',
+      categoryLabel:    p.categoryLabel || 'Kenyan Arabica Coffee',
+      tagline:          p.tagline || '',
+      description:      p.description || '',
+      image:            p.image || '',
+      priceRetailUSD:   p.priceRetailUSD !== undefined ? String(p.priceRetailUSD) : '',
+      priceRetailKES:   p.priceRetailKES !== undefined ? String(p.priceRetailKES) : '',
+      unitWeight:       p.unitWeight || '',
+      wholesalePriceUSD: p.wholesalePriceUSD !== undefined ? String(p.wholesalePriceUSD) : '',
       wholesaleMOQ:     p.wholesaleMOQ || '',
       isPopular:        !!p.isPopular,
       isNew:            !!p.isNew,
-      origin:           p.origin,
-      flavorNotes:      [...p.flavorNotes],
-      specs:            p.specs.length > 0 ? [...p.specs] : [{ label: '', value: '' }],
+      origin:           p.origin || '',
+      flavorNotes:      p.flavorNotes ? [...p.flavorNotes] : [],
+      specs:            p.specs && p.specs.length > 0 ? [...p.specs] : [{ label: '', value: '' }],
     });
-    setImagePreview(p.image);
+    setImagePreview(p.image || '');
     setEditingId(p._mongoId || p.id);
     setFormOpen(true);
   };
@@ -377,13 +377,13 @@ export default function AdminPage() {
     id: 'preview',
     name:           form.name || 'Product Name',
     category:       form.category || 'coffee',
-    categoryLabel:  form.categoryLabel || 'Kenyan Product',
+    categoryLabel:  form.categoryLabel || (form.category === 'tea' ? 'Kenyan Specialty Tea' : 'Kenyan Arabica Coffee'),
     tagline:        form.tagline || 'Tagline goes here',
     description:    form.description || 'Product description will appear here.',
-    image:          imagePreview || (form.category === 'tea' ? '/images/branded/rovil-tea-canister.jpg' : '/images/branded/rovil-coffee-pouch.jpg'),
+    image:          imagePreview || form.image || (form.category === 'tea' ? '/images/branded/rovil-tea-canister.jpg' : '/images/branded/rovil-coffee-pouch.jpg'),
     priceRetailUSD: Number(form.priceRetailUSD) || 0,
     priceRetailKES: Number(form.priceRetailKES) || 0,
-    unitWeight:     form.unitWeight || 'Unit',
+    unitWeight:     form.unitWeight || 'Standard Pack',
     wholesalePriceUSD: form.wholesalePriceUSD ? Number(form.wholesalePriceUSD) : undefined,
     wholesaleMOQ:   form.wholesaleMOQ || undefined,
     isPopular:      form.isPopular,
@@ -395,19 +395,38 @@ export default function AdminPage() {
 
   // Save product (create or update)
   const handleSave = async () => {
-    if (!form.name || !form.image || !form.priceRetailUSD || !form.priceRetailKES) {
-      showToast('error', 'Please fill in product name, image, and retail prices.');
+    if (!form.name || !form.name.trim()) {
+      showToast('error', 'Please enter a product name.');
       return;
     }
 
     setSaving(true);
     try {
+      const defaultImage = form.category === 'tea'
+        ? '/images/branded/rovil-tea-canister.jpg'
+        : '/images/branded/rovil-coffee-pouch.jpg';
+
+      const parseNum = (val: string, fallback = 0) => {
+        if (!val || val.trim() === '') return fallback;
+        const n = Number(val);
+        return isNaN(n) ? fallback : n;
+      };
+
       const payload = {
         ...form,
-        priceRetailUSD:   Number(form.priceRetailUSD),
-        priceRetailKES:   Number(form.priceRetailKES),
-        wholesalePriceUSD: form.wholesalePriceUSD ? Number(form.wholesalePriceUSD) : undefined,
-        specs:            form.specs.filter((s) => s.label && s.value),
+        name: form.name.trim(),
+        category: form.category || 'coffee',
+        categoryLabel: form.categoryLabel || (form.category === 'tea' ? 'Kenyan Specialty Tea' : 'Kenyan Arabica Coffee'),
+        tagline: form.tagline ? form.tagline.trim() : '',
+        description: form.description ? form.description.trim() : '',
+        image: form.image?.trim() || defaultImage,
+        priceRetailUSD: parseNum(form.priceRetailUSD, 0),
+        priceRetailKES: parseNum(form.priceRetailKES, 0),
+        unitWeight: form.unitWeight?.trim() || 'Standard Pack',
+        wholesalePriceUSD: form.wholesalePriceUSD?.trim() && !isNaN(Number(form.wholesalePriceUSD)) ? Number(form.wholesalePriceUSD) : undefined,
+        wholesaleMOQ: form.wholesaleMOQ?.trim() || undefined,
+        origin: form.origin?.trim() || 'Kenya',
+        specs: form.specs.filter((s) => s.label && s.value),
       };
 
       const url = editingId ? `/api/products/${encodeURIComponent(editingId)}` : '/api/products';
@@ -522,12 +541,20 @@ export default function AdminPage() {
   const removeSpec = (idx: number) => setForm((prev) => ({ ...prev, specs: prev.specs.filter((_, i) => i !== idx) }));
 
   // Separate coffee and tea lists for organized management
-  const coffeeProducts = useMemo(() => products.filter((p) => p.category === 'coffee' || p.category.includes('coffee')), [products]);
-  const teaProducts = useMemo(() => products.filter((p) => p.category === 'tea' || p.category.includes('tea')), [products]);
-  const otherProducts = useMemo(
-    () => products.filter((p) => p.category !== 'coffee' && !p.category.includes('coffee') && p.category !== 'tea' && !p.category.includes('tea')),
-    [products]
-  );
+  const coffeeProducts = useMemo(() => products.filter((p) => {
+    const cat = p.category || 'coffee';
+    return cat === 'coffee' || cat.includes('coffee');
+  }), [products]);
+
+  const teaProducts = useMemo(() => products.filter((p) => {
+    const cat = p.category || '';
+    return cat === 'tea' || cat.includes('tea');
+  }), [products]);
+
+  const otherProducts = useMemo(() => products.filter((p) => {
+    const cat = p.category || 'coffee';
+    return cat !== 'coffee' && !cat.includes('coffee') && cat !== 'tea' && !cat.includes('tea');
+  }), [products]);
 
   const productBeingDeleted = useMemo(
     () => products.find((p) => (p._mongoId || p.id) === deleteConfirm),
@@ -541,7 +568,7 @@ export default function AdminPage() {
         {/* Thumbnail */}
         <div className="relative h-44 bg-stone-100">
           <Image
-            src={p.image}
+            src={p.image || (p.category === 'tea' ? '/images/branded/rovil-tea-canister.jpg' : '/images/branded/rovil-coffee-pouch.jpg')}
             alt={p.name}
             fill
             unoptimized
@@ -550,9 +577,9 @@ export default function AdminPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute top-2 left-2 flex gap-1">
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md text-white ${
-              p.category === 'coffee' ? 'bg-[#3e2211]' : 'bg-[#2a4d38]'
+              p.category === 'tea' ? 'bg-[#2a4d38]' : 'bg-[#3e2211]'
             }`}>
-              {p.category === 'coffee' ? '☕ Coffee' : '🍃 Tea'}
+              {p.category === 'tea' ? '🍃 Tea' : '☕ Coffee'}
             </span>
           </div>
           <div className="absolute bottom-2 left-2 flex gap-1">
@@ -572,12 +599,12 @@ export default function AdminPage() {
         {/* Info */}
         <div className="p-4">
           <p className="font-bold text-sm text-[#23150c] line-clamp-1 leading-snug mb-1">{p.name}</p>
-          <p className="text-xs text-stone-500 line-clamp-1 mb-2">{p.tagline}</p>
+          <p className="text-xs text-stone-500 line-clamp-1 mb-2">{p.tagline || 'Kenyan Origin Selection'}</p>
           <div className="flex items-center justify-between text-xs font-semibold text-[#23150c] mb-3 pb-3 border-b border-stone-100">
-            <span>${p.priceRetailUSD.toFixed(2)} USD</span>
+            <span>${(p.priceRetailUSD ?? 0).toFixed(2)} USD</span>
             <span className="text-stone-400 font-normal">|</span>
-            <span>KES {p.priceRetailKES.toLocaleString()}</span>
-            <span className="text-stone-400 font-normal text-[11px]">({p.unitWeight})</span>
+            <span>KES {(p.priceRetailKES ?? 0).toLocaleString()}</span>
+            <span className="text-stone-400 font-normal text-[11px]">({p.unitWeight || 'Standard'})</span>
           </div>
 
           <div className="flex gap-2">
@@ -905,7 +932,7 @@ export default function AdminPage() {
                 {/* Category Selection */}
                 <div>
                   <label className="block text-xs font-bold text-[#23150c] mb-2 uppercase tracking-wider">
-                    Product Category <span className="text-red-500">*</span>
+                    Product Category <span className="text-stone-400 font-normal text-[11px] lowercase">(optional)</span>
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {CATEGORY_OPTIONS.map((opt) => (
@@ -936,7 +963,7 @@ export default function AdminPage() {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <label className="block text-xs font-bold text-[#23150c] uppercase tracking-wider">
-                      Product Image <span className="text-red-500">*</span>
+                      Product Image <span className="text-stone-400 font-normal text-[11px] lowercase">(optional)</span>
                     </label>
                     <span className="inline-flex items-center gap-1 text-[11px] text-[#7a4727] bg-[#fbf9f6] border border-[#d8c2b0]/60 px-2 py-0.5 rounded-md font-medium">
                       <Clipboard className="w-3 h-3 text-[#b57a44]" />
@@ -1096,7 +1123,7 @@ export default function AdminPage() {
 
                   <div>
                     <label className="block text-xs font-bold text-[#23150c] mb-1.5 uppercase tracking-wider">
-                      Tagline
+                      Tagline <span className="text-stone-400 font-normal text-[11px] lowercase">(optional)</span>
                     </label>
                     <input
                       type="text"
@@ -1111,7 +1138,7 @@ export default function AdminPage() {
                 {/* Description */}
                 <div>
                   <label className="block text-xs font-bold text-[#23150c] mb-1.5 uppercase tracking-wider">
-                    Description
+                    Description <span className="text-stone-400 font-normal text-[11px] lowercase">(optional)</span>
                   </label>
                   <textarea
                     rows={3}
@@ -1230,7 +1257,7 @@ export default function AdminPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
                     <label className="block text-xs font-bold text-[#23150c] mb-1.5 uppercase tracking-wider">
-                      Retail USD ($) <span className="text-red-500">*</span>
+                      Retail USD ($) <span className="text-stone-400 font-normal text-[11px] lowercase">(optional)</span>
                     </label>
                     <input
                       type="number"
@@ -1244,7 +1271,7 @@ export default function AdminPage() {
 
                   <div>
                     <label className="block text-xs font-bold text-[#23150c] mb-1.5 uppercase tracking-wider">
-                      Retail KES <span className="text-red-500">*</span>
+                      Retail KES <span className="text-stone-400 font-normal text-[11px] lowercase">(optional)</span>
                     </label>
                     <input
                       type="number"
@@ -1257,7 +1284,7 @@ export default function AdminPage() {
 
                   <div>
                     <label className="block text-xs font-bold text-[#23150c] mb-1.5 uppercase tracking-wider">
-                      Unit Weight
+                      Unit Weight <span className="text-stone-400 font-normal text-[11px] lowercase">(optional)</span>
                     </label>
                     <input
                       type="text"
@@ -1272,7 +1299,7 @@ export default function AdminPage() {
                 {/* Origin */}
                 <div>
                   <label className="block text-xs font-bold text-[#23150c] mb-1.5 uppercase tracking-wider">
-                    Origin / Growing Region
+                    Origin / Growing Region <span className="text-stone-400 font-normal text-[11px] lowercase">(optional)</span>
                   </label>
                   <input
                     type="text"

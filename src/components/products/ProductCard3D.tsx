@@ -64,12 +64,18 @@ export default function ProductCard3D({
     y.set(0);
   };
 
-  const formattedRetailPrice =
-    currency === 'USD'
-      ? `$${product.priceRetailUSD.toFixed(2)}`
-      : `KES ${product.priceRetailKES.toLocaleString()}`;
+  const hasRetailPrice = (product.priceRetailUSD && product.priceRetailUSD > 0) || (product.priceRetailKES && product.priceRetailKES > 0);
+  const formattedRetailPrice = hasRetailPrice
+    ? currency === 'USD'
+      ? `$${(product.priceRetailUSD ?? 0).toFixed(2)}`
+      : `KES ${(product.priceRetailKES ?? 0).toLocaleString()}`
+    : 'Inquire for Price';
 
-  const isBulk = product.category.startsWith('bulk');
+  const isBulk = product.category ? product.category.startsWith('bulk') : false;
+  const displayImage = product.image || (product.category === 'tea' ? '/images/branded/rovil-tea-canister.jpg' : '/images/branded/rovil-coffee-pouch.jpg');
+  const displayCategoryLabel = product.categoryLabel || (product.category === 'tea' ? 'Kenyan Specialty Tea' : 'Kenyan Arabica Coffee');
+  const displayOrigin = (product.origin || 'Kenya').split('(')[0].trim();
+  const displayUnitWeight = product.unitWeight || 'Standard Pack';
 
   return (
     <div
@@ -110,14 +116,14 @@ export default function ProductCard3D({
           {previewMode ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={product.image}
-              alt={product.name}
+              src={displayImage}
+              alt={product.name || 'Product'}
               className="absolute inset-0 w-full h-full object-cover object-center"
             />
           ) : (
             <Image
-              src={product.image}
-              alt={product.name}
+              src={displayImage}
+              alt={product.name || 'Product'}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover object-center transform transition-transform duration-700 hover:scale-105"
@@ -141,7 +147,7 @@ export default function ProductCard3D({
                 </span>
               )}
               <span className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-white/90 text-stone-900 backdrop-blur-md shadow-xs">
-                {product.categoryLabel}
+                {displayCategoryLabel}
               </span>
             </div>
 
@@ -166,10 +172,10 @@ export default function ProductCard3D({
           {/* Bottom Stamp in Image Area */}
           <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between z-20">
             <div className="px-2.5 py-1 rounded-md bg-[#23150c]/90 text-white text-xs font-medium tracking-wide backdrop-blur-sm border border-white/10">
-              {product.unitWeight}
+              {displayUnitWeight}
             </div>
             <div className="px-2.5 py-1 rounded-md bg-white/90 text-stone-900 text-xs font-semibold backdrop-blur-sm">
-              {product.origin.split('(')[0].trim()}
+              {displayOrigin}
             </div>
           </div>
         </div>
@@ -222,7 +228,7 @@ export default function ProductCard3D({
             <div className="flex items-baseline justify-between">
               <div>
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 block">
-                  {isBulk ? `Per ${product.unitWeight}` : 'Retail Price'}
+                  {isBulk ? `Per ${displayUnitWeight}` : 'Retail Price'}
                 </span>
                 <span className="text-2xl font-bold text-stone-950 tracking-tight">
                   {formattedRetailPrice}

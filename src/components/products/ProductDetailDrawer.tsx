@@ -22,10 +22,19 @@ export default function ProductDetailDrawer({
 }: ProductDetailDrawerProps) {
   if (!product) return null;
 
-  const formattedRetailPrice =
-    currency === 'USD'
-      ? `$${product.priceRetailUSD.toFixed(2)}`
-      : `KES ${product.priceRetailKES.toLocaleString()}`;
+  const hasRetailPrice = (product.priceRetailUSD && product.priceRetailUSD > 0) || (product.priceRetailKES && product.priceRetailKES > 0);
+  const formattedRetailPrice = hasRetailPrice
+    ? currency === 'USD'
+      ? `$${(product.priceRetailUSD ?? 0).toFixed(2)}`
+      : `KES ${(product.priceRetailKES ?? 0).toLocaleString()}`
+    : 'Inquire for Price';
+
+  const displayImage = product.image || (product.category === 'tea' ? '/images/branded/rovil-tea-canister.jpg' : '/images/branded/rovil-coffee-pouch.jpg');
+  const displayCategoryLabel = product.categoryLabel || (product.category === 'tea' ? 'Kenyan Specialty Tea' : 'Kenyan Arabica Coffee');
+  const displayUnitWeight = product.unitWeight || 'Standard Pack';
+  const displayOrigin = product.origin || 'Kenya Highlands';
+  const flavorNotes = product.flavorNotes || [];
+  const specs = product.specs || [];
 
   return (
     <AnimatePresence>
@@ -51,8 +60,8 @@ export default function ProductDetailDrawer({
             {/* Top Image Banner */}
             <div className="relative h-72 w-full bg-[#23150c]">
               <Image
-                src={product.image}
-                alt={product.name}
+                src={displayImage}
+                alt={product.name || 'Product'}
                 fill
                 sizes="(max-width: 768px) 100vw, 672px"
                 className="object-cover object-center brightness-95"
@@ -73,14 +82,16 @@ export default function ProductDetailDrawer({
               <div className="absolute bottom-4 left-6 right-6 flex items-end justify-between">
                 <div>
                   <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/20 text-white backdrop-blur-md mb-2 border border-white/20">
-                    {product.categoryLabel}
+                    {displayCategoryLabel}
                   </span>
                   <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
                     {product.name}
                   </h2>
-                  <p className="text-sm font-medium text-stone-300 mt-0.5">
-                    {product.tagline}
-                  </p>
+                  {product.tagline && (
+                    <p className="text-sm font-medium text-stone-300 mt-0.5">
+                      {product.tagline}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -91,7 +102,7 @@ export default function ProductDetailDrawer({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-200">
                 <div>
                   <span className="text-xs font-semibold uppercase tracking-wider text-stone-500 block">
-                    Retail Unit Price ({product.unitWeight})
+                    Retail Unit Price ({displayUnitWeight})
                   </span>
                   <div className="text-3xl font-bold text-[#23150c] mt-1">
                     {formattedRetailPrice}
@@ -135,14 +146,14 @@ export default function ProductDetailDrawer({
                   Product Overview & Provenance
                 </h3>
                 <p className="text-sm text-stone-600 leading-relaxed">
-                  {product.description}
+                  {product.description || 'Premium single-origin selection from Kenya.'}
                 </p>
                 <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-stone-100 text-stone-800 text-xs font-semibold border border-stone-200">
                   <svg className="w-4 h-4 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <span>Estate Origin: {product.origin}</span>
+                  <span>Estate Origin: {displayOrigin}</span>
                 </div>
               </div>
 
@@ -152,14 +163,18 @@ export default function ProductDetailDrawer({
                   Flavor Profile & Key Notes
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {product.flavorNotes.map((note, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1.5 rounded-xl bg-stone-100 border border-stone-200 text-stone-800 text-xs font-medium"
-                    >
-                      {note}
-                    </span>
-                  ))}
+                  {flavorNotes.length > 0 ? (
+                    flavorNotes.map((note, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1.5 rounded-xl bg-stone-100 border border-stone-200 text-stone-800 text-xs font-medium"
+                      >
+                        {note}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-xs text-stone-400 italic">No specific flavor tags</span>
+                  )}
                 </div>
               </div>
 
@@ -169,19 +184,25 @@ export default function ProductDetailDrawer({
                   Technical Specifications
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {product.specs.map((spec, index) => (
-                    <div
-                      key={index}
-                      className="p-3 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-between"
-                    >
-                      <span className="text-xs font-medium text-stone-600">
-                        {spec.label}
-                      </span>
-                      <span className="text-xs font-bold text-stone-900">
-                        {spec.value}
-                      </span>
+                  {specs.length > 0 ? (
+                    specs.map((spec, index) => (
+                      <div
+                        key={index}
+                        className="p-3 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-between"
+                      >
+                        <span className="text-xs font-medium text-stone-600">
+                          {spec.label}
+                        </span>
+                        <span className="text-xs font-bold text-stone-900">
+                          {spec.value}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-3 rounded-xl bg-stone-50 border border-stone-200/80 text-xs text-stone-500 col-span-2">
+                      Standard Grade Kenyan Export
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>

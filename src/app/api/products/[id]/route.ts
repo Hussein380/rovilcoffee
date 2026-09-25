@@ -19,23 +19,37 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
 
+    if (!body?.name || !body.name.trim()) {
+      return NextResponse.json({ error: 'Product name is required' }, { status: 400 });
+    }
+
+    const category = body.category?.trim() || 'coffee';
+    const categoryLabel = body.categoryLabel?.trim() || (category === 'tea' ? 'Kenyan Specialty Tea' : 'Kenyan Arabica Coffee');
+    const defaultImage = category === 'tea' ? '/images/branded/rovil-tea-canister.jpg' : '/images/branded/rovil-coffee-pouch.jpg';
+
+    const parseNum = (val: unknown, fallback = 0) => {
+      if (val === undefined || val === null || val === '') return fallback;
+      const n = Number(val);
+      return isNaN(n) ? fallback : n;
+    };
+
     const updateData = {
-      name: body.name,
-      category: body.category,
-      categoryLabel: body.categoryLabel,
-      tagline: body.tagline,
-      description: body.description,
-      image: body.image,
-      priceRetailUSD: Number(body.priceRetailUSD),
-      priceRetailKES: Number(body.priceRetailKES),
-      unitWeight: body.unitWeight,
-      wholesalePriceUSD: body.wholesalePriceUSD ? Number(body.wholesalePriceUSD) : undefined,
-      wholesaleMOQ: body.wholesaleMOQ || undefined,
+      name: body.name.trim(),
+      category,
+      categoryLabel,
+      tagline: body.tagline ? body.tagline.trim() : '',
+      description: body.description ? body.description.trim() : '',
+      image: body.image && body.image.trim() ? body.image.trim() : defaultImage,
+      priceRetailUSD: parseNum(body.priceRetailUSD, 0),
+      priceRetailKES: parseNum(body.priceRetailKES, 0),
+      unitWeight: body.unitWeight ? body.unitWeight.trim() : 'Standard Pack',
+      wholesalePriceUSD: body.wholesalePriceUSD !== undefined && body.wholesalePriceUSD !== null && body.wholesalePriceUSD !== '' && !isNaN(Number(body.wholesalePriceUSD)) ? Number(body.wholesalePriceUSD) : undefined,
+      wholesaleMOQ: body.wholesaleMOQ ? body.wholesaleMOQ.trim() : undefined,
       isPopular: Boolean(body.isPopular),
       isNew: Boolean(body.isNew),
-      origin: body.origin,
-      flavorNotes: Array.isArray(body.flavorNotes) ? body.flavorNotes : [],
-      specs: Array.isArray(body.specs) ? body.specs : [],
+      origin: body.origin ? body.origin.trim() : 'Kenya',
+      flavorNotes: Array.isArray(body.flavorNotes) ? body.flavorNotes.filter(Boolean) : [],
+      specs: Array.isArray(body.specs) ? body.specs.filter((s: any) => s && (s.label || s.value)) : [],
     };
 
     let updated = null;
@@ -60,9 +74,9 @@ export async function PUT(
       id: updated._id.toString(),
       _id: undefined,
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error('PUT /api/products/[id] error:', err);
-    return NextResponse.json({ error: 'Failed to update product' }, { status: 500 });
+    return NextResponse.json({ error: err?.message || 'Failed to update product' }, { status: 500 });
   }
 }
 
