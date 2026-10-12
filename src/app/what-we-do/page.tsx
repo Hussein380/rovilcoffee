@@ -67,7 +67,7 @@ export default function WhatWeDoPage() {
           </FadeIn>
 
           <SlideUp delay={0.1}>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-white tracking-tight leading-tight">
               ROVIL Packaged Brand &amp; Bulk Supply Chain
             </h1>
           </SlideUp>

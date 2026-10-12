@@ -19,8 +19,8 @@ export default function Hero() {
               Licensed Kenyan Exporter • Virovil (K) Co. Ltd
             </div>
 
-            {/* Clean Bold Headline (No italics, tight line-height) */}
-            <h1 className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-[#23150c] tracking-tight leading-[1.1]">
+            {/* Clean Bold Headline with Luxury Editorial Serif */}
+            <h1 className="text-3xl sm:text-4xl lg:text-[50px] font-serif font-bold text-[#23150c] tracking-tight leading-[1.12]">
               Mount Kenya Harvest, <br />
               <span className="text-[#7a4727]">Exported to the World.</span>
             </h1>

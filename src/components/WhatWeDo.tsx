@@ -65,7 +65,7 @@ export default function WhatWeDo() {
               <span className="text-xs font-bold uppercase tracking-widest text-[#7a4727] block">
                 Official ROVIL Packaged Line • Nairobi, Kenya
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#23150c] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#23150c] tracking-tight">
                 Single-Origin <span className="text-[#7a4727]">Packaged Reserves</span>
               </h2>
               <p className="text-sm text-[#574c43] leading-relaxed">
@@ -90,12 +90,12 @@ export default function WhatWeDo() {
             </div>
           </div>
 
-          {/* 4 Clean Editorial Product Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* 4 Clean Editorial Product Cards with Mobile Glide Snap */}
+          <div className="flex overflow-x-auto snap-x snap-mandatory pb-3 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5 no-scrollbar scroll-smooth">
             {packagedProducts.map((p) => (
               <div
                 key={p.id}
-                className="border border-stone-200 bg-white rounded-sm overflow-hidden flex flex-col justify-between hover:border-stone-400 transition-colors shadow-xs"
+                className="min-w-[84vw] sm:min-w-0 snap-center shrink-0 sm:shrink border border-stone-200 bg-white rounded-sm overflow-hidden flex flex-col justify-between hover:border-stone-400 transition-colors shadow-xs"
               >
                 {/* Product Photo */}
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone-100">
@@ -179,7 +179,7 @@ export default function WhatWeDo() {
             <span className="text-xs font-bold uppercase tracking-widest text-[#7a4727] block">
               Commercial Export • Port of Mombasa Dispatch
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#23150c] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#23150c] tracking-tight">
               Bulk Green Arabica <span className="text-[#7a4727]">&amp; Container Lots</span>
             </h2>
             <p className="text-sm text-[#574c43] leading-relaxed">
@@ -284,7 +284,7 @@ export default function WhatWeDo() {
               <span className="text-xs font-bold uppercase tracking-widest text-[#d8a87b] block">
                 Terroir Provenance &amp; Lot Traceability
               </span>
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-white tracking-tight">
                 Grown at 1,950m on the Volcanic Slopes of Mount Kenya
               </h3>
               <p className="text-xs sm:text-sm text-stone-300 leading-relaxed font-normal">

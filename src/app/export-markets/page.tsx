@@ -21,12 +21,13 @@ import {
   Phone,
   Mail,
   MapPin,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import {
   SlideUp,
   FadeIn,
   motion,
-  AnimatePresence,
 } from '@/components/motion/MotionWrappers';
 
 interface MarketCard {
@@ -160,10 +161,42 @@ const DOCUMENTS_PROVIDED = [
 ];
 
 export default function ExportMarketsPage() {
-  const [selectedMarketId, setSelectedMarketId] = useState<string>('europe');
+  const [selectedMarketIndex, setSelectedMarketIndex] = useState<number>(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const selectedMarket = MARKETS.find((m) => m.id === selectedMarketId) || MARKETS[0];
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe && selectedMarketIndex < MARKETS.length - 1) {
+      setSelectedMarketIndex((prev) => prev + 1);
+    }
+    if (isRightSwipe && selectedMarketIndex > 0) {
+      setSelectedMarketIndex((prev) => prev - 1);
+    }
+  };
+
+  const handlePrev = () => {
+    setSelectedMarketIndex((prev) => (prev > 0 ? prev - 1 : MARKETS.length - 1));
+  };
+
+  const handleNext = () => {
+    setSelectedMarketIndex((prev) => (prev < MARKETS.length - 1 ? prev + 1 : 0));
+  };
 
   return (
     <div className="min-h-screen bg-white text-[#1f1610] flex flex-col font-sans">
@@ -195,7 +228,7 @@ export default function ExportMarketsPage() {
           </FadeIn>
 
           <SlideUp delay={0.1}>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-white tracking-tight leading-[1.12]">
               Export Markets &amp; <span className="text-[#d89f68]">Global Shipping</span>
             </h1>
           </SlideUp>
@@ -226,32 +259,32 @@ export default function ExportMarketsPage() {
         </div>
       </section>
 
-      {/* 3. Interactive Destination Corridors */}
-      <section className="py-16 sm:py-20 bg-[#fbf9f6] border-b border-[#ece3db]">
+      {/* 3. Interactive Destination Corridors (Slide Out & Slide In Track) */}
+      <section className="py-16 sm:py-20 bg-[#fbf9f6] border-b border-[#ece3db] overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
             <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#7a4727]">
               Global Destinations
             </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-[#23150c] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#23150c] tracking-tight">
               Where We Ship &amp; Transit Times
             </h2>
             <p className="text-sm sm:text-base text-[#574c43]">
-              Select a destination to view typical transit days, main discharge ports, and popular grades.
+              Select a destination or swipe to explore typical transit days, main discharge ports, and popular grades.
             </p>
           </div>
 
           {/* Destination Selector Tabs */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
-            {MARKETS.map((m) => {
-              const isSelected = m.id === selectedMarketId;
+            {MARKETS.map((m, idx) => {
+              const isSelected = idx === selectedMarketIndex;
               return (
                 <motion.button
                   key={m.id}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => setSelectedMarketId(m.id)}
+                  onClick={() => setSelectedMarketIndex(idx)}
                   className={`p-4 rounded-xl border text-left transition-all flex flex-col justify-between gap-3 ${
                     isSelected
                       ? 'bg-[#23150c] text-white border-[#23150c] shadow-md ring-2 ring-[#b57a44]'
@@ -283,97 +316,147 @@ export default function ExportMarketsPage() {
             })}
           </div>
 
-          {/* Active Destination Specs Card */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedMarket.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25 }}
-              className="bg-white rounded-2xl border border-[#d8c2b0] p-6 sm:p-8 shadow-xs"
+          {/* Smooth Horizontal Slide Track */}
+          <div
+            className="relative overflow-hidden rounded-2xl"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
+            <div
+              className="flex w-full transition-transform duration-500 ease-out will-change-transform"
+              style={{ transform: `translateX(-${selectedMarketIndex * 100}%)` }}
             >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                
-                {/* Visual Image Banner for Region */}
-                <div className="lg:col-span-4 relative h-52 sm:h-60 rounded-xl overflow-hidden border border-[#ece3db]">
-                  <Image
-                    src={selectedMarket.image}
-                    alt={`${selectedMarket.name} maritime container shipping terminal`}
-                    fill
-                    unoptimized
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#180f08]/85 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3 text-white">
-                    <div className="flex items-center gap-2 mb-1">
-                      <FlagIcon countryCode={selectedMarket.countryCode} size={22} />
-                      <span className="font-bold text-base">{selectedMarket.name}</span>
+              {MARKETS.map((market, idx) => (
+                <div key={market.id} className="w-full shrink-0">
+                  <div className="bg-white rounded-2xl border border-[#d8c2b0] p-6 sm:p-8 shadow-xs">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                      
+                      {/* Visual Image Banner for Region */}
+                      <div className="lg:col-span-4 relative h-56 sm:h-64 rounded-xl overflow-hidden border border-[#ece3db]">
+                        <Image
+                          src={market.image}
+                          alt={`${market.name} maritime container shipping terminal`}
+                          fill
+                          unoptimized
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#180f08]/90 via-[#180f08]/20 to-transparent" />
+                        <div className="absolute bottom-3 left-3 right-3 text-white">
+                          <div className="flex items-center gap-2 mb-1">
+                            <FlagIcon countryCode={market.countryCode} size={22} />
+                            <span className="font-bold text-base font-serif">{market.name}</span>
+                          </div>
+                          <span className="text-xs font-medium text-[#d89f68]">
+                            Ocean Lead Time: {market.days}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Technical Specs Details */}
+                      <div className="lg:col-span-8 space-y-4">
+                        <div className="flex items-center justify-between border-b border-[#ece3db] pb-3">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727]">
+                              Corridor {idx + 1} of {MARKETS.length}
+                            </span>
+                            <span className="text-stone-300">•</span>
+                            <span className="text-xs text-[#574c43] font-medium">{market.region}</span>
+                          </div>
+                          {/* Navigation Buttons */}
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              onClick={handlePrev}
+                              aria-label="Previous corridor"
+                              className="p-1.5 rounded-full border border-[#d8c2b0] bg-white hover:bg-[#f4ece4] text-[#23150c] transition-colors shadow-2xs"
+                            >
+                              <ChevronLeft className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={handleNext}
+                              aria-label="Next corridor"
+                              className="p-1.5 rounded-full border border-[#d8c2b0] bg-white hover:bg-[#f4ece4] text-[#23150c] transition-colors shadow-2xs"
+                            >
+                              <ChevronRight className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-sm">
+                          <div className="p-3.5 bg-[#fbf9f6] rounded-xl border border-[#ece3db]">
+                            <span className="text-xs font-bold text-[#7a4727] block mb-1">
+                              Main Discharge Ports
+                            </span>
+                            <strong className="text-[#23150c] text-sm leading-snug block">
+                              {market.ports}
+                            </strong>
+                          </div>
+
+                          <div className="p-3.5 bg-[#fbf9f6] rounded-xl border border-[#ece3db]">
+                            <span className="text-xs font-bold text-[#7a4727] block mb-1">
+                              Regular Shipping Lines
+                            </span>
+                            <strong className="text-[#23150c] text-sm leading-snug block">
+                              {market.shippingLines}
+                            </strong>
+                          </div>
+
+                          <div className="p-3.5 bg-[#fbf9f6] rounded-xl border border-[#ece3db]">
+                            <span className="text-xs font-bold text-[#7a4727] block mb-1">
+                              Popular Coffee &amp; Tea Grades
+                            </span>
+                            <strong className="text-[#23150c] text-sm leading-snug block">
+                              {market.topProducts}
+                            </strong>
+                          </div>
+
+                          <div className="p-3.5 bg-[#fbf9f6] rounded-xl border border-[#ece3db]">
+                            <span className="text-xs font-bold text-[#7a4727] block mb-1">
+                              Packaging &amp; Load Units
+                            </span>
+                            <strong className="text-[#23150c] text-sm leading-snug block">
+                              20ft FCL (320 bags / 19.2 MT) • GrainPro Lined
+                            </strong>
+                          </div>
+                        </div>
+
+                        <div className="pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-[#ece3db]">
+                          <div className="space-y-1">
+                            <span className="text-xs font-bold text-[#7a4727] block">Incoterms 2020</span>
+                            <span className="text-sm font-semibold text-[#23150c]">{market.incoterms}</span>
+                          </div>
+                          <a
+                            href="#quote-form"
+                            className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs shrink-0"
+                          >
+                            <span>Inquire for {market.name} Rates</span>
+                            <ArrowRight className="w-4 h-4 text-[#d89f68]" />
+                          </a>
+                        </div>
+                      </div>
+
                     </div>
-                    <span className="text-xs font-medium text-[#d89f68]">
-                      Ocean Lead Time: {selectedMarket.days}
-                    </span>
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
 
-                {/* Technical Specs Details */}
-                <div className="lg:col-span-8 space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-sm">
-                    <div className="p-3.5 bg-[#fbf9f6] rounded-xl border border-[#ece3db]">
-                      <span className="text-xs font-bold text-[#7a4727] block mb-1">
-                        Main Discharge Ports
-                      </span>
-                      <strong className="text-[#23150c] text-sm leading-snug block">
-                        {selectedMarket.ports}
-                      </strong>
-                    </div>
-
-                    <div className="p-3.5 bg-[#fbf9f6] rounded-xl border border-[#ece3db]">
-                      <span className="text-xs font-bold text-[#7a4727] block mb-1">
-                        Regular Shipping Lines
-                      </span>
-                      <strong className="text-[#23150c] text-sm leading-snug block">
-                        {selectedMarket.shippingLines}
-                      </strong>
-                    </div>
-
-                    <div className="p-3.5 bg-[#fbf9f6] rounded-xl border border-[#ece3db]">
-                      <span className="text-xs font-bold text-[#7a4727] block mb-1">
-                        Popular Coffee &amp; Tea Grades
-                      </span>
-                      <strong className="text-[#23150c] text-sm leading-snug block">
-                        {selectedMarket.topProducts}
-                      </strong>
-                    </div>
-
-                    <div className="p-3.5 bg-[#fbf9f6] rounded-xl border border-[#ece3db]">
-                      <span className="text-xs font-bold text-[#7a4727] block mb-1">
-                        Packaging &amp; Load Units
-                      </span>
-                      <strong className="text-[#23150c] text-sm leading-snug block">
-                        20ft FCL (320 bags / 19.2 MT) • GrainPro Lined
-                      </strong>
-                    </div>
-                  </div>
-
-                  <div className="pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-[#ece3db]">
-                    <div className="space-y-1">
-                      <span className="text-xs font-bold text-[#7a4727] block">Incoterms 2020</span>
-                      <span className="text-sm font-semibold text-[#23150c]">{selectedMarket.incoterms}</span>
-                    </div>
-                    <a
-                      href="#quote-form"
-                      className="inline-flex items-center gap-2 bg-[#23150c] hover:bg-[#3e2211] text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs shrink-0"
-                    >
-                      <span>Inquire for {selectedMarket.name} Rates</span>
-                      <ArrowRight className="w-4 h-4 text-[#d89f68]" />
-                    </a>
-                  </div>
-                </div>
-
-              </div>
-            </motion.div>
-          </AnimatePresence>
+          {/* Dots Indicator */}
+          <div className="flex items-center justify-center gap-2 mt-5">
+            {MARKETS.map((m, idx) => (
+              <button
+                key={m.id}
+                onClick={() => setSelectedMarketIndex(idx)}
+                aria-label={`Go to ${m.name}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  idx === selectedMarketIndex
+                    ? 'w-7 bg-[#7a4727]'
+                    : 'w-2 bg-[#d8c2b0] hover:bg-[#b57a44]'
+                }`}
+              />
+            ))}
+          </div>
 
         </div>
       </section>
@@ -385,7 +468,7 @@ export default function ExportMarketsPage() {
             <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#7a4727]">
               Export Infrastructure
             </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-[#23150c] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#23150c] tracking-tight">
               Kenya&apos;s Export &amp; Freight Channels
             </h2>
             <p className="text-sm sm:text-base text-[#574c43]">
@@ -441,7 +524,7 @@ export default function ExportMarketsPage() {
             <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#7a4727]">
               Order Requirements
             </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-[#23150c] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#23150c] tracking-tight">
               What We Need from You to Start Your Shipment
             </h2>
             <p className="text-sm sm:text-base text-[#574c43]">
@@ -519,7 +602,7 @@ export default function ExportMarketsPage() {
                 <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#7a4727]">
                   Export Documentation
                 </span>
-                <h2 className="text-2xl sm:text-4xl font-extrabold text-[#23150c] tracking-tight">
+                <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#23150c] tracking-tight">
                   Official Documents Included with Every Order
                 </h2>
                 <p className="text-sm sm:text-base text-[#574c43]">
@@ -561,7 +644,7 @@ export default function ExportMarketsPage() {
               <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#d89f68]">
                 Commercial Export Desk
               </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-white tracking-tight">
                 Request a Container Quote or Cupping Sample
               </h2>
               <p className="text-sm sm:text-base text-white/85 leading-relaxed">
