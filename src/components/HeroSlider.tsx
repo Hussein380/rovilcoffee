@@ -15,16 +15,7 @@ export interface HeroSlide {
 }
 
 export const HERO_SLIDES: HeroSlide[] = [
-  // 1. Signature Hero Pack (Starts with this image as explicitly requested)
-  {
-    id: 'hero-advert',
-    src: '/images/branded/rovil-hero-advert.jpg',
-    alt: 'ROVIL Global Kenyan Coffee 125g and Black Orthodox & Purple Tea 150g',
-    title: 'ROVIL Signature Export Line',
-    category: 'Packaged Reserves',
-    href: '/products',
-  },
-  // 2. Branded Products & Showcases
+  // 1. COFFEES (First in order)
   {
     id: 'coffee-showcase',
     src: '/images/branded/rovil-coffee-showcase.jpg',
@@ -33,6 +24,40 @@ export const HERO_SLIDES: HeroSlide[] = [
     category: 'Signature Coffee',
     href: '/products',
   },
+  {
+    id: 'coffee-pouch',
+    src: '/images/branded/rovil-coffee-pouch.jpg',
+    alt: '250g Whole Bean Valve Pouch',
+    title: '250g Whole Bean Valve Pouch',
+    category: 'Degassing Pouch',
+    href: '/products',
+  },
+  {
+    id: 'bulk-coffee',
+    src: '/images/branded/rovil-bulk-coffee.jpg',
+    alt: 'Kenyan Green Arabica 60kg Burlap Export Bags in Warehouse',
+    title: 'Commercial Bulk Green Arabica',
+    category: 'FOB Bulk Export',
+    href: '/what-we-do',
+  },
+  {
+    id: 'drying-parchment',
+    src: '/images/our-farm/drying-parchment-coffee.jpg',
+    alt: 'African Raised Sun-Drying Beds for Coffee Parchment',
+    title: 'African Raised Drying Beds',
+    category: 'Natural Curing',
+    href: '/our-farm',
+  },
+  {
+    id: 'farm-hero',
+    src: '/images/our-farm/kenya-coffee-farm-hero.jpg',
+    alt: 'Mount Kenya Highland Arabica Coffee Plantation',
+    title: 'Mount Kenya Highland Terroir',
+    category: 'Origin & Terroir',
+    href: '/our-farm',
+  },
+
+  // 2. TEAS (Second in order)
   {
     id: 'tea-showcase',
     src: '/images/branded/rovil-tea-showcase.jpg',
@@ -50,70 +75,12 @@ export const HERO_SLIDES: HeroSlide[] = [
     href: '/products',
   },
   {
-    id: 'nuts-showcase',
-    src: '/images/branded/rovil-nuts-showcase.jpg',
-    alt: 'ROVIL Gourmet Roasted Mixed Macadamia and Cashew Nuts',
-    title: 'Gourmet Roasted Mixed Nuts',
-    category: 'Value-Added Agro',
-    href: '/products',
-  },
-  {
-    id: 'coffee-pouch',
-    src: '/images/branded/rovil-coffee-pouch.jpg',
-    alt: '250g Whole Bean Valve Pouch',
-    title: '250g Whole Bean Valve Pouch',
-    category: 'Degassing Pouch',
-    href: '/products',
-  },
-  {
     id: 'tea-canister',
     src: '/images/branded/rovil-tea-canister.jpg',
     alt: 'ROVIL Luxury Embossed Loose Leaf Tea Canister',
     title: 'Luxury Loose-Leaf Canister',
     category: 'Luxury Canister',
     href: '/products',
-  },
-  {
-    id: 'retail-cups',
-    src: '/images/branded/rovil-retail-cups.jpg',
-    alt: 'ROVIL Artisan Cafe and Retail Cups',
-    title: 'Artisan Cafe & Retail Collection',
-    category: 'Hospitality Range',
-    href: '/products',
-  },
-  {
-    id: 'bulk-coffee',
-    src: '/images/branded/rovil-bulk-coffee.jpg',
-    alt: 'Kenyan Green Arabica 60kg Burlap Export Bags in Warehouse',
-    title: 'Commercial Bulk Green Arabica',
-    category: 'FOB Bulk Export',
-    href: '/what-we-do',
-  },
-
-  // 3. Mount Kenya Farm & Harvest Origin
-  {
-    id: 'farm-hero',
-    src: '/images/our-farm/kenya-coffee-farm-hero.jpg',
-    alt: 'Mount Kenya Highland Arabica Coffee Plantation',
-    title: 'Mount Kenya Highland Terroir',
-    category: 'Origin & Terroir',
-    href: '/our-farm',
-  },
-  {
-    id: 'ripe-cherries',
-    src: '/images/our-farm/ripe-coffee-cherries.jpg',
-    alt: 'Selective Hand-Picked Ripe Coffee Cherries',
-    title: 'Selective Hand-Plucking',
-    category: 'Farm Harvest',
-    href: '/our-farm',
-  },
-  {
-    id: 'drying-parchment',
-    src: '/images/our-farm/drying-parchment-coffee.jpg',
-    alt: 'African Raised Sun-Drying Beds for Coffee Parchment',
-    title: 'African Raised Drying Beds',
-    category: 'Natural Curing',
-    href: '/our-farm',
   },
   {
     id: 'tea-two-leaves',
@@ -132,22 +99,30 @@ export const HERO_SLIDES: HeroSlide[] = [
     href: '/our-farm',
   },
 
-  // 4. Quality Control & Processing
+  // 3. THE REST (Third in order: Signature line, Agro, Hospitality, Packaging)
   {
-    id: 'green-grading',
-    src: '/images/what-we-do/green-coffee-grading.jpg',
-    alt: 'Screen Grading and Sorting of Raw Green Coffee Beans',
-    title: 'Precision Screen Grading',
-    category: 'Milling & Sorting',
-    href: '/what-we-do',
+    id: 'hero-advert',
+    src: '/images/branded/rovil-hero-advert.jpg',
+    alt: 'ROVIL Global Kenyan Coffee 125g and Black Orthodox & Purple Tea 150g',
+    title: 'ROVIL Signature Export Line',
+    category: 'Packaged Reserves',
+    href: '/products',
   },
   {
-    id: 'cupping-lab',
-    src: '/images/what-we-do/cupping-lab-qc.jpg',
-    alt: 'Certified Cupping Laboratory Sensory Quality Control',
-    title: 'Certified Cupping Lab (SCA 85+)',
-    category: 'Quality Control',
-    href: '/what-we-do',
+    id: 'nuts-showcase',
+    src: '/images/branded/rovil-nuts-showcase.jpg',
+    alt: 'ROVIL Gourmet Roasted Mixed Macadamia and Cashew Nuts',
+    title: 'Gourmet Roasted Mixed Nuts',
+    category: 'Value-Added Agro',
+    href: '/products',
+  },
+  {
+    id: 'retail-cups',
+    src: '/images/branded/rovil-retail-cups.jpg',
+    alt: 'ROVIL Artisan Cafe and Retail Cups',
+    title: 'Artisan Cafe & Retail Collection',
+    category: 'Hospitality Range',
+    href: '/products',
   },
   {
     id: 'grainpro-bags',

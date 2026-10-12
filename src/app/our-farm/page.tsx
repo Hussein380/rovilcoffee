@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
@@ -15,65 +15,297 @@ import {
   Trees,
   Compass,
   Check,
-  Ship,
-  Plane,
-  FileCheck2,
   ScanLine,
+  ChevronLeft,
+  ChevronRight,
+  Leaf,
+  Sun,
+  Sparkles,
 } from 'lucide-react';
 import { farmStages } from '@/data/farmStages';
 import {
-  SlideUp,
-  FadeIn,
   motion,
 } from '@/components/motion/MotionWrappers';
 
+interface FarmHeroSlide {
+  id: string;
+  image: string;
+  badgeType: 'coffee' | 'tea' | 'harvest' | 'curing';
+  categoryLabel: string;
+  tag: string;
+  titlePrimary: string;
+  titleAccent: string;
+  description: string;
+  badges: string[];
+}
+
+const FARM_HERO_SLIDES: FarmHeroSlide[] = [
+  {
+    id: 'coffee-estates',
+    image: '/images/our-farm/kenya-coffee-farm-hero.jpg',
+    badgeType: 'coffee',
+    categoryLabel: 'Coffee Estates',
+    tag: 'Highland Coffee Terroir (1,700m – 2,200m ASL) • Mount Kenya',
+    titlePrimary: 'Our Coffee Estates &',
+    titleAccent: 'Partnered Smallholders',
+    description:
+      'Cultivated in nutrient-dense red volcanic soils under native shade canopies. In addition to our core estate plots in Nyeri and Kiambu, we partner with over 1,200 certified small-scale farming families across Mount Kenya and the Aberdares, cultivating pure SL28, SL34, and Batian varieties with full EUDR traceability.',
+    badges: [
+      'EUDR GPS Polygon Verified',
+      '100% Selective Ripe Cherry Plucking',
+      '72-Hour Double-Washed Glacial Soak',
+      'Sun-Drying on Raised African Beds',
+    ],
+  },
+  {
+    id: 'tea-gardens',
+    image: '/images/our-farm/tea-two-leaves-bud.jpg',
+    badgeType: 'tea',
+    categoryLabel: 'Highland Tea Gardens',
+    tag: 'High-Altitude Tea Terroir (2,000m – 2,400m ASL) • Great Rift & Mount Kenya',
+    titlePrimary: 'Royal Purple Tea Gardens &',
+    titleAccent: 'Highland Orthodox Estates',
+    description:
+      'Perched in cloud-forest altitudes above 2,100 meters across Kericho, Nandi, and Mount Kenya slopes. Intense equatorial UV radiation and persistent highland morning mists prompt unique anthocyanin antioxidant pigments in rare TRFK 306 Purple Tea, hand-harvested strictly at the tender two leaves and a bud stage.',
+    badges: [
+      'Exclusive TRFK 306 Purple Cultivar',
+      'Strict Two Leaves & A Bud Pluck',
+      'High Anthocyanin Antioxidant Yield',
+      'Pesticide-Free Highland Mist Terroir',
+    ],
+  },
+  {
+    id: 'cherry-harvest',
+    image: '/images/our-farm/ripe-coffee-cherries.jpg',
+    badgeType: 'harvest',
+    categoryLabel: 'Selective Harvest',
+    tag: 'Artisanal Harvest Standards • Peak Brix Sugar Density',
+    titlePrimary: 'Selective Hand-Plucking &',
+    titleAccent: 'Cooperative Batch Logging',
+    description:
+      'Every coffee cherry is hand-harvested across multiple selective passes during peak picking months. Only uniform, deep crimson cherries at peak natural sugar concentration are delivered same-day to cooperative washing stations, where individual farmer lots are weighed and tagged by GPS boundary code.',
+    badges: [
+      'Multi-Pass Selective Hand Picking',
+      'Zero Immature or Defective Cherries',
+      'Same-Day Cooperative Wet Milling',
+      'Individual Smallholder Lot Logging',
+    ],
+  },
+  {
+    id: 'raised-curing',
+    image: '/images/our-farm/drying-parchment-coffee.jpg',
+    badgeType: 'curing',
+    categoryLabel: 'Sun-Drying Beds',
+    tag: 'Natural Curing Benchmark • 14–21 Days Sun Aeration',
+    titlePrimary: 'African Raised Drying Beds &',
+    titleAccent: 'Parchment Moisture Curing',
+    description:
+      'Freshly pulped and washed parchment is spread on elevated wooden mesh beds for complete 360-degree ventilation under the African sun. Hand-turned continuously and shaded during peak midday heat, the parchment is slowly cured to an exacting 10.5%–11.5% export equilibrium.',
+    badges: [
+      'Elevated Wooden Mesh Tables',
+      'Continuous Hand Turning & Raking',
+      'Strict 10.5%–11.5% Moisture Standard',
+      'Hermetic GrainPro Ready',
+    ],
+  },
+];
+
+const ESTATE_SHOWCASE_CARDS = [
+  {
+    id: 'coffee-terrace',
+    image: '/images/our-farm/kenya-coffee-farm-hero.jpg',
+    label: 'Kenyan Arabica (SL28 / SL34) Estate Farm',
+    elevation: '1,950m ASL Elevation',
+    badge: 'Arabica Coffee',
+    description:
+      'High-elevation volcanic slopes producing dense, slowly ripened crimson cherries on terraced hillsides with full lot traceability.',
+  },
+  {
+    id: 'tea-plucking',
+    image: '/images/our-farm/tea-two-leaves-bud.jpg',
+    label: 'Highland Orthodox & Purple Tea Garden',
+    elevation: '2,200m ASL Elevation',
+    badge: 'Specialty Tea',
+    description:
+      'Hand plucking two leaves and an apical bud in mountain mist estates, capturing the freshest floral polyphenols and brisk liquor.',
+  },
+  {
+    id: 'ripe-cherries',
+    image: '/images/our-farm/ripe-coffee-cherries.jpg',
+    label: 'Selective Hand-Picked Crimson Cherries',
+    elevation: 'Peak Brix Density',
+    badge: 'Farm Harvest',
+    description:
+      'Meticulous multi-pass cherry harvesting ensuring zero green or defect cherries enter the double-fermentation washing cycle.',
+  },
+  {
+    id: 'drying-beds',
+    image: '/images/our-farm/drying-parchment-coffee.jpg',
+    label: 'Raised Wooden African Drying Tables',
+    elevation: '10.5%–11.5% Moisture',
+    badge: 'Natural Curing',
+    description:
+      'Parchment sun-cured over 14 to 21 days with continuous hand raking under mild mountain breezes for flawless cell structure stabilization.',
+  },
+];
+
 export default function OurFarmPage() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeEstateCard, setActiveEstateCard] = useState(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+  const totalSlides = FARM_HERO_SLIDES.length;
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  }, [totalSlides]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  }, [totalSlides]);
+
+  // Auto-slide every 5.5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 5500);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
+  // Touch Swipe Handlers for mobile & tablet
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+    setTouchEndX(null);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    const minSwipeDistance = 50;
+
+    if (distance > minSwipeDistance) {
+      nextSlide();
+    } else if (distance < -minSwipeDistance) {
+      prevSlide();
+    }
+
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
+
   return (
     <div className="min-h-screen bg-white text-[#1f1610] flex flex-col font-sans">
       {/* 1. Global Navbar */}
       <Navbar />
 
-      {/* 2. Hero Section */}
-      <section className="relative min-h-[460px] flex items-center justify-center overflow-hidden bg-[#180f08] text-white pt-16 pb-16">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/our-farm/kenya-coffee-farm-hero.jpg"
-            alt="Rovil Highland Arabica Coffee Farm Terraced Slopes and Ripe Cherries"
-            fill
-            unoptimized
-            priority
-            className="object-cover object-center opacity-60"
-          />
+      {/* 2. Interactive Sliding Hero Section (Continuous Horizontal Slide-Out Track) */}
+      <section
+        role="region"
+        aria-label="Highland Coffee and Tea Farms Showcase"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className="relative min-h-[500px] sm:min-h-[540px] overflow-hidden bg-[#180f08] text-white select-none"
+      >
+        {/* Horizontal Carousel Track containing all slides side-by-side */}
+        <div
+          className="flex w-full h-full transition-transform duration-700 ease-out will-change-transform"
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+          {FARM_HERO_SLIDES.map((s, idx) => (
+            <div
+              key={s.id}
+              className="relative w-full shrink-0 min-h-[500px] sm:min-h-[540px] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
+            >
+              {/* Background Image of this exact slide extending completely to the top edge */}
+              <div className="absolute inset-0 z-0">
+                <Image
+                  src={s.image}
+                  alt={s.tag}
+                  fill
+                  unoptimized
+                  priority={idx === 0}
+                  className="object-cover object-center"
+                />
+              </div>
+
+              {/* Ambient Darkened Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#180f08]/90 via-[#180f08]/55 to-black/30 z-1" />
+
+              {/* Synchronized Sliding Content of this exact slide */}
+              <div className="relative z-10 max-w-5xl mx-auto text-center space-y-5">
+                {/* Provenance Tag */}
+                <div className="inline-block text-xs sm:text-sm font-bold uppercase tracking-widest text-[#d8a87b] bg-black/50 px-3.5 py-1.5 rounded-full border border-[#d8a87b]/30 backdrop-blur-md shadow-sm">
+                  {s.tag}
+                </div>
+
+                {/* Headline */}
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] max-w-4xl mx-auto drop-shadow-md">
+                  {s.titlePrimary}{' '}
+                  <span className="text-[#d8a87b]">{s.titleAccent}</span>
+                </h1>
+
+                {/* Detailed Terroir Description */}
+                <p className="text-stone-200 text-sm sm:text-base lg:text-lg leading-relaxed max-w-3xl mx-auto font-normal drop-shadow-sm min-h-[64px] flex items-center justify-center">
+                  {s.description}
+                </p>
+
+                {/* Agronomic Feature Badges */}
+                <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-stone-200 font-medium">
+                  {s.badges.map((badge, bIdx) => (
+                    <span
+                      key={bIdx}
+                      className="px-3 py-1.5 rounded-sm bg-stone-900/85 backdrop-blur-md border border-stone-700 text-stone-200 shadow-sm"
+                    >
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <div className="absolute inset-0 bg-[#180f08]/60 pointer-events-none z-1" />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
-          <div className="text-xs font-bold uppercase tracking-widest text-[#d8a87b]">
-            Highland Origins (1,700m – 2,200m ASL) • Mount Kenya
-          </div>
+        {/* Previous Chevron Button */}
+        <button
+          type="button"
+          onClick={prevSlide}
+          aria-label="Previous farm slide"
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all active:scale-95 focus:outline-none shadow-lg"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
-            Our Farms &amp; <span className="text-[#d8a87b]">Partnered Smallholders</span>
-          </h1>
+        {/* Next Chevron Button */}
+        <button
+          type="button"
+          onClick={nextSlide}
+          aria-label="Next farm slide"
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all active:scale-95 focus:outline-none shadow-lg"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
 
-          <p className="text-stone-200 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto font-normal">
-            Cultivated in nutrient-dense red volcanic soils under native shade canopies. In addition to our core estate plots, we partner with over 1,200 certified small-scale farming families across Mount Kenya and the Great Rift Valley, operating strictly under international agricultural and environmental standards.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-1 text-xs text-stone-200 font-medium">
-            <span className="px-3 py-1.5 rounded-sm bg-stone-900/80 border border-stone-700">
-              EUDR GPS Polygon Verified
-            </span>
-            <span className="px-3 py-1.5 rounded-sm bg-stone-900/80 border border-stone-700">
-              100% Selective Ripe Cherry Plucking
-            </span>
-            <span className="px-3 py-1.5 rounded-sm bg-stone-900/80 border border-stone-700">
-              72-Hour Double-Washed Glacial Soak
-            </span>
-            <span className="px-3 py-1.5 rounded-sm bg-stone-900/80 border border-stone-700">
-              Sun-Drying on Raised African Beds
-            </span>
+        {/* Slide Indicators & Auto-Slide Progress Bar */}
+        <div className="absolute bottom-4 inset-x-0 z-20 flex flex-col items-center gap-2 pointer-events-none">
+          <div className="flex items-center gap-2 pointer-events-auto">
+            {FARM_HERO_SLIDES.map((_, dotIdx) => (
+              <button
+                key={dotIdx}
+                type="button"
+                onClick={() => setCurrentSlide(dotIdx)}
+                aria-label={`Go to slide ${dotIdx + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  dotIdx === currentSlide ? 'w-8 bg-[#d8a87b]' : 'w-2 bg-white/40 hover:bg-white/70'
+                }`}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -91,7 +323,7 @@ export default function OurFarmPage() {
                 Our Model Estates + <span className="text-[#7a4727]">1,200+ Smallholder Families</span>
               </h2>
               <p className="text-[#574c43] text-sm sm:text-base leading-relaxed">
-                Rovil operates core demonstration coffee and tea estates in Nyeri and Kiambu, establishing the highest agronomic benchmarks for varietal purity (SL28, SL34, Batian, and TRFK 306 Purple Tea).
+                Rovil operates core demonstration coffee and tea estates in Nyeri, Kiambu, and the Great Rift Valley, establishing the highest agronomic benchmarks for varietal purity (SL28, SL34, Batian, and TRFK 306 Purple Tea).
               </p>
               <p className="text-[#574c43] text-sm sm:text-base leading-relaxed">
                 To guarantee commercial volume for international buyers, we have formed long-term cooperative partnerships with over 1,200 small-scale farmers owning 1 to 5-acre plots (shambas) across Mount Kenya, Kirinyaga, Murang’a, and Kericho. We provide direct pre-financing, soil analysis, organic compost training, and guaranteed premium purchase contracts above local auction averages.
@@ -104,37 +336,61 @@ export default function OurFarmPage() {
                   <div className="text-xs text-[#7a4727] font-semibold mt-0.5">Partner Farmers</div>
                 </div>
                 <div className="p-3.5 rounded-sm bg-white border border-stone-200 shadow-xs">
-                  <div className="text-2xl font-bold text-[#23150c]">2,100m</div>
-                  <div className="text-xs text-[#7a4727] font-semibold mt-0.5">Peak Elevation</div>
+                  <div className="text-2xl font-bold text-[#23150c]">2,400m</div>
+                  <div className="text-xs text-[#7a4727] font-semibold mt-0.5">Peak Tea &amp; Coffee ASL</div>
                 </div>
                 <div className="p-3.5 rounded-sm bg-white border border-stone-200 shadow-xs">
                   <div className="text-2xl font-bold text-[#23150c]">100%</div>
-                  <div className="text-xs text-[#7a4727] font-semibold mt-0.5">Traceability</div>
+                  <div className="text-xs text-[#7a4727] font-semibold mt-0.5">Origin Traceability</div>
                 </div>
               </div>
             </div>
 
-            {/* Photo Card: Client's Coffee Farm Terraces & Cherries */}
+            {/* Interactive Photo Card: Multi-Origin Showcase */}
             <div className="lg:col-span-6 relative rounded-sm overflow-hidden border border-stone-200 shadow-sm bg-white">
-              <div className="relative h-[380px] sm:h-[440px] w-full bg-stone-100">
+              {/* Photo Display */}
+              <div className="relative h-[340px] sm:h-[400px] w-full bg-stone-100 overflow-hidden">
                 <Image
-                  src="/images/our-farm/kenya-coffee-farm-hero.jpg"
-                  alt="Rovil Highland Arabica Coffee Farm Terraces and Ripe Red Cherries"
+                  src={ESTATE_SHOWCASE_CARDS[activeEstateCard].image}
+                  alt={ESTATE_SHOWCASE_CARDS[activeEstateCard].label}
                   fill
                   unoptimized
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 hover:scale-105"
                 />
+                <div className="absolute top-3 left-3 bg-[#23150c]/85 backdrop-blur-md text-white text-xs font-semibold px-3 py-1 rounded-sm border border-white/20">
+                  {ESTATE_SHOWCASE_CARDS[activeEstateCard].badge}
+                </div>
               </div>
-              <div className="p-4 border-t border-stone-200 bg-white">
+
+              {/* Caption and Switcher Tabs */}
+              <div className="p-4 border-t border-stone-200 bg-white space-y-3">
                 <div className="flex items-center justify-between font-bold text-[#23150c] text-sm">
-                  <span>Kenyan Arabica (SL28 / SL34) Estate Farm</span>
+                  <span>{ESTATE_SHOWCASE_CARDS[activeEstateCard].label}</span>
                   <span className="text-stone-900 bg-stone-100 border border-stone-200 px-2.5 py-0.5 rounded-xs text-xs font-semibold">
-                    1,950m ASL Elevation
+                    {ESTATE_SHOWCASE_CARDS[activeEstateCard].elevation}
                   </span>
                 </div>
-                <p className="text-stone-600 text-xs mt-1">
-                  High-elevation volcanic slopes producing dense, slowly ripened crimson cherries on terraced hillsides with full lot traceability.
+                <p className="text-stone-600 text-xs leading-relaxed">
+                  {ESTATE_SHOWCASE_CARDS[activeEstateCard].description}
                 </p>
+
+                {/* Micro Origin Selector Buttons */}
+                <div className="grid grid-cols-4 gap-1.5 pt-1">
+                  {ESTATE_SHOWCASE_CARDS.map((card, cIdx) => (
+                    <button
+                      key={card.id}
+                      type="button"
+                      onClick={() => setActiveEstateCard(cIdx)}
+                      className={`text-[11px] font-semibold py-1.5 px-1 rounded-xs border text-center transition-all ${
+                        cIdx === activeEstateCard
+                          ? 'bg-[#23150c] text-white border-[#23150c]'
+                          : 'bg-stone-50 text-[#574c43] border-stone-200 hover:bg-stone-100'
+                      }`}
+                    >
+                      {card.badge}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -585,33 +841,55 @@ export default function OurFarmPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
             {/* Image 1: Client's Farm & Ripe Cherries */}
-            <div className="rounded-sm overflow-hidden border border-stone-200 bg-white shadow-xs">
-              <div className="relative h-60 w-full bg-stone-100">
+            <div className="group rounded-2xl overflow-hidden border border-stone-200 bg-white shadow-xs hover:shadow-md transition-all">
+              <div className="relative h-60 w-full bg-stone-100 overflow-hidden">
                 <Image
                   src="/images/our-farm/kenya-coffee-farm-hero.jpg"
                   alt="Kenyan Highland Coffee Terraces and Crimson Cherries"
                   fill
                   unoptimized
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="p-4 space-y-1">
+              <div className="p-5 space-y-1.5">
                 <div className="flex items-center justify-between text-sm font-bold text-[#23150c]">
-                  <span>Arabica Terraces &amp; Cherries</span>
-                  <span className="text-stone-900 bg-stone-100 border border-stone-200 px-2 py-0.5 rounded-xs text-xs font-semibold">SL28 / SL34</span>
+                  <span>Arabica Terraces &amp; Slopes</span>
+                  <span className="text-stone-900 bg-stone-100 border border-stone-200 px-2 py-0.5 rounded-xs text-xs font-semibold">1,950m ASL</span>
                 </div>
                 <p className="text-[#574c43] text-xs leading-relaxed">
-                  Hand-tended terraced mountain slopes yielding dense, high-altitude Arabica cherries in volcanic soil.
+                  Hand-tended terraced mountain slopes yielding dense, high-altitude Arabica cherries in volcanic soil under shade trees.
                 </p>
               </div>
             </div>
 
-            {/* Image 2: Raised Drying Beds */}
-            <div className="group relative rounded-3xl overflow-hidden border border-[#ece3db] bg-white shadow-xs">
-              <div className="relative h-64 w-full">
+            {/* Image 2: Selective Hand-Harvest (Reincorporated) */}
+            <div className="group rounded-2xl overflow-hidden border border-[#ece3db] bg-white shadow-xs hover:shadow-md transition-all">
+              <div className="relative h-60 w-full bg-stone-100 overflow-hidden">
+                <Image
+                  src="/images/our-farm/ripe-coffee-cherries.jpg"
+                  alt="Selective Hand-Picked Crimson Ripe Coffee Cherries"
+                  fill
+                  unoptimized
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-5 space-y-1.5">
+                <div className="flex items-center justify-between text-sm font-bold text-[#23150c]">
+                  <span>Selective Hand Plucking</span>
+                  <span className="text-amber-800 bg-amber-50 px-2 py-0.5 rounded text-xs font-semibold">Peak Brix Density</span>
+                </div>
+                <p className="text-[#574c43] text-xs leading-relaxed">
+                  Hand-picked across multiple seasonal passes, selecting only uniform crimson cherries at peak natural sugar concentration.
+                </p>
+              </div>
+            </div>
+
+            {/* Image 3: Raised Drying Beds */}
+            <div className="group rounded-2xl overflow-hidden border border-[#ece3db] bg-white shadow-xs hover:shadow-md transition-all">
+              <div className="relative h-60 w-full bg-stone-100 overflow-hidden">
                 <Image
                   src="/images/our-farm/drying-parchment-coffee.jpg"
                   alt="Golden Washed Coffee Parchment on African Drying Beds"
@@ -623,17 +901,17 @@ export default function OurFarmPage() {
               <div className="p-5 space-y-1.5">
                 <div className="flex items-center justify-between text-sm font-bold text-[#23150c]">
                   <span>Raised Drying Beds</span>
-                  <span className="text-amber-700 bg-amber-50 px-2 py-0.5 rounded text-xs">10.5%–11.5% Moisture</span>
+                  <span className="text-amber-700 bg-amber-50 px-2 py-0.5 rounded text-xs font-semibold">10.5%–11.5% Moisture</span>
                 </div>
                 <p className="text-[#574c43] text-xs leading-relaxed">
-                  Golden washed parchment spread on elevated wooden beds, turned continuously for 14–21 days under African sun.
+                  Golden washed parchment spread on elevated wooden tables, turned continuously for 14–21 days under mild equatorial sun.
                 </p>
               </div>
             </div>
 
-            {/* Image 3: Tea Two Leaves and a Bud */}
-            <div className="group relative rounded-3xl overflow-hidden border border-[#ece3db] bg-white shadow-xs">
-              <div className="relative h-64 w-full">
+            {/* Image 4: Tea Two Leaves and a Bud */}
+            <div className="group rounded-2xl overflow-hidden border border-[#ece3db] bg-white shadow-xs hover:shadow-md transition-all">
+              <div className="relative h-60 w-full bg-stone-100 overflow-hidden">
                 <Image
                   src="/images/our-farm/tea-two-leaves-bud.jpg"
                   alt="Fresh Green Tea Shoot Showing Two Leaves and a Bud"
@@ -644,18 +922,18 @@ export default function OurFarmPage() {
               </div>
               <div className="p-5 space-y-1.5">
                 <div className="flex items-center justify-between text-sm font-bold text-[#23150c]">
-                  <span>Two Leaves &amp; A Bud</span>
-                  <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-xs">Prime Flush</span>
+                  <span>Two Leaves &amp; A Bud Pluck</span>
+                  <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-xs font-semibold">Artisan Standard</span>
                 </div>
                 <p className="text-[#574c43] text-xs leading-relaxed">
-                  Only the tender apical bud and two uppermost leaves are selected, delivering briskness and golden liquor.
+                  Only the tender apical bud and two uppermost leaves are selected in cloud forest gardens, yielding golden brisk liquor.
                 </p>
               </div>
             </div>
 
-            {/* Image 4: Purple Tea Shoot */}
-            <div className="group relative rounded-3xl overflow-hidden border border-[#ece3db] bg-white shadow-xs">
-              <div className="relative h-64 w-full">
+            {/* Image 5: Purple Tea Shoot */}
+            <div className="group rounded-2xl overflow-hidden border border-[#ece3db] bg-white shadow-xs hover:shadow-md transition-all">
+              <div className="relative h-60 w-full bg-stone-100 overflow-hidden">
                 <Image
                   src="/images/our-farm/purple-tea-crop-macro.jpg"
                   alt="High Altitude Kenyan Purple Tea Bush Shoot TRFK 306"
@@ -666,11 +944,33 @@ export default function OurFarmPage() {
               </div>
               <div className="p-5 space-y-1.5">
                 <div className="flex items-center justify-between text-sm font-bold text-[#23150c]">
-                  <span>Kenyan Purple Tea</span>
-                  <span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded text-xs">TRFK 306 Cultivar</span>
+                  <span>Kenyan Purple Tea TRFK 306</span>
+                  <span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded text-xs font-semibold">Anthocyanin Rich</span>
                 </div>
                 <p className="text-[#574c43] text-xs leading-relaxed">
                   Grown above 2,100 meters where high UV radiation prompts rich natural anthocyanins, creating a rare violet infusion.
+                </p>
+              </div>
+            </div>
+
+            {/* Image 6: Certified Cupping Lab (Reincorporated) */}
+            <div className="group rounded-2xl overflow-hidden border border-[#ece3db] bg-white shadow-xs hover:shadow-md transition-all">
+              <div className="relative h-60 w-full bg-stone-100 overflow-hidden">
+                <Image
+                  src="/images/what-we-do/cupping-lab-qc.jpg"
+                  alt="Certified Cupping Laboratory Sensory Quality Control"
+                  fill
+                  unoptimized
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-5 space-y-1.5">
+                <div className="flex items-center justify-between text-sm font-bold text-[#23150c]">
+                  <span>Certified Cupping Lab QC</span>
+                  <span className="text-[#7a4727] bg-[#f4ece4] px-2 py-0.5 rounded text-xs font-semibold">SCA 86+ Standards</span>
+                </div>
+                <p className="text-[#574c43] text-xs leading-relaxed">
+                  Rigorous sensory cupping protocols and moisture verification on every lot prior to ocean packaging and export dispatch.
                 </p>
               </div>
             </div>
