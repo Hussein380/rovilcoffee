@@ -91,23 +91,26 @@ export default function WhatWeDo() {
           </div>
 
           {/* 4 Clean Editorial Product Cards with Mobile Glide Snap */}
-          <div className="flex overflow-x-auto snap-x snap-mandatory pb-3 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5 no-scrollbar scroll-smooth">
+          <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-3 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 no-scrollbar scroll-smooth">
             {packagedProducts.map((p) => (
               <div
                 key={p.id}
-                className="min-w-[84vw] sm:min-w-0 snap-center shrink-0 sm:shrink border border-stone-200 bg-white rounded-sm overflow-hidden flex flex-col justify-between hover:border-stone-400 transition-colors shadow-xs"
+                className="w-[84vw] max-w-[320px] sm:w-auto sm:max-w-none shrink-0 snap-start border border-stone-200 bg-white rounded-md overflow-hidden flex flex-col justify-between hover:border-stone-400 transition-colors shadow-xs"
               >
-                {/* Product Photo */}
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone-100">
+                {/* Product Photo - Strictly Enforced 4:3 Aspect Ratio */}
+                <div
+                  className="relative w-full aspect-[4/3] shrink-0 overflow-hidden bg-[#f7f5f2]"
+                  style={{ aspectRatio: '4/3' }}
+                >
                   <Image
                     src={p.image}
                     alt={p.title}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 25vw"
                     unoptimized
-                    className="object-cover"
+                    className="object-cover object-center"
                   />
-                  <div className="absolute top-2 right-2 bg-[#23150c]/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-xs uppercase tracking-wider">
+                  <div className="absolute top-2.5 right-2.5 bg-[#23150c]/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-xs uppercase tracking-wider">
                     {p.weight}
                   </div>
                 </div>
@@ -153,6 +156,11 @@ export default function WhatWeDo() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Mobile Swipe Hint */}
+          <div className="flex sm:hidden items-center justify-center gap-1.5 text-xs text-[#7a4727] font-medium">
+            <span>Swipe horizontally to browse packs &rarr;</span>
           </div>
 
           {/* Clean Sub-Page Banner */}
