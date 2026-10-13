@@ -1,11 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function WhatWeDo() {
+  const [mobileIndex, setMobileIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const packagedProducts = [
     {
       id: 'coffee-125g',
@@ -53,6 +57,47 @@ export default function WhatWeDo() {
     },
   ];
 
+  const nextProduct = useCallback(() => {
+    setMobileIndex((prev) => (prev + 1) % packagedProducts.length);
+  }, [packagedProducts.length]);
+
+  const prevProduct = useCallback(() => {
+    setMobileIndex((prev) => (prev - 1 + packagedProducts.length) % packagedProducts.length);
+  }, [packagedProducts.length]);
+
+  // Smooth auto-slide every 3 seconds on mobile
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      nextProduct();
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [isPaused, nextProduct]);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setIsPaused(true);
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (touchStart !== null && touchEnd !== null) {
+      const distance = touchStart - touchEnd;
+      if (distance > 45) {
+        nextProduct();
+      } else if (distance < -45) {
+        prevProduct();
+      }
+    }
+    // Resume auto-slide after 4 seconds of idle
+    const resumeTimer = setTimeout(() => setIsPaused(false), 4000);
+    return () => clearTimeout(resumeTimer);
+  };
+
   return (
     <section id="what-we-do" className="py-10 sm:py-14 bg-white border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
@@ -90,12 +135,135 @@ export default function WhatWeDo() {
             </div>
           </div>
 
-          {/* 4 Clean Editorial Product Cards with Mobile Glide Snap */}
-          <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex overflow-x-auto snap-x snap-mandatory gap-4 pb-3 sm:pb-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 no-scrollbar scroll-smooth">
+          {/* MOBILE ONLY: Smooth Auto-Sliding Conveyor Track (Moves on its own every 3s) */}
+          <div
+            className="block sm:hidden relative overflow-hidden"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            <div
+              className="flex w-full transition-transform duration-700 ease-out will-change-transform"
+              style={{ transform: `translateX(-${mobileIndex * 100}%)` }}
+            >
+              {packagedProducts.map((p) => (
+                <div key={p.id} className="w-full shrink-0 px-1">
+                  <div className="border border-stone-200 bg-white rounded-xl overflow-hidden flex flex-col justify-between shadow-xs">
+                    {/* Product Photo - Strictly Enforced 4:3 Aspect Ratio */}
+                    <div
+                      className="relative w-full aspect-[4/3] shrink-0 overflow-hidden bg-[#f7f5f2]"
+                      style={{ aspectRatio: '4/3' }}
+                    >
+                      <Image
+                        src={p.image}
+                        alt={p.title}
+                        fill
+                        sizes="100vw"
+                        unoptimized
+                        className="object-cover object-center"
+                      />
+                      <div className="absolute top-2.5 right-2.5 bg-[#23150c]/90 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-xs uppercase tracking-wider backdrop-blur-xs">
+                        {p.weight}
+                      </div>
+                    </div>
+
+                    {/* Product Details */}
+                    <div className="p-4 space-y-2.5 flex-1 flex flex-col justify-between">
+                      <div className="space-y-1.5">
+                        <span className="text-[11px] font-bold text-[#7a4727] block uppercase tracking-wider">
+                          {p.tag}
+                        </span>
+
+                        <h3 className="text-[#23150c] text-base font-bold leading-snug">
+                          {p.title}
+                        </h3>
+
+                        <p className="text-xs text-[#574c43] leading-relaxed line-clamp-2">
+                          {p.desc}
+                        </p>
+
+                        <div className="flex flex-wrap gap-1 pt-1">
+                          {p.notes.map((note) => (
+                            <span
+                              key={note}
+                              className="text-[10px] font-medium bg-stone-100 border border-stone-200 px-2 py-0.5 rounded-xs text-stone-700"
+                            >
+                              {note}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="pt-2.5 border-t border-stone-200 flex items-center justify-between text-xs">
+                        <span className="text-[11px] text-stone-500 truncate max-w-[120px]">{p.roaster}</span>
+                        <a
+                          href="#contact"
+                          className="font-bold text-[#7a4727] hover:text-[#23150c] flex items-center gap-1 transition-colors text-[11px] uppercase tracking-wider"
+                        >
+                          <span>{p.cta}</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Mobile Auto-Slide Controls & Indicator Dots */}
+            <div className="flex items-center justify-between pt-3 px-1">
+              <div className="flex items-center gap-1.5">
+                {packagedProducts.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setMobileIndex(idx);
+                      setIsPaused(true);
+                      setTimeout(() => setIsPaused(false), 4000);
+                    }}
+                    aria-label={`Go to slide ${idx + 1}`}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      idx === mobileIndex ? 'w-6 bg-[#7a4727]' : 'w-2 bg-stone-300'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    prevProduct();
+                    setIsPaused(true);
+                    setTimeout(() => setIsPaused(false), 4000);
+                  }}
+                  aria-label="Previous product"
+                  className="w-7 h-7 flex items-center justify-center rounded-full border border-stone-300 bg-white hover:bg-stone-50 text-[#23150c] transition-colors shadow-2xs"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => {
+                    nextProduct();
+                    setIsPaused(true);
+                    setTimeout(() => setIsPaused(false), 4000);
+                  }}
+                  aria-label="Next product"
+                  className="w-7 h-7 flex items-center justify-center rounded-full border border-stone-300 bg-white hover:bg-stone-50 text-[#23150c] transition-colors shadow-2xs"
+                >
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* DESKTOP & TABLET: Clean Responsive 4-Column Grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {packagedProducts.map((p) => (
               <div
                 key={p.id}
-                className="w-[84vw] max-w-[320px] sm:w-auto sm:max-w-none shrink-0 snap-start border border-stone-200 bg-white rounded-md overflow-hidden flex flex-col justify-between hover:border-stone-400 transition-colors shadow-xs"
+                className="border border-stone-200 bg-white rounded-md overflow-hidden flex flex-col justify-between hover:border-stone-400 transition-colors shadow-xs"
               >
                 {/* Product Photo - Strictly Enforced 4:3 Aspect Ratio */}
                 <div
@@ -106,7 +274,7 @@ export default function WhatWeDo() {
                     src={p.image}
                     alt={p.title}
                     fill
-                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 1024px) 50vw, 25vw"
                     unoptimized
                     className="object-cover object-center"
                   />
@@ -156,11 +324,6 @@ export default function WhatWeDo() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Mobile Swipe Hint */}
-          <div className="flex sm:hidden items-center justify-center gap-1.5 text-xs text-[#7a4727] font-medium">
-            <span>Swipe horizontally to browse packs &rarr;</span>
           </div>
 
           {/* Clean Sub-Page Banner */}
