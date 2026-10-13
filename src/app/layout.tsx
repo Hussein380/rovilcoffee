@@ -138,6 +138,11 @@ export const metadata: Metadata = {
   },
 };
 
+import MaintenanceScreen from '@/components/MaintenanceScreen';
+
+// Set to false or delete to instantly restore the full website
+const SHOW_MAINTENANCE_TEMPLATE = true;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -176,8 +181,14 @@ export default function RootLayout({
             });
           `}
         </Script>
-        {children}
-        <FloatingAssistant />
+        {SHOW_MAINTENANCE_TEMPLATE ? (
+          <MaintenanceScreen />
+        ) : (
+          <>
+            {children}
+            <FloatingAssistant />
+          </>
+        )}
       </body>
     </html>
   );
