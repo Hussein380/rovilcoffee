@@ -1,37 +1,51 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Global Export Markets & Trade Corridors | Worldwide Shipping',
+  title: 'Global Export Markets & Maritime Shipping Corridors | Port of Mombasa',
   description:
-    'Direct export corridors connecting Mombasa Port and JKIA Nairobi to 38+ countries in Europe, North America, Middle East, Japan, and Asia. Air cargo and sea freight under strict FOB Incoterms.',
+    'Explore ROVIL global export trade routes: Direct maritime container shipping from the Port of Mombasa (MBA) and air cargo via JKIA Nairobi to roasters and importers across Europe, the UK, the United States, Japan, the Middle East, and Asia. Review ocean transit days, required buyer documents, and FOB/CIF Incoterms.',
   keywords: [
-    'Kenya coffee export markets',
-    'export coffee to Germany',
-    'export coffee to USA',
-    'export coffee to UK',
-    'export coffee to Japan',
-    'export tea to Middle East Dubai',
+    'Kenyan coffee export markets',
     'Port of Mombasa coffee shipping',
-    'JKIA Nairobi air cargo coffee',
-    'FOB Kenya coffee shipping policy',
-    'container shipping green coffee Kenya',
+    'Kenya coffee export to Germany',
+    'Kenya coffee export to USA',
+    'Kenya green coffee to UK',
+    'specialty coffee shipping to Japan',
+    'coffee exporter to Dubai UAE',
+    'Kenya coffee to Saudi Arabia',
+    'Mombasa ocean freight coffee transit times',
+    '20ft container coffee shipment Mombasa',
+    'air cargo coffee samples JKIA Nairobi',
+    'FOB Mombasa terms coffee',
+    'CIF coffee shipping Kenya',
+    'Kenya coffee export documentation',
+    'phytosanitary certificate KEPHIS',
+    'bill of lading coffee container',
+    'customs clearance green coffee',
   ],
   alternates: {
     canonical: 'https://rovilcoffee.com/export-markets',
   },
   openGraph: {
-    title: 'International Shipping Corridors & Global Export Markets | ROVIL',
+    title: 'Global Coffee Export Markets & Shipping Corridors | ROVIL Kenya',
     description:
-      'Traceable logistics from Mount Kenya partner blocks to global ports across 38+ countries worldwide.',
+      'Weekly container shipping from Port of Mombasa to 38+ international destinations with certified phytosanitary clearance and full chain of custody.',
     url: 'https://rovilcoffee.com/export-markets',
     images: [
       {
-        url: 'https://rovilcoffee.com/images/branded/rovil-hero-advert.jpg',
+        url: 'https://rovilcoffee.com/images/what-we-do/green-coffee-grading.jpg',
         width: 1200,
         height: 630,
-        alt: 'ROVIL Global Trade Corridors',
+        alt: 'ROVIL Kenyan Coffee Export Lot Grading and Container Logistics',
       },
     ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Global Coffee Export Markets & Shipping Corridors | ROVIL Kenya',
+    description:
+      'Connecting Kenyan coffee and tea terroirs to global roasters across 38+ countries via Port of Mombasa.',
+    images: ['https://rovilcoffee.com/images/what-we-do/green-coffee-grading.jpg'],
   },
 };
 
