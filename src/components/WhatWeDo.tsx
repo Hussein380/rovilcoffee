@@ -110,7 +110,7 @@ export default function WhatWeDo() {
               <span className="text-xs font-bold uppercase tracking-widest text-[#7a4727] block">
                 Official ROVIL Packaged Line • Nairobi, Kenya
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#23150c] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold text-[#23150c] tracking-tight">
                 Single-Origin <span className="text-[#7a4727]">Packaged Reserves</span>
               </h2>
               <p className="text-sm text-[#574c43] leading-relaxed">
@@ -350,7 +350,7 @@ export default function WhatWeDo() {
             <span className="text-xs font-bold uppercase tracking-widest text-[#7a4727] block">
               Commercial Export • Port of Mombasa Dispatch
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#23150c] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold text-[#23150c] tracking-tight">
               Bulk Green Arabica <span className="text-[#7a4727]">&amp; Container Lots</span>
             </h2>
             <p className="text-sm text-[#574c43] leading-relaxed">
@@ -455,7 +455,7 @@ export default function WhatWeDo() {
               <span className="text-xs font-bold uppercase tracking-widest text-[#d8a87b] block">
                 Terroir Provenance &amp; Lot Traceability
               </span>
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-white tracking-tight">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-heading font-bold text-white tracking-tight">
                 Grown at 1,950m on the Volcanic Slopes of Mount Kenya
               </h3>
               <p className="text-xs sm:text-sm text-stone-300 leading-relaxed font-normal">

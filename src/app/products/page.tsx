@@ -87,7 +87,7 @@ export default function ProductsPage() {
   }, [products, selectedCategory, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-stone-900 selection:bg-[#3e2211] selection:text-white">
+    <div className="min-h-screen bg-white text-stone-900 selection:bg-[#3e2211] selection:text-white">
       <Navbar />
 
       <main className="pt-20 pb-20">
@@ -96,7 +96,7 @@ export default function ProductsPage() {
           <div className="pt-4 pb-6 border-b border-stone-200">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#23150c] tracking-tight">
+                <h1 className="text-2xl sm:text-3xl font-heading font-bold text-[#23150c] tracking-tight">
                   Products &amp; Export Catalog
                 </h1>
                 <p className="text-xs sm:text-sm text-stone-500 mt-1">

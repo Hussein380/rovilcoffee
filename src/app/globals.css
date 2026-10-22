@@ -2,15 +2,8 @@
 
 @theme {
   --font-sans: var(--font-sans), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: var(--font-serif), 'Playfair Display', Georgia, Cambria, 'Times New Roman', Times, serif;
-}
-
-.font-serif {
-  font-family: var(--font-serif), 'Playfair Display', Georgia, Cambria, serif;
-}
-
-.font-sans {
-  font-family: var(--font-sans), 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: var(--font-heading), 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: var(--font-heading), 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 :root {
@@ -34,15 +27,67 @@
   --border-accent: #d8c2b0;
 }
 
+/* ==========================================================================
+   GLOBAL TYPOGRAPHY RULES
+   - Space Grotesk: ALL Headings (h1-h6), Titles, and nested text in headings
+   - Inter: Body, Paragraphs, Descriptions, Labels, Form controls, Lists
+   ========================================================================== */
+
+/* 1. Base Document & Body: Inter */
+html,
 body {
+  font-family: var(--font-sans), 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-main);
-  font-family: var(--font-sans), 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 2. Text, Paragraphs, Descriptions, Labels, Form controls: Inter */
+p,
+label,
+input,
+textarea,
+select,
+button,
+li,
+td,
+th,
+small,
+blockquote,
+figcaption,
+form,
+a,
+.font-sans,
+.font-body {
+  font-family: var(--font-sans), 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 3. ALL Headings and Titles across EVERY page unconditionally use Space Grotesk */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h1 *,
+h2 *,
+h3 *,
+h4 *,
+h5 *,
+h6 *,
+.font-heading,
+.font-heading *,
+.font-serif,
+.font-serif *,
+.font-title,
+.font-title *,
+[data-heading],
+[data-heading] * {
+  font-family: var(--font-heading), 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
 *, *::before, *::after {

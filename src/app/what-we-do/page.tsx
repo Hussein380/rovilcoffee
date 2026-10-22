@@ -39,7 +39,7 @@ export default function WhatWeDoPage() {
   const selectedGrade = coffeeGrades.find((g) => g.id === selectedGradeId) || coffeeGrades[0];
 
   return (
-    <div className="min-h-screen bg-white text-[#1f1610] flex flex-col font-sans">
+    <div className="min-h-screen bg-white text-[#1f1610] flex flex-col">
       {/* 1. Global Navbar */}
       <Navbar />
 
@@ -67,7 +67,7 @@ export default function WhatWeDoPage() {
           </FadeIn>
 
           <SlideUp delay={0.1}>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-white tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight leading-tight">
               ROVIL Packaged Brand &amp; Bulk Supply Chain
             </h1>
           </SlideUp>

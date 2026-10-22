@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-white text-[#1f1610] flex flex-col font-sans">
+    <main className="min-h-screen bg-white text-[#1f1610] flex flex-col">
       {/* 1. Responsive Navbar with complete menu & live contact */}
       <Navbar />
 

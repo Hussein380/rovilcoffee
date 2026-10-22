@@ -199,7 +199,7 @@ export default function OurFarmPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#1f1610] flex flex-col font-sans">
+    <div className="min-h-screen bg-white text-[#1f1610] flex flex-col">
       {/* 1. Global Navbar */}
       <Navbar />
 
@@ -245,7 +245,7 @@ export default function OurFarmPage() {
                 </div>
 
                 {/* Headline with Luxury Editorial Serif */}
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-bold text-white tracking-tight leading-[1.1] max-w-4xl mx-auto drop-shadow-md">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-bold text-white tracking-tight leading-[1.1] max-w-4xl mx-auto drop-shadow-md">
                   {s.titlePrimary}{' '}
                   <span className="text-[#d8a87b]">{s.titleAccent}</span>
                 </h1>
@@ -319,7 +319,7 @@ export default function OurFarmPage() {
               <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727] block">
                 Ethical Sourcing &amp; Smallholder Empowerment
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#23150c] leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold text-[#23150c] leading-tight">
                 Our Model Estates + <span className="text-[#7a4727]">1,200+ Smallholder Families</span>
               </h2>
               <p className="text-[#574c43] text-sm sm:text-base leading-relaxed">
@@ -401,7 +401,7 @@ export default function OurFarmPage() {
               <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727]">
                 Rigorous International Procedures
               </span>
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#23150c]">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold text-[#23150c]">
                 Global Compliance, EUDR &amp; Environmental Stewardship
               </h3>
               <p className="text-sm text-[#574c43]">
@@ -463,7 +463,7 @@ export default function OurFarmPage() {
             <span className="text-xs font-bold uppercase tracking-wider text-[#7a4727]">
               Agronomic Methodology
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#23150c]">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-[#23150c]">
               The 6-Stage Farm &amp; Processing Cycle
             </h2>
             <p className="text-base text-[#574c43]">
@@ -528,7 +528,7 @@ export default function OurFarmPage() {
             <span className="text-xs font-bold uppercase tracking-widest text-[#7a4727] bg-[#7a4727]/10 px-3.5 py-1 rounded-full border border-[#7a4727]/20 inline-block">
               Annual Sourcing Almanac
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#23150c] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-[#23150c] tracking-tight">
               Kenyan Harvest Cycles &amp; Origin Terroirs
             </h2>
             <p className="text-base text-[#574c43] leading-relaxed">
@@ -731,7 +731,7 @@ export default function OurFarmPage() {
               <ScanLine className="w-3.5 h-3.5 text-[#7a4727]" />
               Complete Chain of Custody
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#23150c] tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-[#23150c] tracking-tight">
               Tracked from the Farm to the <span className="text-[#7a4727]">Airport, Sea &amp; Exact Destination</span>
             </h2>
             <p className="text-[#574c43] text-base leading-relaxed">
@@ -832,7 +832,7 @@ export default function OurFarmPage() {
               <span className="text-sm font-semibold text-[#7a4727]">
                 Botanical Detail
               </span>
-              <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#23150c]">
+              <h2 className="text-3xl sm:text-4xl font-heading font-bold text-[#23150c]">
                 Crop Close-Ups: Pure Kenyan Terroir
               </h2>
             </div>

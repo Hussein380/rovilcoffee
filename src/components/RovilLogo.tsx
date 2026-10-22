@@ -146,7 +146,7 @@ export default function RovilLogo({
       {showText && (
         <div className="flex flex-col justify-center">
           <span
-            className={`font-sans font-black tracking-wider uppercase leading-none transition-colors ${titleSizeClass} ${
+            className={`font-heading font-black tracking-wider uppercase leading-none transition-colors ${titleSizeClass} ${
               isLight
                 ? 'text-white group-hover:text-[#d89f68]'
                 : 'text-[#23150c] group-hover:text-[#7a4727]'

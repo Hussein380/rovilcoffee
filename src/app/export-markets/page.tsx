@@ -199,7 +199,7 @@ export default function ExportMarketsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#1f1610] flex flex-col font-sans">
+    <div className="min-h-screen bg-white text-[#1f1610] flex flex-col">
       {/* 1. Global Navbar */}
       <Navbar />
 
@@ -228,7 +228,7 @@ export default function ExportMarketsPage() {
           </FadeIn>
 
           <SlideUp delay={0.1}>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight leading-[1.12]">
               Export Markets &amp; <span className="text-[#d89f68]">Global Shipping</span>
             </h1>
           </SlideUp>
@@ -267,7 +267,7 @@ export default function ExportMarketsPage() {
             <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#7a4727]">
               Global Destinations
             </span>
-            <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#23150c] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-heading font-extrabold text-[#23150c] tracking-tight">
               Where We Ship &amp; Transit Times
             </h2>
             <p className="text-sm sm:text-base text-[#574c43]">
@@ -345,7 +345,7 @@ export default function ExportMarketsPage() {
                         <div className="absolute bottom-3 left-3 right-3 text-white">
                           <div className="flex items-center gap-2 mb-1">
                             <FlagIcon countryCode={market.countryCode} size={22} />
-                            <span className="font-bold text-base font-serif">{market.name}</span>
+                            <span className="font-bold text-base font-heading">{market.name}</span>
                           </div>
                           <span className="text-xs font-medium text-[#d89f68]">
                             Ocean Lead Time: {market.days}
@@ -468,7 +468,7 @@ export default function ExportMarketsPage() {
             <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#7a4727]">
               Export Infrastructure
             </span>
-            <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#23150c] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-heading font-extrabold text-[#23150c] tracking-tight">
               Kenya&apos;s Export &amp; Freight Channels
             </h2>
             <p className="text-sm sm:text-base text-[#574c43]">
@@ -524,7 +524,7 @@ export default function ExportMarketsPage() {
             <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#7a4727]">
               Order Requirements
             </span>
-            <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#23150c] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-heading font-extrabold text-[#23150c] tracking-tight">
               What We Need from You to Start Your Shipment
             </h2>
             <p className="text-sm sm:text-base text-[#574c43]">
@@ -602,7 +602,7 @@ export default function ExportMarketsPage() {
                 <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#7a4727]">
                   Export Documentation
                 </span>
-                <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-[#23150c] tracking-tight">
+                <h2 className="text-2xl sm:text-4xl font-heading font-extrabold text-[#23150c] tracking-tight">
                   Official Documents Included with Every Order
                 </h2>
                 <p className="text-sm sm:text-base text-[#574c43]">
@@ -644,7 +644,7 @@ export default function ExportMarketsPage() {
               <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#d89f68]">
                 Commercial Export Desk
               </span>
-              <h2 className="text-2xl sm:text-4xl font-serif font-extrabold text-white tracking-tight">
+              <h2 className="text-2xl sm:text-4xl font-heading font-extrabold text-white tracking-tight">
                 Request a Container Quote or Cupping Sample
               </h2>
               <p className="text-sm sm:text-base text-white/85 leading-relaxed">

@@ -628,7 +628,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f6f3] font-sans">
+    <div className="min-h-screen bg-[#f8f6f3]">
       {/* Top bar */}
       <header className="sticky top-0 z-40 bg-[#23150c] border-b border-white/10 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">

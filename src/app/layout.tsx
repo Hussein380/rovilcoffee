@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import JsonLd from '@/components/JsonLd';
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister';
@@ -12,10 +12,10 @@ const inter = Inter({
   variable: '--font-sans',
 });
 
-const playfair = Playfair_Display({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-serif',
+  variable: '--font-heading',
 });
 
 export const viewport: Viewport = {
@@ -138,18 +138,13 @@ export const metadata: Metadata = {
   },
 };
 
-import MaintenanceScreen from '@/components/MaintenanceScreen';
-
-// Set to false or delete to instantly restore the full website
-const SHOW_MAINTENANCE_TEMPLATE = true;
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${inter.variable} ${playfair.variable} ${inter.className}`}>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${inter.variable} ${spaceGrotesk.variable} ${inter.className}`}>
       <head>
         <JsonLd />
         <link rel="manifest" href="/manifest.webmanifest" />
@@ -161,6 +156,12 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="preload" href="/textures/earth_atmos_2048.jpg" as="image" />
         <link rel="preload" href="/textures/earth_clouds_1024.png" as="image" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className={`${inter.className} bg-white text-[#1f1610] antialiased selection:bg-[#6f4327] selection:text-white relative`}>
         {/* PWA Service Worker Registration */}
@@ -181,14 +182,8 @@ export default function RootLayout({
             });
           `}
         </Script>
-        {SHOW_MAINTENANCE_TEMPLATE ? (
-          <MaintenanceScreen />
-        ) : (
-          <>
-            {children}
-            <FloatingAssistant />
-          </>
-        )}
+        {children}
+        <FloatingAssistant />
       </body>
     </html>
   );
