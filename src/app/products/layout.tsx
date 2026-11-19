@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Export Products & Catalog | Kenyan Coffee Beans & Specialty Teas',
   description:
-    'Explore the official ROVIL Kenyan catalog: Single-origin Mount Kenya Arabica coffees (Grades AA, AB, PB), packaged roasted retail pouches, rare Royal Purple Tea (TRFK 306), black orthodox teas, and macadamia nuts for international roasters and gourmet retailers.',
+    'Explore the official ROVIL Kenyan catalog: Single-origin Mount Kenya Arabica coffees (Grades AA, AB, PB), packaged roasted retail pouches, rare Royal Purple Tea (TRFK 306), black orthodox teas, and highland green teas for international roasters and gourmet retailers.',
   keywords: [
     'Kenyan coffee catalog',
     'Kenya coffee products',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     'Kenya purple tea buy online',
     'Kenyan orthodox black tea',
     'highland green tea Kenya',
-    'roasted macadamia nuts Kenya',
+    'Kenyan hibiscus tea wholesale',
     'wholesale green coffee beans',
     'commercial container coffee Kenya',
     'coffee sample orders PSS',

@@ -10,7 +10,7 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   title: 'Rovil Coffee & Tea | Licensed Kenyan Exporters | Virovil (K) Co. Ltd',
   description:
-    'Licensed Kenyan exporter of single-origin Arabica green coffee (Grades AA, AB, PB), rare Royal Purple Tea (TRFK 306), black orthodox teas, and macadamia nuts from Mount Kenya. Full lot traceability, EUDR compliance, and strict FOB Mombasa Incoterms.',
+    'Licensed Kenyan exporter of single-origin Arabica green coffee (Grades AA, AB, PB), rare Royal Purple Tea (TRFK 306), black orthodox teas, and highland green teas from Mount Kenya. Full lot traceability, EUDR compliance, and strict FOB Mombasa Incoterms.',
   alternates: {
     canonical: 'https://rovilcoffee.com',
   },

@@ -109,14 +109,6 @@ export const HERO_SLIDES: HeroSlide[] = [
     href: '/products',
   },
   {
-    id: 'nuts-showcase',
-    src: '/images/branded/rovil-nuts-showcase.jpg',
-    alt: 'ROVIL Gourmet Roasted Mixed Macadamia and Cashew Nuts',
-    title: 'Gourmet Roasted Mixed Nuts',
-    category: 'Value-Added Agro',
-    href: '/products',
-  },
-  {
     id: 'retail-cups',
     src: '/images/branded/rovil-retail-cups.jpg',
     alt: 'ROVIL Artisan Cafe and Retail Cups',

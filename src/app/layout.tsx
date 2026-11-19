@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: '%s | Rovil Coffee & Tea - Licensed Kenyan Exporters',
   },
   description:
-    'Licensed Kenyan exporter of single-origin Arabica green coffee beans (Grades AA, AB, PB, C, E), rare Royal Purple Tea (TRFK 306), black orthodox teas, and macadamia nuts from Mount Kenya. Full lot traceability, EUDR compliance, and strict FOB Mombasa Incoterms.',
+    'Licensed Kenyan exporter of single-origin Arabica green coffee beans (Grades AA, AB, PB, C, E), rare Royal Purple Tea (TRFK 306), black orthodox teas, and highland green teas from Mount Kenya. Full lot traceability, EUDR compliance, and strict FOB Mombasa Incoterms.',
   keywords: [
     // 1. Brand Names & Entity Variations
     'Rovil',

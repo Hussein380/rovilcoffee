@@ -44,17 +44,6 @@ export default function WhatWeDo() {
       roaster: 'Highland Tea Estate',
       cta: 'Inquire Packs',
     },
-    {
-      id: 'nuts-150g',
-      title: 'ROVIL Premium Roasted Mixed Nuts',
-      weight: '150g Gourmet Foil Pouch',
-      tag: 'Highland Macadamias & Cashews',
-      desc: 'Prime Kenyan macadamias and jumbo coastal cashews, dry-roasted in small batches with sea salt. Packaged for retail and luxury hospitality.',
-      notes: ['Macadamias', 'Coastal Cashews', 'Sea Salt', 'Slow Roasted'],
-      image: '/images/branded/rovil-nuts-showcase.jpg',
-      roaster: 'Export Selection',
-      cta: 'Inquire Packs',
-    },
   ];
 
   const nextProduct = useCallback(() => {
@@ -258,8 +247,8 @@ export default function WhatWeDo() {
             </div>
           </div>
 
-          {/* DESKTOP & TABLET: Clean Responsive 4-Column Grid */}
-          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* DESKTOP & TABLET: Clean Responsive 3-Column Grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {packagedProducts.map((p) => (
               <div
                 key={p.id}
@@ -274,7 +263,7 @@ export default function WhatWeDo() {
                     src={p.image}
                     alt={p.title}
                     fill
-                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    sizes="(max-width: 1024px) 50vw, 33vw"
                     unoptimized
                     className="object-cover object-center"
                   />

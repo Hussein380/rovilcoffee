@@ -26,7 +26,7 @@ export default function GlobalTradeCorridors() {
       mode: 'Sea & Air Direct',
       transit: '7 to 12 Days (Sea) / 24h (Air)',
       departure: 'Mombasa Port & JKIA',
-      commodities: 'Black CTC Teas, Arabica Commercial Lots, Mixed Nuts',
+      commodities: 'Black CTC Teas, Arabica Commercial Lots, Specialty Teas',
     },
     {
       region: 'North America (New York, Oakland, Houston)',

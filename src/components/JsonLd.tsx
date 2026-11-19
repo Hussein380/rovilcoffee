@@ -20,7 +20,7 @@ export default function JsonLd() {
     logo: 'https://rovilcoffee.com/images/rovil-logo.svg',
     image: 'https://rovilcoffee.com/images/branded/rovil-hero-advert.jpg',
     description:
-      'Licensed Kenyan exporter of single-origin Arabica green coffee (Grades AA, AB, PB), rare royal purple tea, orthodox whole leaf, and roasted macadamia nuts from Mount Kenya.',
+      'Licensed Kenyan exporter of single-origin Arabica green coffee (Grades AA, AB, PB), rare royal purple tea, orthodox whole leaf, and highland pure green teas from Mount Kenya.',
     email: 'info@rovilcoffee.com',
     telephone: '+254721487948',
     address: {
@@ -137,7 +137,7 @@ export default function JsonLd() {
         '@type': 'SiteNavigationElement',
         position: 1,
         name: 'Products & Packaged Reserves',
-        description: 'Browse single-origin Kenyan Arabica retail packs, purple tea boxes, green tea, and roasted mixed nuts.',
+        description: 'Browse single-origin Kenyan Arabica retail packs, purple tea boxes, green tea, and whole bean reserve pouches.',
         url: 'https://rovilcoffee.com/products',
       },
       {

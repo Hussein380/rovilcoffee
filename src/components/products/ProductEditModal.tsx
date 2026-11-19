@@ -19,7 +19,7 @@ const PRESET_IMAGES = [
   { label: 'ROVIL Black Orthodox & Purple Tea', url: '/images/branded/black-orthodox-purple-tea-front.png' },
   { label: 'ROVIL High-Grown Green Tea', url: '/images/branded/green-tea-front.png' },
   { label: 'ROVIL Wild Hibiscus Botanical Infusion', url: '/images/branded/hibiscus-tea.png' },
-  { label: 'ROVIL Roasted Mixed Nuts (Export)', url: '/images/branded/roasted-mixed-nuts.png' },
+  { label: 'ROVIL Commercial Bulk Coffee Bags', url: '/images/branded/rovil-bulk-coffee.jpg' },
   { label: 'ROVIL Whole Bean Coffee Pouch (250g)', url: '/images/branded/rovil-coffee-pouch.jpg' },
   { label: 'ROVIL Purple/CTC Tea Luxury Canister', url: '/images/branded/rovil-tea-canister.jpg' },
   { label: 'ROVIL Eco Cups & Barista Gear', url: '/images/branded/rovil-retail-cups.jpg' },

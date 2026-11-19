@@ -27,7 +27,7 @@ const PRESET_ASSETS = [
   { label: 'Black Orthodox & Purple', url: '/images/branded/black-orthodox-purple-tea-front.png' },
   { label: 'High-Grown Green Tea', url: '/images/branded/green-tea-front.png' },
   { label: 'Wild Hibiscus Infusion', url: '/images/branded/hibiscus-tea.png' },
-  { label: 'Roasted Mixed Nuts', url: '/images/branded/roasted-mixed-nuts.png' },
+  { label: 'Commercial Bulk Coffee', url: '/images/branded/rovil-bulk-coffee.jpg' },
   { label: '250g Whole Bean Pouch', url: '/images/branded/rovil-coffee-pouch.jpg' },
   { label: 'Luxury Tea Canister', url: '/images/branded/rovil-tea-canister.jpg' },
   { label: 'Eco Cafe Cups', url: '/images/branded/rovil-retail-cups.jpg' },

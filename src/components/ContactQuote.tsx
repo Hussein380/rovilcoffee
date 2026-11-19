@@ -227,7 +227,6 @@ export default function ContactQuote() {
                       <option value="ROVIL Packaged Retail Ground Coffee (125g)">ROVIL Packaged Ground Coffee (125g Packs)</option>
                       <option value="ROVIL Packaged Black Orthodox & Purple Tea (150g)">ROVIL Packaged Purple Tea (150g Packs)</option>
                       <option value="ROVIL Highland Pure Green Tea (100g)">ROVIL Highland Green Tea (100g Packs)</option>
-                      <option value="ROVIL Roasted Mixed Nuts (Macadamia/Cashew)">ROVIL Roasted Mixed Nuts (150g Packs)</option>
                       <option value="Other">Other (Type custom commodity/grade below)</option>
                     </select>
 
