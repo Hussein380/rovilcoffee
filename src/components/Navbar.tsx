@@ -58,6 +58,7 @@ export default function Navbar() {
           <div className="hidden sm:flex items-center gap-3">
             <Link
               href="/admin"
+              rel="nofollow"
               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-sm border border-[#d8c2b0] bg-[#fbf9f6] hover:bg-[#f4ece4] text-[#3e2211] hover:text-[#23150c] text-xs font-semibold tracking-wide transition-all shadow-xs"
               title="Admin Portal"
             >
@@ -101,6 +102,7 @@ export default function Navbar() {
           <div className="pt-3 flex flex-col gap-2">
             <Link
               href="/admin"
+              rel="nofollow"
               onClick={() => setMobileOpen(false)}
               className="w-full text-center flex items-center justify-center gap-2 border border-[#d8c2b0] bg-[#fbf9f6] text-[#3e2211] py-2.5 rounded-sm text-xs font-semibold hover:bg-[#f4ece4] transition-all"
             >

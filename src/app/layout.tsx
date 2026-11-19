@@ -37,6 +37,7 @@ export const metadata: Metadata = {
     // 1. Brand Names & Entity Variations
     'Rovil',
     'Rovil Coffee',
+    'Rovi Coffee',
     'Rovil Tea',
     'Rovil Coffee & Tea',
     'Rovil Kenya',
@@ -251,12 +252,6 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="preload" href="/textures/earth_atmos_2048.jpg" as="image" />
         <link rel="preload" href="/textures/earth_clouds_1024.png" as="image" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body className={`${inter.className} bg-white text-[#1f1610] antialiased selection:bg-[#6f4327] selection:text-white relative`}>
         {/* PWA Service Worker Registration */}

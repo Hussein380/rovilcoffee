@@ -10,9 +10,26 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   title: 'Rovil Coffee & Tea | Licensed Kenyan Exporters | Virovil (K) Co. Ltd',
   description:
-    'Licensed Kenyan exporter of single-origin Arabica green coffee (Grades AA, AB, PB), rare Royal Purple Tea (TRFK 306), black orthodox teas, and highland green teas from Mount Kenya. Full lot traceability, EUDR compliance, and strict FOB Mombasa Incoterms.',
+    'Official Kenyan export company Virovil (K) Co. Ltd (Rovil Coffee & Tea). Direct export of single-origin Arabica green coffee (Grade AA, AB, PB), rare Royal Purple Tea (TRFK 306), and black orthodox tea from Mount Kenya. Licensed by AFA Coffee Directorate, EUDR compliant, FOB Mombasa.',
   alternates: {
     canonical: 'https://rovilcoffee.com',
+  },
+  openGraph: {
+    title: 'Rovil Coffee & Tea | Licensed Kenyan Exporters | Virovil (K) Co. Ltd',
+    description:
+      'Licensed Kenyan exporter of single-origin Arabica green coffee beans (Grade AA, AB, PB), rare Royal Purple Tea (TRFK 306), and black orthodox tea. FOB Mombasa & JKIA shipping.',
+    url: 'https://rovilcoffee.com',
+    siteName: 'Rovil Coffee & Tea Kenya',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: 'https://rovilcoffee.com/images/branded/rovil-hero-advert.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ROVIL Global Kenyan Coffee & Tea Commercial Showcase',
+      },
+    ],
   },
 };
 

@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import ProductCard3D from '@/components/products/ProductCard3D';
 import ProductDetailDrawer from '@/components/products/ProductDetailDrawer';
 import { ProductItem } from '@/types/product';
+import { initialProductsCatalog } from '@/data/productsCatalog';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Package, Search } from 'lucide-react';
 
@@ -13,11 +14,12 @@ const BASE_CATEGORIES = [
   { id: 'all', label: 'All Products' },
   { id: 'coffee', label: 'Kenyan Coffee' },
   { id: 'tea', label: 'Specialty Tea' },
+  { id: 'bulk-export', label: 'Commercial Bulk Export' },
 ];
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<ProductItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<ProductItem[]>(initialProductsCatalog);
+  const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [currency, setCurrency] = useState<'USD' | 'KES'>('USD');
@@ -32,15 +34,12 @@ export default function ProductsPage() {
         const res = await fetch('/api/products');
         if (res.ok) {
           const data = await res.json();
-          if (isMounted) {
-            setProducts(Array.isArray(data) ? data : []);
+          if (isMounted && Array.isArray(data) && data.length > 0) {
+            setProducts(data);
           }
-        } else {
-          if (isMounted) setProducts([]);
         }
       } catch (e) {
         console.warn('Could not fetch from /api/products:', e);
-        if (isMounted) setProducts([]);
       } finally {
         if (isMounted) setLoading(false);
       }

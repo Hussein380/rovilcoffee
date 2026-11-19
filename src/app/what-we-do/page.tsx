@@ -68,7 +68,7 @@ export default function WhatWeDoPage() {
 
           <SlideUp delay={0.1}>
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight leading-tight">
-              ROVIL Packaged Brand &amp; Bulk Supply Chain
+              ROVIL Kenyan Coffee &amp; Tea Export Grades &amp; Supply Chain
             </h1>
           </SlideUp>
 

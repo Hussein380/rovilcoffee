@@ -21,7 +21,7 @@ export default function Hero() {
 
             {/* Clean Bold Headline with Space Grotesk */}
             <h1 className="text-3xl sm:text-4xl lg:text-[50px] font-heading font-bold text-[#23150c] tracking-tight leading-[1.12]">
-              Mount Kenya Harvest, <br />
+              Kenyan Coffee &amp; Specialty Tea, <br />
               <span className="text-[#7a4727]">Exported to the World.</span>
             </h1>
 

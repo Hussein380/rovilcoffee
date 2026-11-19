@@ -113,7 +113,7 @@ export default function Footer() {
             <span>•</span>
             <span>Timezone: EAT (UTC+3)</span>
             <span>•</span>
-            <Link href="/admin" className="text-stone-400 hover:text-stone-200 transition-colors">
+            <Link href="/admin" rel="nofollow" className="text-stone-400 hover:text-stone-200 transition-colors">
               Staff Portal
             </Link>
           </div>

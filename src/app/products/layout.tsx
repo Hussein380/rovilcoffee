@@ -1,14 +1,19 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Export Products & Catalog | Kenyan Coffee Beans & Specialty Teas',
+  title: 'Kenyan Coffee & Tea Export Catalog | Grade AA, AB, PB & Purple Tea | ROVIL',
   description:
-    'Explore the official ROVIL Kenyan catalog: Single-origin Mount Kenya Arabica coffees (Grades AA, AB, PB), packaged roasted retail pouches, rare Royal Purple Tea (TRFK 306), black orthodox teas, and highland green teas for international roasters and gourmet retailers.',
+    'Explore the official ROVIL (Virovil (K) Co. Ltd) export catalog: Bulk Kenyan Arabica green coffee beans (Grades AA, AB, PB Peaberry), packaged retail pouches, rare Royal Purple Tea (TRFK 306), black orthodox teas, and highland green teas for international roasters and importers.',
   keywords: [
+    'Rovil Coffee',
+    'Rovil Tea',
+    'Virovil Limited',
+    'Virovil Kenya',
     'Kenyan coffee catalog',
-    'Kenya coffee products',
+    'Kenya coffee exporters list',
     'buy green coffee beans Kenya',
     'Kenya Grade AA Arabica',
+    'Kenya Grade AA green coffee wholesale',
     'Kenya Grade AB beans',
     'Kenya Peaberry PB coffee',
     'Mount Kenya roasted coffee',
@@ -21,7 +26,7 @@ export const metadata: Metadata = {
     'Kenyan orthodox black tea',
     'highland green tea Kenya',
     'Kenyan hibiscus tea wholesale',
-    'wholesale green coffee beans',
+    'wholesale green coffee beans Kenya',
     'commercial container coffee Kenya',
     'coffee sample orders PSS',
   ],
