@@ -194,6 +194,37 @@ export default function JsonLd() {
     ],
   };
 
+  // Shared shipping / return helpers (non-critical Merchant Listing fields)
+  const bulkExportShipping = {
+    '@type': 'OfferShippingDetails',
+    shippingRate: { '@type': 'MonetaryAmount', value: '0', currency: 'USD' },
+    shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'Worldwide' },
+    deliveryTime: {
+      '@type': 'ShippingDeliveryTime',
+      handlingTime: { '@type': 'QuantitativeValue', minValue: 7, maxValue: 14, unitCode: 'DAY' },
+      transitTime: { '@type': 'QuantitativeValue', minValue: 21, maxValue: 35, unitCode: 'DAY' },
+    },
+  };
+
+  const retailAirShipping = {
+    '@type': 'OfferShippingDetails',
+    shippingRate: { '@type': 'MonetaryAmount', value: '0', currency: 'USD' },
+    shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'Worldwide' },
+    deliveryTime: {
+      '@type': 'ShippingDeliveryTime',
+      handlingTime: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 5, unitCode: 'DAY' },
+      transitTime: { '@type': 'QuantitativeValue', minValue: 7, maxValue: 14, unitCode: 'DAY' },
+    },
+  };
+
+  // B2B export — no consumer returns; pre-shipment sample rejection handled via contract
+  const b2bReturnPolicy = {
+    '@type': 'MerchantReturnPolicy',
+    applicableCountry: 'Worldwide',
+    returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+    merchantReturnDays: 0,
+  };
+
   // Dedicated Product Rich Snippets Schema — 100% Google Search Console & Schema.org Compliant
   // Includes full offers, aggregateRating, and review to eliminate GSC critical errors
   const productsSchema = {
@@ -236,12 +267,15 @@ export default function JsonLd() {
           },
           availability: 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
+          validFrom: '2026-11-01',
           priceValidUntil: '2027-12-31',
           url: 'https://rovilcoffee.com/products',
           seller: {
             '@type': 'Organization',
             name: 'Rovil Coffee & Tea (Virovil (K) Co. Ltd)',
           },
+          hasMerchantReturnPolicy: b2bReturnPolicy,
+          shippingDetails: bulkExportShipping,
         },
         aggregateRating: {
           '@type': 'AggregateRating',
@@ -304,12 +338,15 @@ export default function JsonLd() {
           },
           availability: 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
+          validFrom: '2026-11-01',
           priceValidUntil: '2027-12-31',
           url: 'https://rovilcoffee.com/products',
           seller: {
             '@type': 'Organization',
             name: 'Rovil Coffee & Tea (Virovil (K) Co. Ltd)',
           },
+          hasMerchantReturnPolicy: b2bReturnPolicy,
+          shippingDetails: bulkExportShipping,
         },
         aggregateRating: {
           '@type': 'AggregateRating',
@@ -372,12 +409,15 @@ export default function JsonLd() {
           },
           availability: 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
+          validFrom: '2026-11-01',
           priceValidUntil: '2027-12-31',
           url: 'https://rovilcoffee.com/products',
           seller: {
             '@type': 'Organization',
             name: 'Rovil Coffee & Tea (Virovil (K) Co. Ltd)',
           },
+          hasMerchantReturnPolicy: b2bReturnPolicy,
+          shippingDetails: bulkExportShipping,
         },
         aggregateRating: {
           '@type': 'AggregateRating',
@@ -440,12 +480,15 @@ export default function JsonLd() {
           },
           availability: 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
+          validFrom: '2026-11-01',
           priceValidUntil: '2027-12-31',
           url: 'https://rovilcoffee.com/products',
           seller: {
             '@type': 'Organization',
             name: 'Rovil Coffee & Tea (Virovil (K) Co. Ltd)',
           },
+          hasMerchantReturnPolicy: b2bReturnPolicy,
+          shippingDetails: retailAirShipping,
         },
         aggregateRating: {
           '@type': 'AggregateRating',
@@ -495,12 +538,15 @@ export default function JsonLd() {
           priceCurrency: 'USD',
           availability: 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
+          validFrom: '2026-11-01',
           priceValidUntil: '2027-12-31',
           url: 'https://rovilcoffee.com/products',
           seller: {
             '@type': 'Organization',
             name: 'Rovil Coffee & Tea (Virovil (K) Co. Ltd)',
           },
+          hasMerchantReturnPolicy: b2bReturnPolicy,
+          shippingDetails: retailAirShipping,
         },
         aggregateRating: {
           '@type': 'AggregateRating',
@@ -534,12 +580,15 @@ export default function JsonLd() {
           priceCurrency: 'USD',
           availability: 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
+          validFrom: '2026-11-01',
           priceValidUntil: '2027-12-31',
           url: 'https://rovilcoffee.com/products',
           seller: {
             '@type': 'Organization',
             name: 'Rovil Coffee & Tea (Virovil (K) Co. Ltd)',
           },
+          hasMerchantReturnPolicy: b2bReturnPolicy,
+          shippingDetails: retailAirShipping,
         },
         aggregateRating: {
           '@type': 'AggregateRating',
